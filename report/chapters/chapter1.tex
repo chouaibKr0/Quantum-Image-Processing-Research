@@ -96,7 +96,7 @@ K-means is one of the most widely used clustering algorithms due to its simplici
 \begin{warningbox}
 K-means has several limitations for image segmentation:
 \begin{itemize}
-    \item Assumes spherical, equally-sized clusters
+    \item Assumes spherical (convex), equally-sized clusters
     \item Sensitive to initialization and outliers
     \item Requires specifying $k$ in advance
     \item Cannot capture complex cluster shapes
@@ -288,16 +288,33 @@ For uniformly distributed data in a $d$-dimensional hypercube, the expected dist
 As $d \to \infty$, all points become approximately equidistant.
 \end{definitionbox}
 
-\subsection{Why Quantum Computing?}
+\subsection{Quantum Advantage: Foundations and Potential}
 
-Quantum computing offers several potential advantages for clustering and image segmentation:
+\textbf{Quantum advantage} (or quantum supremacy) refers to the demonstration that a quantum computer can solve a problem that is practically impossible for classical computers within a reasonable timeframe. To understand why quantum computing may benefit clustering, we must first examine the relevant computational complexity classes.
 
-\begin{keyconceptbox}[Quantum Advantages]
+\begin{definitionbox}[Complexity Classes]
+Key complexity classes relevant to quantum computing:
+\begin{itemize}
+    \item \textbf{P} (Polynomial time): Problems solvable efficiently on classical computers
+    \item \textbf{NP} (Nondeterministic Polynomial time): Problems whose solutions can be verified efficiently
+    \item \textbf{BQP} (Bounded-error Quantum Polynomial time): Problems solvable efficiently on quantum computers with bounded error probability
+\end{itemize}
+\end{definitionbox}
+
+The relationship between these classes is believed to be:
+\begin{equation}
+    \text{P} \subset \text{BQP} \subseteq \text{NP}
+\end{equation}
+
+This hierarchy suggests that quantum computers can solve some problems more efficiently than classical computers. Clustering is generally \textbf{NP-hard} for arbitrary distance metrics, as optimal partitioning involves exploring an exponentially large solution space—making it a natural candidate for quantum speedups.
+
+\begin{keyconceptbox}[Quantum Advantages for Clustering]
+Quantum computing offers several fundamental advantages:
 \begin{enumerate}
     \item \textbf{Exponential state space:} $n$ qubits can represent $2^n$ states simultaneously through superposition
     \item \textbf{Quantum parallelism:} Operations can be performed on all superposition states at once
     \item \textbf{Amplitude encoding:} $N$ classical data points can be encoded in $\log_2 N$ qubits
-    \item \textbf{Quantum speedups:} Grover's search provides quadratic speedup; HHL algorithm offers exponential speedup for linear systems
+    \item \textbf{Algorithmic speedups:} Grover's search provides quadratic speedup; HHL algorithm offers exponential speedup for linear systems
 \end{enumerate}
 \end{keyconceptbox}
 
@@ -309,36 +326,12 @@ Quantum computing offers several potential advantages for clustering and image s
     \item \textbf{Optimization:} Quantum approximate optimization algorithms (QAOA) and variational quantum eigensolvers (VQE) offer new approaches to NP-hard clustering problems
 \end{itemize}
 
-\begin{notebox}
-While quantum advantages are theoretically promising, practical implementation faces challenges including limited qubit counts, noise in current hardware (NISQ era), and the overhead of quantum data encoding.
-\end{notebox}
-
-\subsection{Quantum Advantage and Complexity}
-
-\textbf{Quantum advantage} (or quantum supremacy) refers to the demonstration that a quantum computer can solve a problem that is practically impossible for classical computers within a reasonable timeframe. Understanding the theoretical foundations of quantum advantage requires examining computational complexity classes.
-
-\begin{definitionbox}[Complexity Classes]
-Key complexity classes relevant to quantum computing:
+\begin{warningbox}[Current Limitations]
+While quantum advantages are theoretically promising, practical implementation faces significant challenges:
 \begin{itemize}
-    \item \textbf{P} (Polynomial time): Problems solvable efficiently on classical computers in polynomial time
-    \item \textbf{NP} (Nondeterministic Polynomial time): Problems whose solutions can be verified efficiently in polynomial time
-    \item \textbf{BQP} (Bounded-error Quantum Polynomial time): Problems solvable efficiently on quantum computers with bounded error probability
+    \item Limited qubit counts on current hardware
+    \item Noise and decoherence in the NISQ (Noisy Intermediate-Scale Quantum) era
+    \item Overhead of quantum data encoding (the ``data loading problem'')
+    \item Proving definitive quantum advantage for clustering remains an active research area
 \end{itemize}
-\end{definitionbox}
-
-The relationship between these classes is believed to be:
-\begin{equation}
-    \text{P} \subset \text{BQP} \subseteq \text{NP}
-\end{equation}
-
-This hierarchy suggests that quantum computers can solve some problems more efficiently than classical computers, while still respecting fundamental computational limits.
-
-\begin{keyconceptbox}[Quantum Relevance to Clustering]
-Clustering is generally \textbf{NP-hard} for arbitrary distance metrics. The optimal partitioning of data points into clusters involves exploring an exponentially large solution space. Quantum algorithms may offer:
-\begin{itemize}
-    \item \textbf{Polynomial speedups} for distance calculations via amplitude encoding
-    \item \textbf{Quadratic speedups} for search-based operations via Grover's algorithm
-    \item \textbf{Potential exponential speedups} for specific formulations using quantum linear algebra
-\end{itemize}
-However, proving definitive quantum advantage for clustering remains an active research area, as the data loading problem and NISQ limitations complicate theoretical claims.
-\end{keyconceptbox}
+\end{warningbox}

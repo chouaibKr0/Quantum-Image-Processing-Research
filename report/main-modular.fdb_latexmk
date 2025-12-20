@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main-modular"] 1766254698.76427 "main-modular.aux" "main-modular.bbl" "main-modular" 1766254703.38285 0
+["bibtex main-modular"] 1766267385.32788 "main-modular.aux" "main-modular.bbl" "main-modular" 1766267389.4434 0
   "./references.bib" 1766237210.33327 7156 9170d829d8696e6a380e0fcbc0e39866 ""
   "/usr/share/texlive/texmf-dist/bibtex/bst/natbib/unsrtnat.bst" 1233624470 24550 a41a6405f4de768c43e871d9fbce2bc8 ""
-  "main-modular.aux" 1766254702.65057 10957 63e47fc59fa02f45a880f8297d64f833 "pdflatex"
+  "main-modular.aux" 1766267388.83631 10835 5bff281e01033a4181447a5c13ce43a2 "pdflatex"
   (generated)
   "main-modular.bbl"
   "main-modular.blg"
   (rewritten before read)
-["pdflatex"] 1766254698.95243 "/home/chouaib/Documents/Quantum-Image-Processing-Research/report/main-modular.tex" "main-modular.pdf" "main-modular" 1766254703.38317 0
-  "/home/chouaib/Documents/Quantum-Image-Processing-Research/report/main-modular.tex" 1766254499.44693 11534 caa18b0c8856350c3c00ab726857a5a6 ""
+["pdflatex"] 1766267385.43419 "/home/chouaib/Documents/Quantum-Image-Processing-Research/report/main-modular.tex" "main-modular.pdf" "main-modular" 1766267389.44364 0
+  "/home/chouaib/Documents/Quantum-Image-Processing-Research/report/main-modular.tex" 1766259578.47414 11534 caa18b0c8856350c3c00ab726857a5a6 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/fira/fir_d67aat.enc" 1570828436 3385 21a7e8c8dac3c39de5acda2c56e7bd7e ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/fira/fir_iln36p.enc" 1570828436 3071 cfa92ee28d698dd9275559d9d1c3a233 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free0.enc" 1622837620 3083 a707712f77b073b3833e4b1334a30e99 ""
@@ -316,22 +316,22 @@
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1766155370 7753793 57f4031336d121f810e12e54d2e673af ""
   "appendices/appendix-a-quantum-primer.tex" 1766254146.97719 9586 f112f5dca5a1264b231f84f49034fbd2 ""
   "appendices/appendix-b-fuzzy-logic.tex" 1766254146.97719 4573 a6aea6de396dc42e8a07befeefedd5fb ""
-  "chapters/abstract.tex" 1766253845.58691 840 cd67d326288c79f78ff7996bef79622e ""
+  "chapters/abstract.tex" 1766259636.8708 767 9116ee10cca46c2b823ac175b2900e57 ""
   "chapters/algorithms/comparative-analysis.tex" 1766254022.14845 1498 764329c99ef33ea3df91a90a57d4db5e ""
   "chapters/algorithms/quantum-fuzzy.tex" 1766254009.016 1055 049e7fadf5683b7d19350f4eb55ddbbd ""
   "chapters/algorithms/quantum-kmeans.tex" 1766253982.21269 1679 6d66b47c078cdba2c95831f2e5a7303f ""
   "chapters/algorithms/quantum-spectral.tex" 1766253990.77235 1266 69e39dc3a20c72d99fa8e3e9014fa490 ""
   "chapters/algorithms/variational-quantum.tex" 1766254000.45938 1411 8c83e0659ca7d3c7ce8c09429a78fba3 ""
-  "chapters/chapter1.tex" 1766253965.85223 18053 0be17f5bbfc453a5628ee9dcf6317b2f ""
+  "chapters/chapter1.tex" 1766267385.2772 17628 e7588241ee4debeda00d2a485a50d7b4 ""
   "chapters/chapter2.tex" 1766253972.4833 6907 d10391fc89f98f2e63b839ac80da123d ""
   "chapters/conclusion.tex" 1766254039.4435 3047 4e9c129665d79600d15bcc8c7a36965f ""
-  "chapters/conventions.tex" 1766253845.58767 2735 f865797d63cf6a2d75cd55602e994fe9 ""
+  "chapters/conventions.tex" 1766259672.71489 2735 f865797d63cf6a2d75cd55602e994fe9 ""
   "chapters/introduction.tex" 1766253851.11992 3256 849b80fa17237cfa69f9651bc5e5d006 ""
-  "main-modular.aux" 1766254702.65057 10957 63e47fc59fa02f45a880f8297d64f833 "pdflatex"
-  "main-modular.bbl" 1766254698.93556 275 de5ffaf5b665b622658d80bed97ba2a5 "bibtex main-modular"
-  "main-modular.out" 1766254702.65257 13565 dc4764d2ed380e88035e3b6d6e8c6451 "pdflatex"
-  "main-modular.tex" 1766254499.44693 11534 caa18b0c8856350c3c00ab726857a5a6 ""
-  "main-modular.toc" 1766254702.65357 6396 2cf2f24c0d61e06a29890535f1fd8a05 "pdflatex"
+  "main-modular.aux" 1766267388.83631 10835 5bff281e01033a4181447a5c13ce43a2 "pdflatex"
+  "main-modular.bbl" 1766267385.4253 275 de5ffaf5b665b622658d80bed97ba2a5 "bibtex main-modular"
+  "main-modular.out" 1766267388.83931 13450 3d9253adf04390718a7d1217fdc50a46 "pdflatex"
+  "main-modular.tex" 1766259578.47414 11534 caa18b0c8856350c3c00ab726857a5a6 ""
+  "main-modular.toc" 1766267388.83931 6315 7d22ae84c90a68699e9b1fb310acb9e8 "pdflatex"
   (generated)
   "main-modular.aux"
   "main-modular.log"
