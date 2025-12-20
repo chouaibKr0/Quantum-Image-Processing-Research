@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2025.12.19)  20 DEC 2025 14:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2025.12.19)  20 DEC 2025 18:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1260,121 +1260,136 @@ LaTeX Font Info:    Font shape `T1/FiraSans-OsF/b/n' in size <10.95> not availab
 (Font)              Font shape `T1/FiraSans-OsF/bold/n' tried instead on input line 367.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/bold/n' will be
 (Font)              scaled to size 10.95pt on input line 367.
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/n' in size <24.88> not available
+LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/n' in size <9> not available
 (Font)              Font shape `T1/FiraSans-OsF/regular/n' tried instead on input line 370.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/n' will be
-(Font)              scaled to size 24.88pt on input line 370.
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/b/n' in size <24.88> not available
-(Font)              Font shape `T1/FiraSans-OsF/bold/n' tried instead on input line 370.
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/bold/n' will be
-(Font)              scaled to size 24.88pt on input line 370.
- (./main.toc
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/l/n' in size <10> not available
-(Font)              Font shape `T1/FiraSans-OsF/light/n' tried instead on input line 5.
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/light/n' will be
-(Font)              scaled to size 10.0pt on input line 5.
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/n' in size <9> not available
-(Font)              Font shape `T1/FiraSans-OsF/regular/n' tried instead on input line 19.
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/n' will be
-(Font)              scaled to size 9.0pt on input line 19.
+(Font)              scaled to size 9.0pt on input line 370.
  [1
 
+
+]
+LaTeX Font Info:    Trying to load font information for U+fontawesomefree3 on input line 378.
+ (/usr/share/texlive/texmf-dist/tex/latex/fontawesome5/ufontawesomefree3.fd)
+LaTeX Font Info:    Trying to load font information for U+fontawesomefree2 on input line 384.
+ (/usr/share/texlive/texmf-dist/tex/latex/fontawesome5/ufontawesomefree2.fd)
+LaTeX Font Info:    Trying to load font information for U+fontawesomefree1 on input line 390.
+ (/usr/share/texlive/texmf-dist/tex/latex/fontawesome5/ufontawesomefree1.fd)
+LaTeX Font Info:    Trying to load font information for U+fontawesomefree0 on input line 402.
+ (/usr/share/texlive/texmf-dist/tex/latex/fontawesome5/ufontawesomefree0.fd) [2
+
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free3.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free2.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free1.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free0.enc}]
+LaTeX Font Info:    Trying to load font information for TS1+FiraSans-OsF on input line 422.
+ (/usr/share/texlive/texmf-dist/tex/latex/fira/TS1FiraSans-OsF.fd
+File: TS1FiraSans-OsF.fd 2019/10/10 (autoinst) Font definitions for TS1/FiraSans-OsF.
+)
+LaTeX Font Info:    Font shape `TS1/FiraSans-OsF/m/n' in size <10.95> not available
+(Font)              Font shape `TS1/FiraSans-OsF/regular/n' tried instead on input line 422.
+LaTeX Font Info:    Font shape `TS1/FiraSans-OsF/regular/n' will be
+(Font)              scaled to size 10.95pt on input line 422.
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `FiraSans-OsF' (encoding: TS1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/it' in size <10.95> not available
+(Font)              Font shape `T1/FiraSans-OsF/regular/it' tried instead on input line 422.
+LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/it' will be
+(Font)              scaled to size 10.95pt on input line 422.
+LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 424.
+ (/usr/share/texlive/texmf-dist/tex/latex/inconsolata/t1zi4.fd
+File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
+)
+LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
+(Font)              scaled to size 10.95pt on input line 424.
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `zi4' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+ [3{/usr/share/texlive/texmf-dist/fonts/enc/dvips/fira/fir_d67aat.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/inconsolata/i4-t1-0.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}]
+LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/n' in size <24.88> not available
+(Font)              Font shape `T1/FiraSans-OsF/regular/n' tried instead on input line 430.
+LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/n' will be
+(Font)              scaled to size 24.88pt on input line 430.
+LaTeX Font Info:    Font shape `T1/FiraSans-OsF/b/n' in size <24.88> not available
+(Font)              Font shape `T1/FiraSans-OsF/bold/n' tried instead on input line 430.
+LaTeX Font Info:    Font shape `T1/FiraSans-OsF/bold/n' will be
+(Font)              scaled to size 24.88pt on input line 430.
+ (./main.toc
+LaTeX Font Info:    Font shape `T1/FiraSans-OsF/l/n' in size <10> not available
+(Font)              Font shape `T1/FiraSans-OsF/light/n' tried instead on input line 6.
+LaTeX Font Info:    Font shape `T1/FiraSans-OsF/light/n' will be
+(Font)              scaled to size 10.0pt on input line 6.
+ [4
 
 ])
 \tf@toc=\write6
 \openout6 = `main.toc'.
 
- [2]
-LaTeX Font Info:    Trying to load font information for U+fontawesomefree1 on input line 394.
- (/usr/share/texlive/texmf-dist/tex/latex/fontawesome5/ufontawesomefree1.fd)
-LaTeX Font Info:    Trying to load font information for TS1+FiraSans-OsF on input line 404.
- (/usr/share/texlive/texmf-dist/tex/latex/fira/TS1FiraSans-OsF.fd
-File: TS1FiraSans-OsF.fd 2019/10/10 (autoinst) Font definitions for TS1/FiraSans-OsF.
-)
-LaTeX Font Info:    Font shape `TS1/FiraSans-OsF/m/n' in size <10.95> not available
-(Font)              Font shape `TS1/FiraSans-OsF/regular/n' tried instead on input line 404.
-LaTeX Font Info:    Font shape `TS1/FiraSans-OsF/regular/n' will be
-(Font)              scaled to size 10.95pt on input line 404.
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `FiraSans-OsF' (encoding: TS1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-
+ [5]
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.416     \item[Chapter 1]
+l.476     \item[Chapter 1]
                            presents the classical paradigm of image segmenta... [1
 
 
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free1.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/fira/fir_d67aat.enc}] [2]
+] [2]
 Chapter 1.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/l/n' in size <72> not available
-(Font)              Font shape `T1/FiraSans-OsF/light/n' tried instead on input line 427.
+(Font)              Font shape `T1/FiraSans-OsF/light/n' tried instead on input line 487.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/light/n' will be
-(Font)              scaled to size 72.0pt on input line 427.
-LaTeX Font Info:    Trying to load font information for U+fontawesomefree0 on input line 437.
-(/usr/share/texlive/texmf-dist/tex/latex/fontawesome5/ufontawesomefree0.fd)
-Underfull \hbox (badness 1622) in paragraph at lines 459--460
+(Font)              scaled to size 72.0pt on input line 487.
+
+Underfull \hbox (badness 1622) in paragraph at lines 519--520
 []\T1/FiraSans-OsF/regular/n/10.95 (+20) For an im-age $\OML/lmm/m/it/10.95 I$ \T1/FiraSans-OsF/regular/n/10.95 (+20) de-fined over a do-main $\OT1/lmr/m/n/10.95 
 $\T1/FiraSans-OsF/regular/n/10.95 (+20) , seg-men-ta-tion pro-duces a par-ti-tion
  []
 
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/n' in size <8> not available
-(Font)              Font shape `T1/FiraSans-OsF/regular/n' tried instead on input line 463.
+(Font)              Font shape `T1/FiraSans-OsF/regular/n' tried instead on input line 523.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/n' will be
-(Font)              scaled to size 8.0pt on input line 463.
+(Font)              scaled to size 8.0pt on input line 523.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/n' in size <6> not available
-(Font)              Font shape `T1/FiraSans-OsF/regular/n' tried instead on input line 463.
+(Font)              Font shape `T1/FiraSans-OsF/regular/n' tried instead on input line 523.
 LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/n' will be
-(Font)              scaled to size 6.0pt on input line 463.
+(Font)              scaled to size 6.0pt on input line 523.
 [3
 
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free0.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
-LaTeX Font Info:    Trying to load font information for U+fontawesomefree3 on input line 482.
- (/usr/share/texlive/texmf-dist/tex/latex/fontawesome5/ufontawesomefree3.fd) [4{/usr/share/texlive/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free3.enc}]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 503.
- [5]
-LaTeX Font Info:    Trying to load font information for U+fontawesomefree2 on input line 574.
- (/usr/share/texlive/texmf-dist/tex/latex/fontawesome5/ufontawesomefree2.fd) [6{/usr/share/texlive/texmf-dist/fonts/enc/dvips/fontawesome5/fa5free2.enc}]
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/m/it' in size <10.95> not available
-(Font)              Font shape `T1/FiraSans-OsF/regular/it' tried instead on input line 646.
-LaTeX Font Info:    Font shape `T1/FiraSans-OsF/regular/it' will be
-(Font)              scaled to size 10.95pt on input line 646.
- [7] [8]
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}] [4]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 563.
+ [5] [6] [7] [8] [9] [10] [11]
 Chapter 2.
-[9
+[12
 
-] [10] [11] [12] [13] [14] [15] [16
+] [13] [14] [15] [16] [17] [18] [19
 
-] [17] (./main.bbl
+] [20] (./main.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 8.
 
-) [18
+) [21
 
 
-] [19
+] [22
 
-] [20] [21] [22
+] [23] [24] [25] [26] [27
 
-] [23] [24] (./main.aux)
+] [28] [29] (./main.aux)
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 8806AE9F6BCECE4063107819841C3ADB;11549.
+(rerunfilecheck)             Checksum: DC4764D2ED380E88035E3B6D6E8C6451;13565.
  ) 
 Here is how much of TeX's memory you used:
- 40365 strings out of 476041
- 769568 string characters out of 5793173
+ 40468 strings out of 476041
+ 771315 string characters out of 5793173
  1871388 words of memory out of 6000000
- 59599 multiletter control sequences out of 15000+600000
- 936710 words of font info for 314 fonts, out of 8000000 for 9000
+ 59652 multiletter control sequences out of 15000+600000
+ 938957 words of font info for 326 fonts, out of 8000000 for 9000
  1137 hyphenation exceptions out of 8191
  83i,15n,131p,1464b,1010s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/fira/FiraSans-Bold.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/fira/FiraSans-Italic.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/fira/FiraSans-Light.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/fira/FiraSans-Regular.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/fontawesome5/FontAwesome5Free-Solid.pfb></usr/share/texlive/texmf-dist/fonts/type1/adobe/sourceserifpro/SourceSerifPro-Regular.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmbx8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (27 pages, 476884 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/fira/FiraSans-Bold.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/fira/FiraSans-Italic.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/fira/FiraSans-Light.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/fira/FiraSans-Regular.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/fontawesome5/FontAwesome5Free-Solid.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb></usr/share/texlive/texmf-dist/fonts/type1/adobe/sourceserifpro/SourceSerifPro-Regular.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmbx8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmmib10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on main.pdf (35 pages, 511057 bytes).
 PDF statistics:
- 627 PDF objects out of 1000 (max. 8388607)
- 548 compressed objects within 6 object streams
- 173 named destinations out of 1000 (max. 500000)
- 92045 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 733 PDF objects out of 1000 (max. 8388607)
+ 643 compressed objects within 7 object streams
+ 201 named destinations out of 1000 (max. 500000)
+ 92637 words of extra memory for PDF output out of 106986 (max. 10000000)
 
