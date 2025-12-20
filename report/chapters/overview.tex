@@ -1,0 +1,180 @@
+\chapter{Quantum Clustering for Image Segmentation}
+
+\section{Introduction}
+
+Image segmentation represents a fundamental task in computer vision that involves partitioning digital images into meaningful regions or objects. Traditional algorithmic approaches, while effective for many applications, face inherent limitations when dealing with complex, high-dimensional data characterized by non-linear relationships and noisy environments. Quantum clustering emerges as a novel computational paradigm that leverages principles from quantum mechanics to potentially overcome these challenges.
+
+The conceptual foundation of quantum clustering rests upon treating data points as quantum particles within a potential landscape. This approach constructs a Hamiltonian operator whose ground state—corresponding to the minimum energy configuration—encodes the optimal clustering solution. Rather than employing iterative assignment algorithms common to classical methods, quantum clustering seeks global solutions through the natural evolution of quantum systems toward their minimal energy states.
+
+Key quantum mechanical principles employed in this paradigm include:
+\begin{itemize}
+\item Wave function superposition, allowing data points to exist in multiple cluster states simultaneously
+\item Quantum entanglement, enabling non-local correlations between pixel assignments
+\item Quantum tunneling, providing mechanisms to escape local minima in optimization landscapes
+\item Quantum interference, amplifying probabilities of optimal configurations while suppressing suboptimal ones
+\end{itemize}
+
+The mathematical formulation typically begins with the time-independent Schrödinger equation:
+\begin{equation}
+\hat{H}\psi(\mathbf{x}) = E\psi(\mathbf{x})
+\end{equation}
+where $\hat{H}$ represents the Hamiltonian operator, $\psi(\mathbf{x})$ denotes the wave function, and $E$ corresponds to energy eigenvalues. In quantum clustering applications, the Hamiltonian is specifically designed such that its ground state wave function exhibits high amplitude in regions of high data density, thereby naturally identifying clusters.
+
+\section{Classical Image Segmentation Techniques}
+
+\subsection{K-Means Clustering}
+
+K-means clustering represents a centroid-based partitioning algorithm that divides a set of $n$ observations into $k$ predefined clusters. Each observation is assigned to the cluster whose mean (centroid) yields the smallest squared Euclidean distance. The algorithm minimizes the within-cluster sum of squares:
+\begin{equation}
+J = \sum_{i=1}^{k} \sum_{\mathbf{x} \in C_i} |\mathbf{x} - \boldsymbol{\mu}_i|^2
+\end{equation}
+where $\boldsymbol{\mu}_i$ denotes the centroid of cluster $C_i$. The algorithm proceeds through iterative refinement steps of assignment and centroid update until convergence criteria are satisfied.
+
+\subsection{Fuzzy C-Means Clustering}
+
+Fuzzy C-means clustering extends the K-means paradigm by permitting partial membership, where each data point may belong to multiple clusters with varying degrees of association. The objective function incorporates membership weights:
+\begin{equation}
+J_m = \sum_{i=1}^{n} \sum_{j=1}^{c} u_{ij}^m |\mathbf{x}_i - \mathbf{c}j|^2
+\end{equation}
+where $u{ij}$ represents the membership degree of point $\mathbf{x}_i$ to cluster $j$, $\mathbf{c}_j$ denotes the cluster center, and $m > 1$ serves as a fuzziness parameter controlling the overlap between clusters.
+
+\subsection{Graph-Based Segmentation}
+
+Graph-based segmentation methods represent images as weighted graphs $G = (V, E)$, where vertices $V$ correspond to pixels or superpixels, and edges $E$ connect neighboring elements with weights reflecting similarity measures. Segmentation involves partitioning the graph by optimizing cut-based criteria.
+
+Two fundamental approaches for graph partitioning are the minimum cut and maximum cut problems:
+
+\textbf{Minimum Cut} seeks the partition that minimizes the sum of weights of edges crossing the partition boundary:
+\begin{equation}
+\min_{A \subset V} \ cut(A, V\setminus A) = \min_{A \subset V} \sum_{u \in A, v \notin A} w(u,v)
+\end{equation}
+where $w(u,v)$ represents the weight (similarity) between vertices $u$ and $v$. However, the minimum cut criterion alone often produces trivial partitions isolating single vertices.
+
+\textbf{Maximum Cut} seeks the partition that maximizes the sum of weights of edges crossing between partitions:
+\begin{equation}
+\max_{A \subset V} \ cut(A, V\setminus A) = \max_{A \subset V} \sum_{u \in A, v \notin A} w(u,v)
+\end{equation}
+This formulation maximizes dissimilarity between partitions but can produce unbalanced segments.
+
+To address the limitations of basic cut criteria, the \textbf{normalized cut} objective seeks balanced partitions $A$ and $B$ by minimizing:
+\begin{equation}
+Ncut(A,B) = \frac{cut(A,B)}{assoc(A,V)} + \frac{cut(A,B)}{assoc(B,V)}
+\end{equation}
+where $cut(A,B) = \sum_{u \in A, v \in B} w(u,v)$ represents the total weight of edges crossing the partition boundary, and $assoc(A,V) = \sum_{u \in A, t \in V} w(u,t)$ denotes the total connection from nodes in $A$ to all nodes in the graph. This normalization prevents trivial solutions and encourages partitions with balanced internal coherence.
+
+
+\subsection{Spectral Clustering}
+
+Spectral clustering operates on the spectral decomposition of similarity matrices derived from data. The algorithm constructs a similarity matrix $S$, computes the corresponding graph Laplacian $L = D - S$ (where $D$ is the degree matrix), and performs eigenvalue analysis to obtain a lower-dimensional embedding. Clustering then proceeds in this reduced eigen-space, typically via K-means, enabling separation of non-linearly separable clusters.
+
+\section{Quantum Computing Primitives}
+
+\subsection{Variational Quantum Algorithms}
+
+Variational Quantum Algorithms constitute a class of hybrid quantum-classical computational frameworks designed for near-term quantum devices. These algorithms employ parameterized quantum circuits, known as ansätze, to prepare trial quantum states. A classical optimization loop adjusts circuit parameters to minimize a cost function that encodes the problem of interest. The general architecture comprises:
+\begin{itemize}
+\item A parameterized quantum circuit $U(\boldsymbol{\theta})$ generating trial states $|\psi(\boldsymbol{\theta})\rangle$
+\item A cost function $C(\boldsymbol{\theta}) = \langle \psi(\boldsymbol{\theta})|H|\psi(\boldsymbol{\theta})\rangle$ representing the problem Hamiltonian $H$
+\item Classical optimization routines that iteratively update parameters $\boldsymbol{\theta}$ to minimize $C(\boldsymbol{\theta})$
+\end{itemize}
+
+\subsection{Variational Quantum Eigensolver}
+
+The Variational Quantum Eigensolver represents a specific instantiation of variational quantum algorithms focused on determining the ground state energy of quantum Hamiltonians. Given a Hamiltonian $H$, VQE seeks to approximate:
+\begin{equation}
+E_0 = \min_{\boldsymbol{\theta}} \langle \psi(\boldsymbol{\theta})|H|\psi(\boldsymbol{\theta})\rangle
+\end{equation}
+The algorithm has found applications beyond quantum chemistry, serving as a template for optimization problems where the Hamiltonian encodes problem objectives.
+
+\section{Quantum Formulations and Encodings}
+
+\subsection{Quadratic Unconstrained Binary Optimization}
+
+Quadratic Unconstrained Binary Optimization provides a mathematical framework for encoding combinatorial optimization problems, including image segmentation tasks. A QUBO problem is defined as:
+\begin{equation}
+\min_{\mathbf{x} \in {0,1}^n} \left( \sum_{i \leq j} Q_{ij} x_i x_j \right) = \min_{\mathbf{x} \in {0,1}^n} \mathbf{x}^T Q \mathbf{x}
+\end{equation}
+where $\mathbf{x}$ represents a vector of $n$ binary decision variables, and $Q$ denotes an $n \times n$ upper-triangular matrix of real coefficients. The QUBO formulation naturally maps to Ising spin glass models through the transformation $s_i = 2x_i - 1$, where $s_i \in {-1, +1}$, yielding the equivalent Ising Hamiltonian:
+\begin{equation}
+H_{Ising} = \sum_{i} h_i s_i + \sum_{i<j} J_{ij} s_i s_j
+\end{equation}
+This mathematical equivalence enables implementation on both quantum annealers and gate-based quantum processors.
+
+\subsection{Quantum Approximate Optimization Algorithm}
+
+The Quantum Approximate Optimization Algorithm represents a hybrid quantum-classical algorithm designed for combinatorial optimization problems. For a problem with $n$ variables and cost function $C(\mathbf{z})$ where $\mathbf{z} \in {0,1}^n$, QAOA prepares parameterized quantum states through alternating application of problem and mixing Hamiltonians:
+\begin{equation}
+|\psi(\boldsymbol{\beta}, \boldsymbol{\gamma})\rangle =
+\prod_{k=1}^{p} e^{-i\beta_k H_B} e^{-i\gamma_k H_C} |+\rangle^{\otimes n}
+\end{equation}
+where:
+\begin{itemize}
+\item $H_C$ represents the problem Hamiltonian encoding $C(\mathbf{z})$
+\item $H_B = \sum_{i=1}^n \sigma_i^x$ denotes the transverse field mixing Hamiltonian
+\item $p$ indicates the number of alternating layers (circuit depth)
+\item $\boldsymbol{\beta}, \boldsymbol{\gamma}$ represent tunable parameters optimized classically
+\end{itemize}
+The expected value $\langle H_C \rangle$ serves as the objective for classical optimization routines.
+
+\subsection{Projected Gradient Entanglement}
+
+Projected Gradient Entanglement constitutes a quantum-inspired classical algorithm that simulates quantum mechanical behavior through iterative projection and gradient operations. The algorithm maintains quantum-like representations of cluster centers and employs operations mimicking quantum superposition and measurement collapse. Key algorithmic steps include:
+\begin{enumerate}
+\item Initialization of quantum state representations for cluster centroids
+\item Application of entanglement operations to establish quantum correlations
+\item Projection onto measurement basis simulating quantum collapse
+\item Gradient-based updates within the potential landscape
+\item Iterative refinement until convergence criteria are satisfied
+\end{enumerate}
+
+\subsection{Adiabatic Binary Encoding}
+
+Adiabatic Binary Encoding formulates clustering problems as binary optimization tasks suitable for adiabatic quantum computation. For $n$ data points and $k$ clusters, binary variables $x_{i\alpha} \in {0,1}$ indicate assignment of point $i$ to cluster $\alpha$. The clustering Hamiltonian typically combines similarity terms with constraint enforcement:
+\begin{equation}
+H = \sum_{i<j} d_{ij} \sum_{\alpha} x_{i\alpha}x_{j\alpha} + \lambda \sum_{i} \left( \sum_{\alpha} x_{i\alpha} - 1 \right)^2
+\end{equation}
+where $d_{ij}$ represents distance measures between points, and $\lambda$ penalizes invalid assignment configurations.
+
+\subsection{Adiabatic Cluster Encoding}
+
+Adiabatic Cluster Encoding extends binary encoding approaches by directly representing cluster assignments within quantum state spaces. Rather than employing binary indicator variables, ACE utilizes quantum registers to encode cluster membership information. The Hamiltonian construction incorporates multiple components:
+\begin{equation}
+H_{ACE} = H_{intra} + H_{inter} + H_{constraints}
+\end{equation}
+where $H_{intra}$ promotes similarity within clusters, $H_{inter}$ encourages separation between distinct clusters, and $H_{constraints}$ ensures valid assignment configurations.
+
+\section{Quantum Computational Techniques}
+
+\subsection{Hybrid Quantum-Classical Algorithms}
+
+Hybrid quantum-classical algorithms represent computational frameworks that leverage both quantum and classical processing resources. Quantum processors execute computationally demanding subroutines such as state preparation and expectation estimation, while classical systems handle optimization, control logic, and error mitigation. This synergistic approach aims to overcome current quantum hardware limitations while exploiting potential quantum advantages for specific computational tasks.
+
+\subsection{Quantum Annealing}
+
+Quantum annealing constitutes a computational paradigm that exploits quantum tunneling and thermal effects to find global minima of optimization problems. The method implements time-dependent Hamiltonians that evolve from simple initial configurations to complex problem encodings:
+\begin{equation}
+H(t) = A(t) \sum_i \sigma_i^x + B(t) \left( \sum_{i<j} J_{ij} \sigma_i^z \sigma_j^z + \sum_i h_i \sigma_i^z \right)
+\end{equation}
+where $A(t)$ and $B(t)$ control the annealing schedule, $\sigma_i^x$ represent transverse field terms, and the problem Hamiltonian encodes the optimization objective through longitudinal fields $h_i$ and coupling terms $J_{ij}$.
+
+\subsection{Gate-Model Quantum Computation}
+
+Gate-model quantum computation employs sequences of discrete quantum logic gates to perform computational operations. Universal gate sets enable implementation of various quantum algorithms, including:
+\begin{itemize}
+\item Grover's algorithm for unstructured search problems
+\item Quantum Fourier Transform for period finding and phase estimation
+\item Variational algorithms such as VQE and QAOA
+\item Quantum walk algorithms for graph-based problems
+\end{itemize}
+Quantum circuits are constructed from fundamental gates including Hadamard, Pauli, controlled-NOT, and rotation gates.
+
+\subsection{Quantum-Inspired Classical Algorithms}
+
+Quantum-inspired classical algorithms incorporate mathematical concepts from quantum mechanics while executing entirely on classical computational hardware. These approaches leverage quantum-inspired data structures and operations, such as:
+\begin{itemize}
+\item Tensor network representations for high-dimensional data
+\item Simulated quantum annealing through classical Monte Carlo methods
+\item Quantum walk simulations on classical graphs
+\item Hamiltonian simulation techniques using linear algebraic methods
+\end{itemize}
+Such algorithms aim to capture certain quantum advantages without requiring quantum hardware infrastructure.

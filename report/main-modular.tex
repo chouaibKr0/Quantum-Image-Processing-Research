@@ -33,14 +33,6 @@
 \usepackage{microtype}                   % Better typography
 \usepackage{fontawesome5}                % Icons for callout boxes
 
-\documentclass{article}
-\usepackage{amsmath, amssymb, amsfonts}
-\usepackage{algorithm}
-\usepackage{algpseudocode}
-\usepackage{graphicx}
-\usepackage{hyperref}
-\usepackage[numbers]{natbib}
-
 % Page layout
 \usepackage[
     top=2.5cm,
@@ -115,7 +107,7 @@
 
 % Algorithms
 \usepackage{algorithm}
-\usepackage{algorithmic}
+\usepackage{algpseudocode}  % Modern algorithmic commands
 
 % Bibliography
 \usepackage[numbers,sort&compress]{natbib}
@@ -325,6 +317,42 @@
     outer arc=0pt
 }
 
+% Chapter intro box - for chapter introductions
+\newtcolorbox{chapterintro}{
+    enhanced,
+    colback=chaptercolor!5,
+    colframe=chaptercolor!20,
+    coltitle=chaptercolor,
+    fonttitle=\sffamily\bfseries\itshape,
+    breakable,
+    left=12pt,
+    right=12pt,
+    top=12pt,
+    bottom=12pt,
+    boxrule=0pt,
+    borderline west={3pt}{0pt}{chaptercolor},
+    arc=0pt,
+    outer arc=0pt,
+    before skip=10pt,
+    after skip=20pt
+}
+
+% Note block - simple note without title
+\newtcolorbox{noteblock}{
+    enhanced,
+    colback=notecolor!5,
+    colframe=notecolor!20,
+    breakable,
+    left=12pt,
+    right=12pt,
+    top=8pt,
+    bottom=8pt,
+    boxrule=0pt,
+    borderline west={3pt}{0pt}{notecolor},
+    arc=0pt,
+    outer arc=0pt
+}
+
 %% ============================================
 %% THEOREMS AND DEFINITIONS
 %% ============================================
@@ -406,13 +434,14 @@
 
 % Introduction
 \input{chapters/introduction}
-
+\input{chapters/overview.tex}
+\input{chapters/chapitre0.tex}
 % Chapter 1: Classical Paradigm
 \input{chapters/chapter1}
 
 % Chapter 2: Quantum Clustering (includes algorithm subsections)
 \input{chapters/chapter2}
-
+ 
 % Conclusion
 \input{chapters/conclusion}
 

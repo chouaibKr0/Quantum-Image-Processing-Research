@@ -1,19 +1,25 @@
+% chapters/chapitre0.tex
+% Quantum Optimization Method for Geometric Constrained Image Segmentation
+% Based on work by Nam H. Le, Milan Sonka, Fatima Toor
+% Department of Electrical and Computer Engineering, University of Iowa
 
+\chapter{Quantum Optimization for Geometric Constrained Image Segmentation}
+\label{ch:quantum-optimization}
 
-\title{Quantum Optimization Method for Geometric Constrained Image Segmentation}
-\author{Nam H. Le, Milan Sonka, Fatima Toor}
-\affil{Department of Electrical and Computer Engineering \\ University of Iowa, Iowa City, IA 52242}
-\date{\today}
+\begin{chapterintro}
+This chapter explores quantum optimization methods for geometric constrained image segmentation, combining graph-theoretic approaches with hybrid quantum-classical optimization. We present the QuantumLOGISMOS framework which leverages the Quantum Approximate Optimization Algorithm (QAOA) to solve surface segmentation problems.
+\end{chapterintro}
 
-\begin{document}
+\section{Overview}
+\label{sec:quantum-opt-overview}
 
-\maketitle
+Quantum image processing is an emerging field attracting attention from both quantum computing and image processing communities. We propose a novel method combining a graph-theoretic approach for optimal surface segmentation with hybrid quantum-classical optimization of the problem-directed graph. Surface segmentation is modeled classically as a graph partitioning problem with smoothness constraints to control surface variation for realistic segmentation. The problem-specific graph characteristics are embedded in a quadratic objective function whose minimum corresponds to the ground state energy of an equivalent Ising Hamiltonian. 
 
-\begin{abstract}
-Quantum image processing is an emerging field attracting attention from both quantum computing and image processing communities. We propose a novel method combining a graph-theoretic approach for optimal surface segmentation with hybrid quantum-classical optimization of the problem-directed graph. Surface segmentation is modeled classically as a graph partitioning problem with smoothness constraints to control surface variation for realistic segmentation. The problem-specific graph characteristics are embedded in a quadratic objective function whose minimum corresponds to the ground state energy of an equivalent Ising Hamiltonian. This work explores the use of quantum processors in image segmentation problems, with important applications in medical image analysis. We present a theoretical basis for the quantum implementation of LOGISMOS and simulation results on simple images using the Quantum Approximate Optimization Algorithm (QAOA). The proposed approach can solve geometric-constrained surface segmentation problems optimally with the capability of locating multiple minimum points corresponding to globally minimal solutions.
-\end{abstract}
+This work explores the use of quantum processors in image segmentation problems, with important applications in medical image analysis. We present a theoretical basis for the quantum implementation of LOGISMOS and simulation results on simple images using the Quantum Approximate Optimization Algorithm (QAOA). The proposed approach can solve geometric-constrained surface segmentation problems optimally with the capability of locating multiple minimum points corresponding to globally minimal solutions.
 
-\keywords{quantum computing, quantum algorithm, combinatorial optimization, image segmentation, graph theory, QAOA}
+\begin{keyconceptbox}
+\textbf{Key Concepts:} quantum computing, quantum algorithm, combinatorial optimization, image segmentation, graph theory, QAOA, LOGISMOS framework
+\end{keyconceptbox}
 
 \section{Introduction}
 \label{sec:introduction}
@@ -86,6 +92,36 @@ Three edge types enforce geometric constraints:
 
 \subsection{Minimum Cut Reformulation}
 The optimal surface corresponds to the minimum $s$-$t$ cut partitioning nodes into source set $S$ (containing $s$) and sink set $T$ (containing $t$). The cut capacity equals the total terminal weight of the corresponding closed set.
+
+\section{QuantumLOGISMOS Framework}
+\label{sec:quantum-logismos-framework}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/quantum-logismos-framework.png}
+    \caption{The proposed Quantum LOGISMOS framework: (1) Estimate cost functions and calculate terminal weights, (2) Introduce internal connections within columns to ensure that the optimal surface cut passes through each column only once, (3) Add inter-edges to impose smoothness condition, (4) Add source and sink nodes, add problem-specific edges, (5) Assign qubit to graph node, (6) QAOA optimization, (7) Bitstring solution and minimum closed set found.}
+    \label{fig:quantum-logismos-framework}
+\end{figure}
+
+The QuantumLOGISMOS framework, illustrated in Figure~\ref{fig:quantum-logismos-framework}, integrates classical graph-theoretic segmentation with quantum optimization through seven systematic steps:
+
+\begin{enumerate}
+    \item \textbf{Cost Function Estimation and Terminal Weight Calculation}: Based on the input image, compute node costs reflecting surface likelihood and transform them to terminal weights using Equation~\ref{eq:terminal-weights}.
+    
+    \item \textbf{Intra-column Edge Construction}: Create infinite-capacity directed edges within each column to ensure exactly one cut per column, enforcing the single-surface constraint.
+    
+    \item \textbf{Inter-column Edge Addition}: Connect adjacent columns with infinite-capacity edges to impose smoothness constraints, restricting surface variation between neighboring columns.
+    
+    \item \textbf{Source/Sink Node Addition}: Introduce source ($s$) and sink ($t$) nodes with capacity-weighted connections to all graph nodes based on terminal weight signs.
+    
+    \item \textbf{Qubit Assignment}: Map each graph node to a qubit, where the qubit state ($|0\rangle$ or $|1\rangle$) represents node assignment to source or sink sets respectively.
+    
+    \item \textbf{QAOA Optimization}: Execute the Quantum Approximate Optimization Algorithm to find the minimum cut by minimizing the problem Hamiltonian derived from the graph structure.
+    
+    \item \textbf{Solution Extraction}: Decode the optimal bitstring obtained from QAOA measurements to identify the minimum closed set and corresponding optimal surface.
+\end{enumerate}
+
+This hybrid framework leverages classical preprocessing (steps 1-4) to encode geometric constraints, while utilizing quantum optimization (steps 5-7) to explore the solution space more comprehensively than classical approaches.
 
 \section{Quantum Formulation}
 \label{sec:quantum-formulation}
@@ -188,96 +224,3 @@ Classical optimization uses Simultaneous Perturbation Stochastic Approximation (
 \State Decode $\mathbf{x}^*$ to surface nodes
 \end{algorithmic}
 \end{algorithm}
-
-\section{Experimental Implementation}
-\label{sec:experiments}
-
-\subsection{Simulation Setup}
-\textbf{Software:} Python 3.10.11, Qiskit 0.43.1, NetworkX 2.8.4, Qiskit-optimization 0.5.0
-
-\textbf{Parameters:} 
-\begin{itemize}
-    \item QAOA depth $p$: 2 to 100 layers
-    \item SPSA optimizer: 250 maximum iterations
-    \item Smoothness constraint: $\delta = 2$
-    \item Quantum measurements: 1024 shots per energy evaluation
-\end{itemize}
-
-\subsection{Test Cases}
-\textbf{Case 1: 2D Image (5$\times$4 pixels)}
-\begin{itemize}
-    \item Graph: 3 columns $\times$ 5 nodes
-    \item Total qubits: 15 (nodes) + 2 (source/sink) = 17
-    \item Predefined terminal weights with negative regions
-\end{itemize}
-
-\textbf{Case 2: 3D Image (3$\times$3$\times$2 voxels)}
-\begin{itemize}
-    \item Graph: 3 columns $\times$ 3 nodes/slice $\times$ 2 slices
-    \item Total qubits: 18 (nodes) + 2 = 20
-    \item Two distinct negative-weighted regions
-\end{itemize}
-
-\subsection{Results}
-\subsubsection{2D Case}
-\begin{itemize}
-    \item Optimal energy: $F = -238$
-    \item Solution bitstring: $|0001100011001110\rangle$
-    \item Source set: $\{q_4, q_5, q_9, q_{10}, q_{13}, q_{14}, q_{15}, q_s\}$
-    \item Optimal surface: $\{q_4, q_9, q_{13}\}$ (one node per column)
-    \item Maximum flow: 3 (matches classical solution)
-\end{itemize}
-
-\subsubsection{3D Case (Key Finding)}
-QAOA found \textbf{two distinct optimal solutions} with identical energy $F = -162$, while classical preflow-push algorithm \cite{goldberg1988} found only one.
-
-\textbf{Solution A} (found at QAOA depths $p = 2,3,4,6$):
-Source set: $\{2,3,5,6,8,9,12,14,15,18,19\}$
-
-\textbf{Solution B} (found at $p = 5,100$):
-Source set: $\{2,3,5,6,8,9,10,11,12,14,15,18,19\}$
-
-\begin{table}[h]
-\centering
-\caption{Runtime vs QAOA Depth ($p$)}
-\begin{tabular}{ccccc}
-\hline
-$p$ & Time (s) & Solution & Energy & Success Prob. \\
-\hline
-2 & 35,570 & A & -162 & 0.78 \\
-3 & 27,323 & A & -162 & 0.81 \\
-4 & 34,752 & A & -162 & 0.79 \\
-5 & 43,025 & B & -162 & 0.82 \\
-6 & 29,098 & A & -162 & 0.80 \\
-100 & 123,901 & B & -162 & 0.83 \\
-\hline
-\end{tabular}
-\end{table}
-
-\section{Conclusion}
-\label{sec:conclusion}
-
-The QuantumLOGISMOS framework successfully demonstrates:
-\begin{enumerate}
-    \item Complete mathematical mapping from geometric-constrained image segmentation to quantum optimization
-    \item Feasible implementation via QAOA on quantum simulators
-    \item Quantum advantage in finding multiple optimal solutions for degenerate problems
-    \item Potential for medical imaging applications where multiple valid segmentations provide clinical value
-\end{enumerate}
-
-\textbf{Limitations \& Future Work:}
-\begin{itemize}
-    \item Current simulations limited to small images ($\sim$20 qubits)
-    \item Requires actual quantum hardware for scalability
-    \item Future directions: Implementation on real quantum processors, extension to larger medical images, incorporation of warm-starting techniques \cite{egger2020} and CVaR optimization \cite{barkoutsos2019}
-\end{itemize}
-
-This work establishes a foundation for quantum-enhanced medical image analysis, with promising results suggesting quantum algorithms can provide advantages in finding comprehensive solution sets for complex segmentation problems.
-
-\section*{Acknowledgments}
-This work was supported by the University of Iowa Department of Electrical and Computer Engineering. The authors thank the Qiskit development team for their quantum computing framework.
-
-\bibliographystyle{plainnat}
-\bibliography{references}
-
-\end{document}
