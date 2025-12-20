@@ -1,0 +1,283 @@
+
+
+\title{Quantum Optimization Method for Geometric Constrained Image Segmentation}
+\author{Nam H. Le, Milan Sonka, Fatima Toor}
+\affil{Department of Electrical and Computer Engineering \\ University of Iowa, Iowa City, IA 52242}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Quantum image processing is an emerging field attracting attention from both quantum computing and image processing communities. We propose a novel method combining a graph-theoretic approach for optimal surface segmentation with hybrid quantum-classical optimization of the problem-directed graph. Surface segmentation is modeled classically as a graph partitioning problem with smoothness constraints to control surface variation for realistic segmentation. The problem-specific graph characteristics are embedded in a quadratic objective function whose minimum corresponds to the ground state energy of an equivalent Ising Hamiltonian. This work explores the use of quantum processors in image segmentation problems, with important applications in medical image analysis. We present a theoretical basis for the quantum implementation of LOGISMOS and simulation results on simple images using the Quantum Approximate Optimization Algorithm (QAOA). The proposed approach can solve geometric-constrained surface segmentation problems optimally with the capability of locating multiple minimum points corresponding to globally minimal solutions.
+\end{abstract}
+
+\keywords{quantum computing, quantum algorithm, combinatorial optimization, image segmentation, graph theory, QAOA}
+
+\section{Introduction}
+\label{sec:introduction}
+
+Image segmentation, particularly in medical imaging, involves partitioning an image into meaningful anatomical regions. The LOGISMOS framework (Layered Optimal Graph Image Segmentation of Multiple Objects and Surfaces) \cite{li2004, li2006, wu2002} reformulates surface segmentation as finding optimal boundaries subject to geometric constraints. Traditional algorithms solve this via maximum flow/minimum cut on directed graphs using classical optimization methods, but may miss alternative optimal solutions due to their deterministic nature.
+
+Quantum computers offer potential advantages for combinatorial optimization problems through superposition (evaluating multiple solutions simultaneously), entanglement (correlated exploration of solution spaces), and quantum tunneling (escaping local minima more effectively). The Quantum Approximate Optimization Algorithm (QAOA) \cite{farhi2014} provides a hybrid quantum-classical approach to approximate solutions of NP-hard problems by encoding them as ground state problems of Ising Hamiltonians.
+
+This work introduces QuantumLOGISMOS, which: (1) maps LOGISMOS graph constraints to Quadratic Unconstrained Binary Optimization (QUBO) formulation, (2) implements quantum optimization via QAOA with classical parameter tuning, (3) demonstrates the method on synthetic 2D and 3D images, and (4) shows quantum advantage in finding multiple optimal segmentation solutions.
+
+\section{Classical LOGISMOS Framework}
+\label{sec:classical-logismos}
+
+\subsection{Mathematical Formulation}
+Given an image $\mathcal{I}$ with spatial dimensions $(X, Y, Z)$, we represent it as a directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ where each pixel (2D) or voxel (3D) corresponds to a node $v \in \mathcal{V}$, organized into columns along a specific direction.
+
+A surface $\mathcal{S}$ is defined by a function:
+\[
+s: \text{Column} \rightarrow \text{Node}
+\]
+where $s(x) = k$ indicates node $k$ in column $x$ belongs to the surface.
+
+Each node $(x, k)$ has an associated cost:
+\[
+c_s(x,k) = -\log P(\text{node is on surface} \mid \text{image features})
+\]
+Lower cost indicates higher likelihood of being on the desired surface.
+
+The optimization objective is to find the surface minimizing total cost:
+\[
+\hat{s} = \arg\min_{s} \sum_{x} c_s(x, s(x))
+\]
+
+\subsection{Graph Construction}
+Instead of directly minimizing costs, we transform to terminal weights:
+\[
+w_s(x,k) = 
+\begin{cases} 
+-1 & \text{if } k=1 \\
+c_s(x,k) - c_s(x,k-1) & \text{otherwise}
+\end{cases}
+\]
+
+For a closed set $S$ (nodes below the surface):
+\[
+W_s = \sum_{x} \sum_{k \in S_x} w_s(x,k) = \sum_{x} c_s(x, s(x)) + \text{constant}
+\]
+Thus minimizing $W_s$ is equivalent to minimizing the original cost function.
+
+\subsection{Edge Constraints}
+Three edge types enforce geometric constraints:
+
+\begin{enumerate}
+    \item \textbf{Intra-column edges ($\mathcal{E}_{\text{intra}}$)}: 
+    $\forall x, \forall k > 1: \text{edge } (x,k) \rightarrow (x,k-1) \text{ with capacity } \infty$
+    
+    Ensures exactly one cut per column.
+    
+    \item \textbf{Inter-column edges ($\mathcal{E}_{\text{inter}}$)}: 
+    Given smoothness parameter $\delta$:
+    $\forall \text{adjacent } x, x': \text{edges } (x,k) \rightarrow (x', \max(1, k-\delta)) \text{ with capacity } \infty$
+    
+    Enforces $|s(x) - s(x')| \leq \delta$.
+    
+    \item \textbf{Terminal edges ($\mathcal{E}_{W}$)}: 
+    For nodes with $w_s(v) < 0$: edge $s \rightarrow v$ with capacity $|w_s(v)|$
+    
+    For nodes with $w_s(v) > 0$: edge $v \rightarrow t$ with capacity $|w_s(v)|$
+\end{enumerate}
+
+\subsection{Minimum Cut Reformulation}
+The optimal surface corresponds to the minimum $s$-$t$ cut partitioning nodes into source set $S$ (containing $s$) and sink set $T$ (containing $t$). The cut capacity equals the total terminal weight of the corresponding closed set.
+
+\section{Quantum Formulation}
+\label{sec:quantum-formulation}
+
+\subsection{QUBO Conversion}
+For each node $i$, define binary variable $x_i \in \{0,1\}$ where:
+\begin{itemize}
+    \item $x_i = 0$ $\rightarrow$ node in source set $S$
+    \item $x_i = 1$ $\rightarrow$ node in sink set $T$
+\end{itemize}
+
+For directed edge $i \rightarrow j$ with capacity $w_{ij}$:
+\[
+F_{(i,j)}(x_i, x_j) = x_j - x_i x_j
+\]
+This equals $w_{ij}$ if the edge is cut ($x_i=0, x_j=1$), and 0 otherwise.
+
+To enforce $x_s=0, x_t=1$:
+\[
+F_{(s,t)}(x_s, x_t) = x_s x_t - x_s
+\]
+
+Complete QUBO objective:
+\[
+F_C(\mathbf{x}) = \sum_{(i,j) \in \mathcal{E}} w_{ij} (x_j - x_i x_j) + \varepsilon (x_s x_t - x_s)
+\]
+where $\varepsilon = 1 + \sum_{(i,j) \in \mathcal{E}} w_{ij}$ ensures valid cuts have lower energy.
+
+\subsection{Matrix Formulation}
+\[
+F_C(\mathbf{x}) = \mathbf{x}^T \mathbf{Q} \mathbf{x}
+\]
+where $\mathbf{Q}$ is symmetric with:
+\[
+Q_{ii} = \sum_{j: i \rightarrow j} w_{ij}, \quad Q_{ij} = -\frac{w_{ij}}{2} \ \text{for} \ i \neq j \ \text{with edge} \ i \rightarrow j
+\]
+
+\subsection{Ising Hamiltonian Mapping}
+Binary variables map to qubit states via:
+\[
+x_i = \frac{1 - Z_i}{2}
+\]
+where $Z_i$ is the Pauli-Z operator on qubit $i$.
+
+Problem Hamiltonian:
+\[
+H_C = \sum_{i,j} Q_{ij} \frac{1-Z_i}{2} \frac{1-Z_j}{2}
+\]
+
+Expanding to standard Ising form:
+\[
+H_C = \text{constant} + \sum_i h_i Z_i + \sum_{i<j} J_{ij} Z_i Z_j
+\]
+where:
+\[
+h_i = -\frac{1}{4} \sum_j (Q_{ij} + Q_{ji}), \quad J_{ij} = \frac{1}{4} Q_{ij} \ (i \neq j)
+\]
+
+Ground state energy $E_0$ of $H_C$ satisfies:
+\[
+E_0 = \min_{\mathbf{x}} F_C(\mathbf{x})
+\]
+
+\section{Quantum Optimization via QAOA}
+\label{sec:qaoa}
+
+\subsection{QAOA Circuit Structure}
+Initial state: uniform superposition
+\[
+|\psi_0\rangle = |+\rangle^{\otimes n} = \frac{1}{\sqrt{2^n}} \sum_{z \in \{0,1\}^n} |z\rangle
+\]
+
+Problem unitary: $U_C(\gamma) = e^{-i\gamma H_C}$
+
+Mixer unitary: $U_M(\beta) = e^{-i\beta \sum_i X_i}$
+
+For $p$ layers with parameters $\gamma = (\gamma_1, ..., \gamma_p)$, $\beta = (\beta_1, ..., \beta_p)$:
+\[
+|\psi(\gamma, \beta)\rangle = \prod_{k=1}^p U_M(\beta_k) U_C(\gamma_k) |\psi_0\rangle
+\]
+
+\subsection{Hybrid Optimization}
+Energy estimation:
+\[
+E(\gamma, \beta) = \langle \psi(\gamma, \beta) | H_C | \psi(\gamma, \beta) \rangle
+\]
+
+Classical optimization uses Simultaneous Perturbation Stochastic Approximation (SPSA) \cite{spall1998}:
+\begin{algorithm}[H]
+\caption{Hybrid Quantum-Classical Optimization}
+\begin{algorithmic}[1]
+\State Initialize parameters $\gamma, \beta$
+\While{not converged}
+    \State Prepare $|\psi(\gamma, \beta)\rangle$ on quantum processor/simulator
+    \State Measure to estimate $E(\gamma, \beta)$
+    \State Compute gradients via finite differences
+    \State Update $\gamma, \beta$ using SPSA to minimize $E$
+\EndWhile
+\State Measure final state to obtain optimal bitstring $\mathbf{x}^*$
+\State Decode $\mathbf{x}^*$ to surface nodes
+\end{algorithmic}
+\end{algorithm}
+
+\section{Experimental Implementation}
+\label{sec:experiments}
+
+\subsection{Simulation Setup}
+\textbf{Software:} Python 3.10.11, Qiskit 0.43.1, NetworkX 2.8.4, Qiskit-optimization 0.5.0
+
+\textbf{Parameters:} 
+\begin{itemize}
+    \item QAOA depth $p$: 2 to 100 layers
+    \item SPSA optimizer: 250 maximum iterations
+    \item Smoothness constraint: $\delta = 2$
+    \item Quantum measurements: 1024 shots per energy evaluation
+\end{itemize}
+
+\subsection{Test Cases}
+\textbf{Case 1: 2D Image (5$\times$4 pixels)}
+\begin{itemize}
+    \item Graph: 3 columns $\times$ 5 nodes
+    \item Total qubits: 15 (nodes) + 2 (source/sink) = 17
+    \item Predefined terminal weights with negative regions
+\end{itemize}
+
+\textbf{Case 2: 3D Image (3$\times$3$\times$2 voxels)}
+\begin{itemize}
+    \item Graph: 3 columns $\times$ 3 nodes/slice $\times$ 2 slices
+    \item Total qubits: 18 (nodes) + 2 = 20
+    \item Two distinct negative-weighted regions
+\end{itemize}
+
+\subsection{Results}
+\subsubsection{2D Case}
+\begin{itemize}
+    \item Optimal energy: $F = -238$
+    \item Solution bitstring: $|0001100011001110\rangle$
+    \item Source set: $\{q_4, q_5, q_9, q_{10}, q_{13}, q_{14}, q_{15}, q_s\}$
+    \item Optimal surface: $\{q_4, q_9, q_{13}\}$ (one node per column)
+    \item Maximum flow: 3 (matches classical solution)
+\end{itemize}
+
+\subsubsection{3D Case (Key Finding)}
+QAOA found \textbf{two distinct optimal solutions} with identical energy $F = -162$, while classical preflow-push algorithm \cite{goldberg1988} found only one.
+
+\textbf{Solution A} (found at QAOA depths $p = 2,3,4,6$):
+Source set: $\{2,3,5,6,8,9,12,14,15,18,19\}$
+
+\textbf{Solution B} (found at $p = 5,100$):
+Source set: $\{2,3,5,6,8,9,10,11,12,14,15,18,19\}$
+
+\begin{table}[h]
+\centering
+\caption{Runtime vs QAOA Depth ($p$)}
+\begin{tabular}{ccccc}
+\hline
+$p$ & Time (s) & Solution & Energy & Success Prob. \\
+\hline
+2 & 35,570 & A & -162 & 0.78 \\
+3 & 27,323 & A & -162 & 0.81 \\
+4 & 34,752 & A & -162 & 0.79 \\
+5 & 43,025 & B & -162 & 0.82 \\
+6 & 29,098 & A & -162 & 0.80 \\
+100 & 123,901 & B & -162 & 0.83 \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+The QuantumLOGISMOS framework successfully demonstrates:
+\begin{enumerate}
+    \item Complete mathematical mapping from geometric-constrained image segmentation to quantum optimization
+    \item Feasible implementation via QAOA on quantum simulators
+    \item Quantum advantage in finding multiple optimal solutions for degenerate problems
+    \item Potential for medical imaging applications where multiple valid segmentations provide clinical value
+\end{enumerate}
+
+\textbf{Limitations \& Future Work:}
+\begin{itemize}
+    \item Current simulations limited to small images ($\sim$20 qubits)
+    \item Requires actual quantum hardware for scalability
+    \item Future directions: Implementation on real quantum processors, extension to larger medical images, incorporation of warm-starting techniques \cite{egger2020} and CVaR optimization \cite{barkoutsos2019}
+\end{itemize}
+
+This work establishes a foundation for quantum-enhanced medical image analysis, with promising results suggesting quantum algorithms can provide advantages in finding comprehensive solution sets for complex segmentation problems.
+
+\section*{Acknowledgments}
+This work was supported by the University of Iowa Department of Electrical and Computer Engineering. The authors thank the Qiskit development team for their quantum computing framework.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
