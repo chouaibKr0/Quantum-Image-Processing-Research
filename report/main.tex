@@ -1,0 +1,552 @@
+% Quantum Clustering for Image Segmentation - University Report
+% O'Reilly-inspired LaTeX Template
+\documentclass[11pt,a4paper,oneside]{book}
+
+%% ============================================
+%% PACKAGES
+%% ============================================
+
+% Encoding and fonts
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{charter}                    % Main font (clean, readable like O'Reilly)
+\usepackage{inconsolata}                % Monospace font for code
+\usepackage{microtype}                  % Better typography
+
+% Page layout
+\usepackage[
+    top=2.5cm,
+    bottom=2.5cm,
+    left=3cm,
+    right=3cm,
+    headheight=14pt
+]{geometry}
+
+% Colors (O'Reilly-inspired palette)
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\definecolor{chaptercolor}{RGB}{0, 100, 148}      % Deep blue for headings
+\definecolor{sectioncolor}{RGB}{51, 51, 51}       % Dark gray
+\definecolor{linkcolor}{RGB}{0, 100, 148}         % Blue for links
+\definecolor{codebackground}{RGB}{248, 248, 248}  % Light gray for code
+\definecolor{codeborder}{RGB}{204, 204, 204}      % Border for code blocks
+\definecolor{tipcolor}{RGB}{0, 128, 0}            % Green for tips
+\definecolor{warningcolor}{RGB}{204, 102, 0}      % Orange for warnings
+\definecolor{notecolor}{RGB}{0, 100, 148}         % Blue for notes
+
+% Graphics and figures
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+
+% Math and physics
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{braket}                     % Dirac notation for quantum states
+\usepackage{physics}                    % Physics notation shortcuts
+\usepackage{qcircuit}                   % Quantum circuits (optional)
+
+% Tables
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{colortbl}
+
+% Code listings
+\usepackage{listings}
+\lstset{
+    backgroundcolor=\color{codebackground},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{codeborder},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{orange},
+    showstringspaces=false,
+    tabsize=4
+}
+
+% Algorithms
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% Bibliography
+\usepackage[numbers,sort&compress]{natbib}
+
+% Hyperlinks (load last among most packages)
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=linkcolor,
+    citecolor=linkcolor,
+    urlcolor=linkcolor,
+    pdftitle={Quantum Clustering for Image Segmentation},
+    pdfauthor={Group 10},
+}
+
+% Fancy headers and footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+% No header
+\fancyhead{}
+\renewcommand{\headrulewidth}{0pt}
+% Footer with line and page | chapter on right
+\fancyfoot[R]{\thepage\ $|$ \leftmark}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%% ============================================
+%% CUSTOM STYLING (O'Reilly-inspired)
+%% ============================================
+
+% Chapter styling
+\usepackage{titlesec}
+
+\titleformat{\chapter}[display]
+    {\normalfont\huge\bfseries\color{chaptercolor}}
+    {\chaptertitlename\ \thechapter}
+    {20pt}
+    {\Huge}
+\titlespacing*{\chapter}{0pt}{-20pt}{40pt}
+
+% Section styling
+\titleformat{\section}
+    {\normalfont\Large\bfseries\color{sectioncolor}}
+    {\thesection}
+    {1em}
+    {}
+
+\titleformat{\subsection}
+    {\normalfont\large\bfseries\color{sectioncolor}}
+    {\thesubsection}
+    {1em}
+    {}
+
+%% ============================================
+%% CUSTOM ENVIRONMENTS (O'Reilly-style boxes)
+%% ============================================
+
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+
+% Note box
+\newtcolorbox{notebox}[1][Note]{
+    colback=notecolor!5,
+    colframe=notecolor,
+    fonttitle=\bfseries,
+    title=#1,
+    breakable,
+    left=5pt,
+    right=5pt,
+    top=5pt,
+    bottom=5pt
+}
+
+% Tip box
+\newtcolorbox{tipbox}[1][Tip]{
+    colback=tipcolor!5,
+    colframe=tipcolor,
+    fonttitle=\bfseries,
+    title=#1,
+    breakable,
+    left=5pt,
+    right=5pt,
+    top=5pt,
+    bottom=5pt
+}
+
+% Warning box
+\newtcolorbox{warningbox}[1][Warning]{
+    colback=warningcolor!5,
+    colframe=warningcolor,
+    fonttitle=\bfseries,
+    title=#1,
+    breakable,
+    left=5pt,
+    right=5pt,
+    top=5pt,
+    bottom=5pt
+}
+
+% Definition box
+\newtcolorbox{definitionbox}[1][Definition]{
+    colback=gray!5,
+    colframe=gray!50,
+    fonttitle=\bfseries,
+    title=#1,
+    breakable,
+    left=5pt,
+    right=5pt,
+    top=5pt,
+    bottom=5pt
+}
+
+% Key concept box
+\newtcolorbox{keyconceptbox}[1][Key Concept]{
+    colback=chaptercolor!5,
+    colframe=chaptercolor,
+    fonttitle=\bfseries,
+    title=#1,
+    breakable,
+    left=5pt,
+    right=5pt,
+    top=5pt,
+    bottom=5pt
+}
+
+%% ============================================
+%% THEOREMS AND DEFINITIONS
+%% ============================================
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{example}{Example}[chapter]
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+%% ============================================
+%% DOCUMENT INFO
+%% ============================================
+
+\title{
+    \vspace{-1.5cm}
+    {\color{chaptercolor}\rule{\linewidth}{2.5pt}}\\[0.8cm]
+    {\Huge\bfseries Quantum Clustering for\\[0.2cm]Image Segmentation}\\[0.5cm]
+    {\Large\itshape A Comprehensive Review}\\[0.8cm]
+    {\color{chaptercolor}\rule{\linewidth}{2.5pt}}
+}
+
+\author{
+    \vspace{0.3cm}
+    {\Large\bfseries Group 10}\\[0.8cm]
+    \normalsize 
+    \begin{tabular}{c}
+        Idjourdikene Lounas \quad $\bullet$ \quad Boukhatem Mohamed Rafik \quad $\bullet$ \quad Karballa Chouaib\\[0.3cm]
+        Miloudi Abdallah Redouane \quad $\bullet$ \quad Khemissa Ahmed
+    \end{tabular}\\[1cm]
+    \normalsize \textbf{Specialty:} Master MIV -- 2025/2026\\[0.3cm]
+    \normalsize \textbf{Supervised by:} Dr. Naoual MEBTOUCHE\\[1cm]
+    \normalsize Faculty of Computer Science\\
+    \normalsize University of Science and Technology Houari Boumediene (USTHB)\\
+    \normalsize Algiers, Algeria
+}
+
+\date{\vspace{0.5cm}\today}
+
+%% ============================================
+%% DOCUMENT BEGINS
+%% ============================================
+
+\begin{document}
+
+% Title page
+\maketitle
+\thispagestyle{empty}
+
+% Front matter
+\frontmatter
+
+% Abstract
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+This report provides a comprehensive review of quantum clustering techniques applied to image segmentation. We explore the fundamental principles of quantum computing, examine how quantum algorithms can enhance traditional clustering methods, and discuss their application to the challenging task of image segmentation. The review covers both theoretical foundations and practical implementations, highlighting the potential advantages of quantum approaches over classical methods.
+
+\vspace{1cm}
+\noindent\textbf{Keywords:} Quantum Computing, Clustering, Image Segmentation, Quantum Machine Learning, NISQ Algorithms
+
+% Table of contents
+\tableofcontents
+
+% List of figures (optional)
+% \listoffigures
+
+% List of tables (optional)
+% \listoftables
+
+% Main matter
+\mainmatter
+
+%% ============================================
+%% INTRODUCTION
+%% ============================================
+
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+
+Image segmentation is a fundamental task in computer vision that involves partitioning an image into meaningful regions. Traditional clustering algorithms like K-means and spectral clustering have been widely used for this purpose, but they face computational challenges with high-dimensional data.
+
+\begin{keyconceptbox}
+Quantum computing offers the potential to process information in fundamentally different ways than classical computers, potentially providing speedups for certain computational tasks including clustering.
+\end{keyconceptbox}
+
+% Add your introduction content here
+
+%% ============================================
+%% CHAPTER 1: THE CLASSICAL PARADIGM
+%% ============================================
+
+\chapter{The Classical Paradigm: Image Segmentation via Clustering}
+
+\section{Fundamentals and Core Definitions: Defining Clustering and the Segmentation Problem}
+
+% Define what clustering is
+% Define the image segmentation problem
+% Explain how clustering relates to segmentation
+
+\subsection{What is Clustering?}
+
+% Content here
+
+\subsection{The Image Segmentation Problem}
+
+% Content here
+
+\subsection{Clustering as a Segmentation Approach}
+
+% Content here
+
+\section{Classical Clustering Architectures: From K-Means to Spectral Graph Theory}
+
+% Review classical clustering methods
+
+\subsection{K-Means Clustering}
+
+K-means is one of the most widely used clustering algorithms.
+
+\begin{algorithm}
+\caption{K-Means Clustering}
+\begin{algorithmic}[1]
+\STATE Initialize $k$ cluster centroids randomly
+\REPEAT
+    \STATE Assign each point to nearest centroid
+    \STATE Update centroids as mean of assigned points
+\UNTIL{convergence}
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Hierarchical Clustering}
+
+% Content here
+
+\subsection{Fuzzy C-Means}
+
+% Content here
+
+\subsection{Spectral Clustering and Graph Theory}
+
+Spectral clustering uses eigenvalues of similarity matrices to perform dimensionality reduction before clustering.
+
+\begin{tipbox}
+Spectral clustering is particularly effective for image segmentation because it can capture non-convex cluster shapes.
+\end{tipbox}
+
+\section{Computational Bottlenecks: The Case for Quantum Advantage}
+
+% Discuss computational challenges
+% Motivate quantum approaches
+% Explain potential quantum advantages
+
+\subsection{Scalability Issues in Classical Methods}
+
+% Content here
+
+\subsection{High-Dimensional Data Challenges}
+
+% Content here
+
+\subsection{Why Quantum Computing?}
+
+% Content here
+
+%% ============================================
+%% CHAPTER 2: QUANTUM CLUSTERING
+%% ============================================
+
+\chapter{Quantum Clustering: A New Frontier in Image Segmentation}
+
+\section{Introduction: Bridging Quantum Mechanics and Computer Vision}
+
+% Introduce quantum computing in the context of computer vision
+% Explain the connection between quantum mechanics and clustering
+
+\subsection{Quantum Computing Basics}
+
+% Brief overview of quantum computing principles
+
+\subsection{The Promise of Quantum Machine Learning}
+
+% Content here
+
+\subsection{Quantum Approaches to Clustering}
+
+% Content here
+
+\section{Approaches to Quantum Image Representation and Processing}
+
+% Discuss how images are represented in quantum systems
+% Review quantum image processing techniques
+
+\subsection{Quantum Image Representation (NEQR, FRQI, etc.)}
+
+% Content here
+
+\begin{example}
+For an $n$-pixel grayscale image, amplitude encoding maps pixel values to amplitudes of a quantum state:
+\begin{equation}
+    \ket{\text{image}} = \frac{1}{\mathcal{N}}\sum_{i=0}^{n-1} p_i \ket{i}
+\end{equation}
+where $p_i$ is the pixel intensity and $\mathcal{N}$ is the normalization factor.
+\end{example}
+
+\subsection{Quantum Image Processing Operations}
+
+% Content here
+
+\subsection{Data Encoding Strategies}
+
+% Content here
+
+\section{Algorithm Review: A Comparative Analysis of Quantum Segmentation Techniques}
+
+% Comprehensive review of quantum clustering algorithms for segmentation
+
+\subsection{Quantum K-Means and Variants}
+
+Quantum versions of K-means leverage quantum speedups in distance calculations.
+
+\begin{warningbox}
+Current quantum hardware (NISQ devices) has limited qubits and high error rates, which constrains practical implementations.
+\end{warningbox}
+
+\subsection{Quantum Spectral Clustering}
+
+Quantum algorithms can potentially speed up eigenvalue computations needed for spectral clustering.
+
+\subsection{Variational Quantum Clustering}
+
+Variational approaches use parameterized quantum circuits that can run on near-term quantum devices.
+
+\subsection{Quantum Fuzzy Clustering}
+
+% Content here
+
+\subsection{Comparative Analysis}
+
+% Table or discussion comparing different approaches
+% Performance metrics
+% Advantages and limitations
+
+%% ============================================
+%% CONCLUSION
+%% ============================================
+
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+
+This report has reviewed quantum clustering approaches for image segmentation, covering:
+
+\begin{itemize}
+    \item Classical clustering paradigms and their computational limitations
+    \item Quantum computing fundamentals and their application to clustering
+    \item Quantum image representation techniques
+    \item State-of-the-art quantum clustering algorithms for segmentation
+\end{itemize}
+
+\section*{Summary of Key Findings}
+
+% Summarize main findings
+
+\section*{Future Directions and Open Challenges}
+
+Key areas for future research include:
+
+\begin{enumerate}
+    \item Development of more noise-resilient quantum algorithms
+    \item Improved quantum image encoding techniques
+    \item Hybrid classical-quantum approaches
+    \item Benchmarking on larger-scale realistic problems
+    \item Practical implementations on near-term quantum devices
+\end{enumerate}
+
+%% ============================================
+%% BACK MATTER
+%% ============================================
+
+\backmatter
+
+% Bibliography
+\bibliographystyle{unsrtnat}
+\bibliography{references}  % References from references.bib
+
+% Appendices
+\appendix
+
+\chapter{Primer on Quantum Information Processing}
+
+\section{Quantum Bits (Qubits)}
+
+Unlike classical bits that exist in states 0 or 1, quantum bits (qubits) can exist in superposition states.
+
+\begin{definitionbox}[Qubit State]
+A qubit state $\ket{\psi}$ can be written as:
+\begin{equation}
+    \ket{\psi} = \alpha\ket{0} + \beta\ket{1}
+\end{equation}
+where $\alpha, \beta \in \mathbb{C}$ and $|\alpha|^2 + |\beta|^2 = 1$.
+\end{definitionbox}
+
+\section{Quantum Gates}
+
+Quantum computation is performed through quantum gates, which are unitary transformations on qubit states.
+
+\begin{notebox}
+Common single-qubit gates include:
+\begin{itemize}
+    \item \textbf{Pauli-X}: Bit flip gate
+    \item \textbf{Hadamard (H)}: Creates superposition
+    \item \textbf{Phase gates}: Add relative phases
+\end{itemize}
+\end{notebox}
+
+\section{Quantum Entanglement}
+
+Entanglement is a uniquely quantum phenomenon where the states of multiple qubits become correlated.
+
+\begin{equation}
+    \ket{\Phi^+} = \frac{1}{\sqrt{2}}(\ket{00} + \ket{11})
+\end{equation}
+
+\section{Quantum Algorithms}
+
+% Overview of key quantum algorithms
+% Grover's algorithm
+% Quantum Fourier Transform
+% HHL algorithm for linear systems
+
+\chapter{Fundamentals of Fuzzy Logic in Segmentation}
+
+\section{Introduction to Fuzzy Sets}
+
+% Basics of fuzzy set theory
+
+\section{Fuzzy C-Means Clustering}
+
+% Detailed explanation of FCM
+
+\section{Fuzzy Logic in Image Segmentation}
+
+% Applications and examples
+
+\section{Quantum Extensions of Fuzzy Clustering}
+
+% How quantum computing enhances fuzzy clustering
+% \chapter{Additional Derivations}
+
+\end{document}
