@@ -1,0 +1,31 @@
+% chapters/algorithms/variational-quantum.tex
+% Variational Quantum Clustering (QAOA, VQE)
+
+\subsection{Variational Quantum Clustering}
+
+Variational approaches use parameterized quantum circuits (PQCs) optimized through hybrid classical-quantum loops.
+
+\subsubsection{Quantum Approximate Optimization Algorithm (QAOA)}
+
+QAOA can be applied to clustering formulated as combinatorial optimization:
+
+\begin{equation}
+    \ket{\psi(\boldsymbol{\gamma}, \boldsymbol{\beta})} = \prod_{p=1}^{P} e^{-i\beta_p H_M} e^{-i\gamma_p H_C} \ket{s}
+\end{equation}
+
+where $H_C$ encodes the clustering objective and $H_M$ is a mixing Hamiltonian.
+
+\subsubsection{Variational Quantum Eigensolver (VQE) for Clustering}
+
+VQE can find the ground state of a Hamiltonian encoding the clustering problem:
+
+\begin{enumerate}
+    \item Define Hamiltonian $H$ such that its ground state encodes optimal clustering
+    \item Prepare parameterized ansatz $\ket{\psi(\boldsymbol{\theta})}$
+    \item Measure $\braket{H} = \braket{\psi(\boldsymbol{\theta})|H|\psi(\boldsymbol{\theta})}$
+    \item Classically optimize $\boldsymbol{\theta}$ to minimize $\braket{H}$
+\end{enumerate}
+
+\begin{tipbox}
+Variational methods are the most promising for near-term quantum devices because they can tolerate noise and work with limited qubit counts. They have been demonstrated on actual quantum hardware for small-scale clustering problems.
+\end{tipbox}

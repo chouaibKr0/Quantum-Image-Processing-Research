@@ -1,0 +1,125 @@
+% appendices/appendix-b-fuzzy-logic.tex
+% Appendix B: Fundamentals of Fuzzy Logic in Segmentation
+
+\chapter{Fundamentals of Fuzzy Logic in Segmentation}
+
+This appendix covers the principles of fuzzy logic and fuzzy clustering, which form the basis for quantum fuzzy clustering algorithms discussed in the main text.
+
+\section{Introduction to Fuzzy Sets}
+
+Classical set theory operates on crisp membership: an element either belongs to a set or it does not. Fuzzy set theory, introduced by Lotfi Zadeh in 1965, extends this to allow partial membership.
+
+\begin{definitionbox}[Fuzzy Set]
+A fuzzy set $A$ in a universe of discourse $X$ is characterized by a membership function:
+\begin{equation}
+    \mu_A: X \rightarrow [0, 1]
+\end{equation}
+where $\mu_A(x)$ represents the degree to which $x$ belongs to $A$.
+\end{definitionbox}
+
+\textbf{Key operations on fuzzy sets:}
+
+\begin{itemize}
+    \item \textbf{Union:} $\mu_{A \cup B}(x) = \max(\mu_A(x), \mu_B(x))$
+    \item \textbf{Intersection:} $\mu_{A \cap B}(x) = \min(\mu_A(x), \mu_B(x))$
+    \item \textbf{Complement:} $\mu_{\bar{A}}(x) = 1 - \mu_A(x)$
+\end{itemize}
+
+\section{Fuzzy C-Means Clustering}
+
+Fuzzy C-Means (FCM), developed by Dunn and later improved by Bezdek, is the most widely used fuzzy clustering algorithm.
+
+\begin{definitionbox}[FCM Objective Function]
+FCM minimizes:
+\begin{equation}
+    J_m(U, V) = \sum_{i=1}^{n} \sum_{j=1}^{c} u_{ij}^m \|x_i - v_j\|^2
+\end{equation}
+subject to:
+\begin{equation}
+    \sum_{j=1}^{c} u_{ij} = 1 \quad \forall i, \quad u_{ij} \geq 0
+\end{equation}
+where:
+\begin{itemize}
+    \item $u_{ij}$ is the membership degree of point $x_i$ in cluster $j$
+    \item $v_j$ is the center of cluster $j$
+    \item $m > 1$ is the fuzziness parameter (typically $m = 2$)
+\end{itemize}
+\end{definitionbox}
+
+\textbf{Update equations:}
+
+\begin{equation}
+    u_{ij} = \frac{1}{\sum_{k=1}^{c} \left(\frac{d_{ij}}{d_{ik}}\right)^{\frac{2}{m-1}}}
+\end{equation}
+
+\begin{equation}
+    v_j = \frac{\sum_{i=1}^{n} u_{ij}^m x_i}{\sum_{i=1}^{n} u_{ij}^m}
+\end{equation}
+
+where $d_{ij} = \|x_i - v_j\|$.
+
+\begin{notebox}
+The parameter $m$ controls the degree of fuzziness:
+\begin{itemize}
+    \item As $m \rightarrow 1$: FCM approaches hard K-means
+    \item As $m \rightarrow \infty$: All memberships approach $1/c$ (maximum fuzziness)
+    \item Typical choice: $m = 2$
+\end{itemize}
+\end{notebox}
+
+\section{Fuzzy Logic in Image Segmentation}
+
+Fuzzy clustering is particularly well-suited for image segmentation because:
+
+\begin{enumerate}
+    \item \textbf{Gradual boundaries:} Real images often have smooth transitions between regions
+    \item \textbf{Uncertainty handling:} Noise and ambiguous pixels can be represented with partial membership
+    \item \textbf{Robustness:} Less sensitive to outliers than hard clustering
+\end{enumerate}
+
+\textbf{Applications in medical imaging:}
+
+\begin{itemize}
+    \item Brain MRI segmentation (gray matter, white matter, CSF)
+    \item Tumor boundary detection
+    \item Organ segmentation in CT scans
+\end{itemize}
+
+\textbf{Extensions for image segmentation:}
+
+\begin{itemize}
+    \item \textbf{Spatial FCM:} Incorporates neighborhood information
+    \item \textbf{Kernel FCM:} Uses kernel functions for non-linear boundaries
+    \item \textbf{Type-2 Fuzzy FCM:} Handles uncertainty in membership functions
+\end{itemize}
+
+\section{Quantum Extensions of Fuzzy Clustering}
+
+Quantum computing can enhance fuzzy clustering in several ways:
+
+\subsection{Quantum Speedup for Distance Calculations}
+
+The membership update requires computing distances from each point to all centroids. Quantum amplitude encoding and the swap test can accelerate this:
+
+\begin{equation}
+    d_{ij}^2 = \|x_i\|^2 + \|v_j\|^2 - 2\braket{x_i|v_j}
+\end{equation}
+
+The inner product $\braket{x_i|v_j}$ can be estimated quantumly in $O(\log d)$ time.
+
+\subsection{Quantum Optimization for Cluster Centers}
+
+The centroid update can be formulated as a weighted least squares problem:
+\begin{equation}
+    v_j = \arg\min_v \sum_{i=1}^{n} u_{ij}^m \|x_i - v\|^2
+\end{equation}
+
+Quantum algorithms for linear systems (HHL) can potentially solve this more efficiently.
+
+\subsection{Grover Search for Membership Assignment}
+
+Finding the cluster with maximum membership for defuzzification can use Grover's search for quadratic speedup.
+
+\begin{tipbox}
+Quantum fuzzy clustering combines the interpretability of fuzzy methods with quantum computational advantages. This is particularly promising for medical image segmentation where both accuracy and interpretability are crucial.
+\end{tipbox}

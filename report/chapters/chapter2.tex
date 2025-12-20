@@ -1,0 +1,145 @@
+% chapters/chapter2.tex
+% Chapter 2: Quantum Clustering - Main file that includes algorithm subsections
+
+\chapter{Quantum Clustering: A New Frontier in Image Segmentation}
+
+\section{Introduction: Bridging Quantum Mechanics and Computer Vision}
+
+The intersection of quantum computing and computer vision represents an emerging field with significant potential for advancing image segmentation capabilities. This chapter explores how quantum mechanical principles can be leveraged to develop more efficient clustering algorithms for image analysis.
+
+Quantum computing fundamentally differs from classical computing in its ability to exploit quantum mechanical phenomena—superposition, entanglement, and interference—to process information. These properties enable quantum algorithms to explore solution spaces in ways that are impossible for classical computers.
+
+\begin{keyconceptbox}[Quantum Computing for Clustering]
+The key insight driving quantum clustering research is that many clustering problems can be reformulated as:
+\begin{itemize}
+    \item Distance estimation problems (quantum advantage via amplitude encoding)
+    \item Eigenvalue problems (quantum advantage via quantum phase estimation)
+    \item Optimization problems (quantum advantage via QAOA or quantum annealing)
+\end{itemize}
+\end{keyconceptbox}
+
+\subsection{The NISQ Era and Its Implications}
+
+Current quantum computers operate in the Noisy Intermediate-Scale Quantum (NISQ) era, characterized by:
+
+\begin{itemize}
+    \item \textbf{Limited qubit counts:} Typically 50-1000 qubits
+    \item \textbf{High error rates:} Gate errors of $10^{-3}$ to $10^{-2}$
+    \item \textbf{Limited coherence times:} Microseconds to milliseconds
+    \item \textbf{Restricted connectivity:} Not all qubits can interact directly
+\end{itemize}
+
+\begin{warningbox}
+These limitations mean that theoretically optimal quantum algorithms may not be practical on current hardware. Much research focuses on variational and hybrid classical-quantum approaches that are more noise-tolerant.
+\end{warningbox}
+
+\subsection{From Classical to Quantum: Key Transformations}
+
+Applying quantum computing to image segmentation requires several key transformations:
+
+\begin{enumerate}
+    \item \textbf{Data encoding:} Converting classical image data into quantum states
+    \item \textbf{Algorithm design:} Developing quantum circuits that perform clustering operations
+    \item \textbf{Measurement and interpretation:} Extracting classical cluster assignments from quantum measurements
+\end{enumerate}
+
+\section{Approaches to Quantum Image Representation and Processing}
+
+A fundamental challenge in quantum image processing is encoding classical image data into quantum states. Several representations have been proposed, each with distinct advantages for different applications.
+
+\subsection{Flexible Representation of Quantum Images (FRQI)}
+
+FRQI encodes a $2^n \times 2^n$ grayscale image using $2n + 1$ qubits:
+
+\begin{definitionbox}[FRQI Representation]
+\begin{equation}
+    \ket{\text{FRQI}} = \frac{1}{2^n} \sum_{i=0}^{2^{2n}-1} \left(\cos\theta_i\ket{0} + \sin\theta_i\ket{1}\right) \otimes \ket{i}
+\end{equation}
+where $\theta_i \in [0, \pi/2]$ encodes the grayscale value of pixel $i$, and $\ket{i}$ encodes the pixel position.
+\end{definitionbox}
+
+\textbf{Advantages:}
+\begin{itemize}
+    \item Compact representation: $2n + 1$ qubits for $2^{2n}$ pixels
+    \item Natural encoding for grayscale images
+\end{itemize}
+
+\textbf{Limitations:}
+\begin{itemize}
+    \item Complex state preparation requiring $O(2^{2n})$ gates
+    \item Limited grayscale precision (single qubit for intensity)
+\end{itemize}
+
+\subsection{Novel Enhanced Quantum Representation (NEQR)}
+
+NEQR improves upon FRQI by using a basis encoding for pixel intensities:
+
+\begin{definitionbox}[NEQR Representation]
+\begin{equation}
+    \ket{\text{NEQR}} = \frac{1}{2^n} \sum_{y=0}^{2^n-1} \sum_{x=0}^{2^n-1} \ket{f(y,x)}\ket{yx}
+\end{equation}
+where $\ket{f(y,x)} = \ket{c_0^{yx}c_1^{yx}\ldots c_{q-1}^{yx}}$ is the $q$-bit binary representation of the grayscale value at position $(y,x)$.
+\end{definitionbox}
+
+\textbf{Advantages:}
+\begin{itemize}
+    \item Higher precision: $q$ bits for intensity values (e.g., $q=8$ for 256 levels)
+    \item Simpler image operations through bit-level manipulations
+    \item More efficient for certain quantum image processing operations
+\end{itemize}
+
+\subsection{Amplitude Encoding for Feature Vectors}
+
+For clustering applications, amplitude encoding is particularly important as it allows efficient representation of high-dimensional feature vectors:
+
+\begin{definitionbox}[Amplitude Encoding]
+A normalized vector $\mathbf{x} = (x_0, x_1, \ldots, x_{N-1})^T$ with $\|\mathbf{x}\| = 1$ can be encoded as:
+\begin{equation}
+    \ket{\mathbf{x}} = \sum_{i=0}^{N-1} x_i \ket{i}
+\end{equation}
+requiring only $\lceil\log_2 N\rceil$ qubits to represent $N$ amplitudes.
+\end{definitionbox}
+
+\begin{tipbox}
+Amplitude encoding enables exponential compression: a feature vector with $N = 2^n$ components requires only $n$ qubits. This is crucial for encoding high-dimensional image features efficiently.
+\end{tipbox}
+
+\subsection{Quantum Distance Estimation}
+
+A key operation for clustering is computing distances between data points. Quantum computers can estimate distances using the swap test:
+
+\begin{equation}
+    |\braket{\mathbf{x}|\mathbf{y}}|^2 = 1 - \frac{d(\mathbf{x}, \mathbf{y})^2}{2}
+\end{equation}
+
+where $d(\mathbf{x}, \mathbf{y})$ is the Euclidean distance between normalized vectors.
+
+The swap test circuit measures the overlap between two quantum states with $O(1)$ quantum operations (after state preparation), compared to $O(d)$ classical operations for $d$-dimensional vectors.
+
+\section{A Comprehensive Review of Quantum Segmentation Algorithms}
+
+This section provides a detailed analysis of quantum clustering algorithms that have been proposed for image segmentation, comparing their approaches, theoretical advantages, and practical limitations.
+
+%% Include individual algorithm files
+%% Each algorithm is in its own file for parallel editing
+
+\input{chapters/algorithms/quantum-kmeans}
+
+\input{chapters/algorithms/quantum-spectral}
+
+\input{chapters/algorithms/variational-quantum}
+
+\input{chapters/algorithms/quantum-fuzzy}
+
+\input{chapters/algorithms/comparative-analysis}
+
+%% ==============================================
+%% HOW TO ADD A NEW ALGORITHM:
+%% ==============================================
+%% 1. Create a new file in chapters/algorithms/ (e.g., quantum-newmethod.tex)
+%% 2. Start the file with \subsection{Your Algorithm Name}
+%% 3. Add your content (subsubsections, equations, boxes, etc.)
+%% 4. Add an \input line above this comment block:
+%%    \input{chapters/algorithms/quantum-newmethod}
+%% 5. Update the comparative analysis table in comparative-analysis.tex
+%% ==============================================

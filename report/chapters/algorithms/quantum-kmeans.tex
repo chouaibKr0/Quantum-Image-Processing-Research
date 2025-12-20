@@ -1,0 +1,39 @@
+% chapters/algorithms/quantum-kmeans.tex
+% Quantum K-Means and Variants
+
+\subsection{Quantum K-Means and Variants}
+
+Quantum versions of K-means leverage quantum speedups in distance calculations and centroid updates.
+
+\subsubsection{q-Means Algorithm}
+
+The q-means algorithm, proposed by Kerenidis et al. (2019), achieves exponential speedup over classical K-means under certain conditions:
+
+\begin{algorithm}
+\caption{q-Means Algorithm (Simplified)}
+\begin{algorithmic}[1]
+\STATE \textbf{Input:} Quantum access to data matrix $V \in \mathbb{R}^{n \times d}$, number of clusters $k$
+\STATE Initialize centroids using quantum sampling
+\REPEAT
+    \STATE Use quantum distance estimation to find nearest centroid for each point
+    \STATE Update centroids using quantum linear algebra
+\UNTIL{convergence}
+\STATE \textbf{Output:} Cluster assignments
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Complexity:} $O\left(k^2 d \frac{\eta^{2.5}}{\delta^2} \text{polylog}(nd)\right)$ per iteration, where $\eta$ is a condition number and $\delta$ is the desired precision.
+
+\begin{warningbox}
+Current quantum hardware (NISQ devices) has limited qubits and high error rates, which constrains practical implementations. The q-means algorithm requires fault-tolerant quantum computers with quantum RAM (qRAM), which are not yet available.
+\end{warningbox}
+
+\subsubsection{Variational Quantum K-Means}
+
+For NISQ devices, variational approaches are more practical:
+
+\begin{enumerate}
+    \item Encode data points using parameterized quantum circuits
+    \item Use a variational classifier to assign cluster labels
+    \item Optimize circuit parameters using classical optimization
+\end{enumerate}

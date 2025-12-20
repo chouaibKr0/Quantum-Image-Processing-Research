@@ -1,0 +1,430 @@
+% Quantum Clustering for Image Segmentation - University Report
+% O'Reilly Modern Style LaTeX Template
+%
+% MODULAR STRUCTURE:
+% - main.tex (this file) - preamble and document structure
+% - chapters/abstract.tex
+% - chapters/conventions.tex
+% - chapters/introduction.tex
+% - chapters/chapter1.tex
+% - chapters/chapter2.tex (includes algorithm files)
+%   - chapters/algorithms/quantum-kmeans.tex
+%   - chapters/algorithms/quantum-spectral.tex
+%   - chapters/algorithms/variational-quantum.tex
+%   - chapters/algorithms/quantum-fuzzy.tex
+%   - chapters/algorithms/comparative-analysis.tex
+% - chapters/conclusion.tex
+% - appendices/appendix-a-quantum-primer.tex
+% - appendices/appendix-b-fuzzy-logic.tex
+%
+\documentclass[11pt,a4paper,oneside]{book}
+
+%% ============================================
+%% PACKAGES
+%% ============================================
+
+% Encoding and fonts
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[sfdefault,light]{FiraSans}  % Modern sans-serif for headings (O'Reilly style)
+\usepackage{sourceserifpro}              % Serif font for body text
+\usepackage{inconsolata}                 % Monospace font for code
+\usepackage{microtype}                   % Better typography
+\usepackage{fontawesome5}                % Icons for callout boxes
+
+% Page layout
+\usepackage[
+    top=2.5cm,
+    bottom=3cm,
+    left=2.5cm,
+    right=2.5cm,
+    headheight=14pt,
+    footskip=1.5cm
+]{geometry}
+
+% Colors (O'Reilly-inspired palette)
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\definecolor{chaptercolor}{RGB}{204, 102, 0}      % O'Reilly dark orange
+\definecolor{sectioncolor}{RGB}{51, 51, 51}       % Dark gray
+\definecolor{linkcolor}{RGB}{0, 119, 181}         % O'Reilly blue
+\definecolor{codebackground}{RGB}{245, 245, 245}  % Light gray for code
+\definecolor{codeborder}{RGB}{230, 230, 230}      % Border for code blocks
+\definecolor{tipcolor}{RGB}{0, 128, 128}          % Teal for tips
+\definecolor{warningcolor}{RGB}{204, 102, 0}      % Orange for warnings
+\definecolor{notecolor}{RGB}{50, 115, 220}        % Blue for notes
+\definecolor{cautioncolor}{RGB}{201, 42, 42}      % Red for caution
+\definecolor{lightgray}{RGB}{248, 249, 250}       % Very light gray background
+
+% Graphics and figures
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+
+% Math and physics
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{braket}                     % Dirac notation for quantum states
+\usepackage{physics}                    % Physics notation shortcuts
+\usepackage{qcircuit}                   % Quantum circuits (optional)
+
+% Tables
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{colortbl}
+
+% Table of contents styling
+\usepackage{tocloft}
+\renewcommand{\cftchapfont}{\sffamily\bfseries\color{sectioncolor}}
+\renewcommand{\cftsecfont}{\sffamily}
+\renewcommand{\cftsubsecfont}{\sffamily\small}
+\renewcommand{\cftchappagefont}{\sffamily\bfseries\color{sectioncolor}}
+\renewcommand{\cftsecpagefont}{\sffamily}
+\renewcommand{\cftsubsecpagefont}{\sffamily\small}
+
+% Code listings - O'Reilly style
+\usepackage{listings}
+\lstset{
+    backgroundcolor=\color{codebackground},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{codeborder},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{chaptercolor}\bfseries,
+    commentstyle=\color{tipcolor},
+    stringstyle=\color{warningcolor},
+    showstringspaces=false,
+    tabsize=4,
+    xleftmargin=15pt,
+    framexleftmargin=15pt,
+    framesep=5pt,
+    framerule=0pt
+}
+
+% Algorithms
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% Bibliography
+\usepackage[numbers,sort&compress]{natbib}
+
+% Hyperlinks (load last among most packages)
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=linkcolor,
+    citecolor=linkcolor,
+    urlcolor=linkcolor,
+    pdftitle={Quantum Clustering for Image Segmentation},
+    pdfauthor={Group 10},
+}
+
+% Fancy headers and footers - O'Reilly style (minimal header, clean footer)
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+% No header
+\renewcommand{\headrulewidth}{0pt}
+% Footer: line above, page number | chapter/section on right
+\renewcommand{\footrulewidth}{0.5pt}
+\fancyfoot[R]{\footnotesize\thepage\ \textbar\ \nouppercase{\leftmark}}
+\fancyfoot[L]{}
+
+% Redefine plain style for chapter pages
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0.5pt}
+    \fancyfoot[R]{\footnotesize\thepage}
+}
+
+%% ============================================
+%% CUSTOM STYLING (O'Reilly Modern Style)
+%% ============================================
+
+% Chapter styling - O'Reilly distinctive style
+\usepackage{titlesec}
+
+% Modern O'Reilly chapter style with large number
+\titleformat{\chapter}[display]
+    {\normalfont\sffamily}
+    {\flushright\fontsize{72}{72}\selectfont\color{chaptercolor!30}\thechapter}
+    {-20pt}
+    {\huge\bfseries\color{chaptercolor}\filright}
+    [\vspace{10pt}{\color{chaptercolor}\titlerule[2pt]}]
+\titlespacing*{\chapter}{0pt}{30pt}{40pt}
+
+% Section styling
+\titleformat{\section}
+    {\normalfont\sffamily\Large\bfseries\color{sectioncolor}}
+    {\thesection}
+    {1em}
+    {}
+
+\titleformat{\subsection}
+    {\normalfont\sffamily\large\bfseries\color{sectioncolor}}
+    {\thesubsection}
+    {1em}
+    {}
+
+\titleformat{\subsubsection}
+    {\normalfont\sffamily\normalsize\bfseries\color{sectioncolor}}
+    {\thesubsubsection}
+    {1em}
+    {}
+
+%% ============================================
+%% CUSTOM ENVIRONMENTS (O'Reilly-style callout boxes with icons)
+%% ============================================
+
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable,hooks}
+
+% Note box - with bird icon (O'Reilly style)
+\newtcolorbox{notebox}[1][Note]{
+    enhanced,
+    colback=notecolor!5,
+    colframe=notecolor!20,
+    coltitle=notecolor,
+    fonttitle=\sffamily\bfseries,
+    title={\faIcon{sticky-note}\hspace{8pt}#1},
+    breakable,
+    left=12pt,
+    right=12pt,
+    top=8pt,
+    bottom=8pt,
+    boxrule=0pt,
+    borderline west={3pt}{0pt}{notecolor},
+    arc=0pt,
+    outer arc=0pt
+}
+
+% Tip box - with lightbulb icon
+\newtcolorbox{tipbox}[1][Tip]{
+    enhanced,
+    colback=tipcolor!5,
+    colframe=tipcolor!20,
+    coltitle=tipcolor,
+    fonttitle=\sffamily\bfseries,
+    title={\faIcon{lightbulb}\hspace{8pt}#1},
+    breakable,
+    left=12pt,
+    right=12pt,
+    top=8pt,
+    bottom=8pt,
+    boxrule=0pt,
+    borderline west={3pt}{0pt}{tipcolor},
+    arc=0pt,
+    outer arc=0pt
+}
+
+% Warning box - with exclamation icon
+\newtcolorbox{warningbox}[1][Warning]{
+    enhanced,
+    colback=warningcolor!5,
+    colframe=warningcolor!20,
+    coltitle=warningcolor,
+    fonttitle=\sffamily\bfseries,
+    title={\faIcon{exclamation-triangle}\hspace{8pt}#1},
+    breakable,
+    left=12pt,
+    right=12pt,
+    top=8pt,
+    bottom=8pt,
+    boxrule=0pt,
+    borderline west={3pt}{0pt}{warningcolor},
+    arc=0pt,
+    outer arc=0pt
+}
+
+% Caution box - with fire icon (for serious warnings)
+\newtcolorbox{cautionbox}[1][Caution]{
+    enhanced,
+    colback=cautioncolor!5,
+    colframe=cautioncolor!20,
+    coltitle=cautioncolor,
+    fonttitle=\sffamily\bfseries,
+    title={\faIcon{fire}\hspace{8pt}#1},
+    breakable,
+    left=12pt,
+    right=12pt,
+    top=8pt,
+    bottom=8pt,
+    boxrule=0pt,
+    borderline west={3pt}{0pt}{cautioncolor},
+    arc=0pt,
+    outer arc=0pt
+}
+
+% Definition box - with book icon
+\newtcolorbox{definitionbox}[1][Definition]{
+    enhanced,
+    colback=gray!5,
+    colframe=gray!20,
+    coltitle=sectioncolor,
+    fonttitle=\sffamily\bfseries,
+    title={\faIcon{book}\hspace{8pt}#1},
+    breakable,
+    left=12pt,
+    right=12pt,
+    top=8pt,
+    bottom=8pt,
+    boxrule=0pt,
+    borderline west={3pt}{0pt}{gray!60},
+    arc=0pt,
+    outer arc=0pt
+}
+
+% Key concept box - with key icon
+\newtcolorbox{keyconceptbox}[1][Key Concept]{
+    enhanced,
+    colback=chaptercolor!5,
+    colframe=chaptercolor!20,
+    coltitle=chaptercolor,
+    fonttitle=\sffamily\bfseries,
+    title={\faIcon{key}\hspace{8pt}#1},
+    breakable,
+    left=12pt,
+    right=12pt,
+    top=8pt,
+    bottom=8pt,
+    boxrule=0pt,
+    borderline west={3pt}{0pt}{chaptercolor},
+    arc=0pt,
+    outer arc=0pt
+}
+
+% Example box - with code icon
+\newtcolorbox{examplebox}[1][Example]{
+    enhanced,
+    colback=lightgray,
+    colframe=gray!30,
+    coltitle=sectioncolor,
+    fonttitle=\sffamily\bfseries,
+    title={\faIcon{code}\hspace{8pt}#1},
+    breakable,
+    left=12pt,
+    right=12pt,
+    top=8pt,
+    bottom=8pt,
+    boxrule=0pt,
+    borderline west={3pt}{0pt}{sectioncolor},
+    arc=0pt,
+    outer arc=0pt
+}
+
+%% ============================================
+%% THEOREMS AND DEFINITIONS
+%% ============================================
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{example}{Example}[chapter]
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+%% ============================================
+%% DOCUMENT INFO
+%% ============================================
+
+\title{
+    \vspace{-1cm}
+    {\color{chaptercolor}\rule{\linewidth}{3pt}}\\[1cm]
+    {\fontsize{32}{38}\selectfont\sffamily\bfseries\color{chaptercolor}Quantum Clustering for\\[0.3cm]Image Segmentation}\\[0.8cm]
+    {\Large\sffamily\color{sectioncolor}A Comprehensive Review}\\[1cm]
+    {\color{chaptercolor}\rule{\linewidth}{3pt}}
+}
+
+\author{
+    \vspace{0.5cm}
+    {\Large\sffamily\bfseries\color{chaptercolor}Group 10}\\[1cm]
+    \normalsize\rmfamily
+    \begin{tabular}{c}
+        Idjourdikene Lounas \quad $\bullet$ \quad Boukhatem Mohamed Rafik \quad $\bullet$ \quad Karballa Chouaib\\[0.4cm]
+        Miloudi Abdallah Redouane \quad $\bullet$ \quad Khemissa Ahmed
+    \end{tabular}\\[1.2cm]
+    {\sffamily\color{sectioncolor}\textbf{Specialty:}} Master MIV -- 2025/2026\\[0.4cm]
+    {\sffamily\color{sectioncolor}\textbf{Supervised by:}} Dr. Naoual MEBTOUCHE\\[1.2cm]
+    \normalsize Faculty of Computer Science\\[0.2cm]
+    \normalsize University of Science and Technology Houari Boumediene (USTHB)\\[0.2cm]
+    \normalsize Algiers, Algeria
+}
+
+\date{\vspace{0.8cm}\sffamily\today}
+
+%% ============================================
+%% DOCUMENT BEGINS
+%% ============================================
+
+\begin{document}
+
+% Title page
+\maketitle
+\thispagestyle{empty}
+
+% Front matter
+\frontmatter
+
+% Abstract
+\input{chapters/abstract}
+
+% Conventions Used in This Report
+\input{chapters/conventions}
+
+% Table of contents - styled
+\clearpage
+\tableofcontents
+\thispagestyle{plain}
+
+% List of figures (optional)
+% \listoffigures
+
+% List of tables (optional)
+% \listoftables
+
+% Main matter
+\mainmatter
+
+%% ============================================
+%% MAIN CONTENT - Each in separate file
+%% ============================================
+
+% Introduction
+\input{chapters/introduction}
+
+% Chapter 1: Classical Paradigm
+\input{chapters/chapter1}
+
+% Chapter 2: Quantum Clustering (includes algorithm subsections)
+\input{chapters/chapter2}
+
+% Conclusion
+\input{chapters/conclusion}
+
+%% ============================================
+%% BACK MATTER
+%% ============================================
+
+\backmatter
+
+% Bibliography
+\bibliographystyle{unsrtnat}
+\bibliography{references}
+
+% Appendices
+\appendix
+
+% Appendix A: Quantum Primer
+\input{appendices/appendix-a-quantum-primer}
+
+% Appendix B: Fuzzy Logic
+\input{appendices/appendix-b-fuzzy-logic}
+
+\end{document}

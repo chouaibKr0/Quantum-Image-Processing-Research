@@ -1,0 +1,32 @@
+% chapters/algorithms/quantum-spectral.tex
+% Quantum Spectral Clustering
+
+\subsection{Quantum Spectral Clustering}
+
+Quantum spectral clustering leverages quantum algorithms for eigenvalue problems, potentially offering exponential speedup for the most computationally intensive step.
+
+\subsubsection{Quantum Principal Component Analysis (qPCA)}
+
+qPCA, based on the HHL algorithm, can be used to find the principal eigenvectors of the Laplacian matrix:
+
+\begin{enumerate}
+    \item Prepare the density matrix $\rho = \frac{L}{\text{tr}(L)}$
+    \item Apply quantum phase estimation to extract eigenvalues
+    \item Sample from the eigenvector subspace
+\end{enumerate}
+
+\textbf{Theoretical complexity:} $O(\text{polylog}(n))$ compared to $O(n^3)$ classically.
+
+\subsubsection{Quantum Normalized Cuts}
+
+The normalized cut problem can be formulated as a quadratic unconstrained binary optimization (QUBO) problem, suitable for quantum annealers:
+
+\begin{equation}
+    \min_{\mathbf{x} \in \{0,1\}^n} \mathbf{x}^T Q \mathbf{x}
+\end{equation}
+
+where $Q$ encodes the normalized cut objective.
+
+\begin{notebox}
+D-Wave quantum annealers have been used to solve small-scale normalized cut problems, demonstrating proof-of-concept for quantum image segmentation.
+\end{notebox}

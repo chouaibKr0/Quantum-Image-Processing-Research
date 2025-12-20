@@ -1,0 +1,28 @@
+% chapters/algorithms/quantum-fuzzy.tex
+% Quantum Fuzzy Clustering
+
+\subsection{Quantum Fuzzy Clustering}
+
+Quantum extensions of fuzzy C-means combine the benefits of soft clustering with quantum speedups.
+
+\subsubsection{Quantum Fuzzy C-Means (QFCM)}
+
+QFCM uses quantum parallelism to compute membership degrees and update cluster centers:
+
+\begin{enumerate}
+    \item Encode membership matrix in quantum state
+    \item Use quantum arithmetic to compute weighted distances
+    \item Apply Grover's search to find optimal membership assignments
+\end{enumerate}
+
+\textbf{Potential speedup:} Quadratic improvement in the number of data points due to Grover's algorithm.
+
+\subsubsection{Quantum-Inspired Fuzzy Clustering}
+
+Even without full quantum hardware, quantum-inspired algorithms on classical computers can improve fuzzy clustering:
+
+\begin{itemize}
+    \item Tensor network representations for efficient computation
+    \item Quantum sampling techniques for initialization
+    \item Amplitude estimation-inspired distance calculations
+\end{itemize}

@@ -1,6 +1,7 @@
 # Makefile for LaTeX Report Compilation
+# Updated for modular document structure
 
-MAIN = main
+MAIN = main-modular
 LATEX = pdflatex
 BIBTEX = bibtex
 
