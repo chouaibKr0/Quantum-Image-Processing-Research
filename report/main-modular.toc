@@ -102,25 +102,25 @@
 \contentsline {paragraph}{Medium-Term (3-7 Years)}{37}{table.caption.11}%
 \contentsline {paragraph}{Long-Term (7+ Years)}{37}{table.caption.11}%
 \contentsline {chapter}{Conclusion}{38}{chapter*.12}%
-\contentsline {chapter}{Primer on Quantum Information Processing}{42}{appendix*.14}%
-\contentsline {section}{\numberline {.1}From Classical to Quantum}{42}{section.Alph0.1}%
-\contentsline {section}{\numberline {.2}Quantum Bits (Qubits)}{42}{section.Alph0.2}%
-\contentsline {section}{\numberline {.3}Superposition}{43}{section.Alph0.3}%
-\contentsline {section}{\numberline {.4}Quantum Gates}{43}{section.Alph0.4}%
-\contentsline {section}{\numberline {.5}Quantum Entanglement}{44}{section.Alph0.5}%
-\contentsline {section}{\numberline {.6}Quantum Measurement}{45}{section.Alph0.6}%
-\contentsline {section}{\numberline {.7}Quantum Algorithms}{45}{section.Alph0.7}%
-\contentsline {subsection}{\numberline {.7.1}Grover's Search Algorithm}{45}{subsection.Alph0.7.1}%
-\contentsline {subsection}{\numberline {.7.2}Quantum Phase Estimation}{45}{subsection.Alph0.7.2}%
-\contentsline {subsection}{\numberline {.7.3}HHL Algorithm for Linear Systems}{45}{subsection.Alph0.7.3}%
-\contentsline {subsection}{\numberline {.7.4}Shor's Algorithm}{46}{subsection.Alph0.7.4}%
-\contentsline {subsection}{\numberline {.7.5}Quantum Fourier Transform (QFT)}{46}{subsection.Alph0.7.5}%
-\contentsline {subsection}{\numberline {.7.6}Variational Quantum Eigensolver (VQE)}{46}{subsection.Alph0.7.6}%
-\contentsline {chapter}{Fundamentals of Fuzzy Logic in Segmentation}{47}{appendix*.15}%
-\contentsline {section}{\numberline {.8}Introduction to Fuzzy Sets}{47}{section.Alph0.8}%
-\contentsline {section}{\numberline {.9}Fuzzy C-Means Clustering}{47}{section.Alph0.9}%
-\contentsline {section}{\numberline {.10}Fuzzy Logic in Image Segmentation}{48}{section.Alph0.10}%
-\contentsline {section}{\numberline {.11}Quantum Extensions of Fuzzy Clustering}{48}{section.Alph0.11}%
-\contentsline {subsection}{\numberline {.11.1}Quantum Speedup for Distance Calculations}{49}{subsection.Alph0.11.1}%
-\contentsline {subsection}{\numberline {.11.2}Quantum Optimization for Cluster Centers}{49}{subsection.Alph0.11.2}%
-\contentsline {subsection}{\numberline {.11.3}Grover Search for Membership Assignment}{49}{subsection.Alph0.11.3}%
+\contentsline {chapter}{Primer on Quantum Information Processing}{43}{appendix*.14}%
+\contentsline {section}{\numberline {.1}From Classical to Quantum}{43}{section.Alph0.1}%
+\contentsline {section}{\numberline {.2}Quantum Bits (Qubits)}{43}{section.Alph0.2}%
+\contentsline {section}{\numberline {.3}Superposition}{44}{section.Alph0.3}%
+\contentsline {section}{\numberline {.4}Quantum Gates}{44}{section.Alph0.4}%
+\contentsline {section}{\numberline {.5}Quantum Entanglement}{45}{section.Alph0.5}%
+\contentsline {section}{\numberline {.6}Quantum Measurement}{46}{section.Alph0.6}%
+\contentsline {section}{\numberline {.7}Quantum Algorithms}{46}{section.Alph0.7}%
+\contentsline {subsection}{\numberline {.7.1}Grover's Search Algorithm}{46}{subsection.Alph0.7.1}%
+\contentsline {subsection}{\numberline {.7.2}Quantum Phase Estimation}{46}{subsection.Alph0.7.2}%
+\contentsline {subsection}{\numberline {.7.3}HHL Algorithm for Linear Systems}{46}{subsection.Alph0.7.3}%
+\contentsline {subsection}{\numberline {.7.4}Shor's Algorithm}{47}{subsection.Alph0.7.4}%
+\contentsline {subsection}{\numberline {.7.5}Quantum Fourier Transform (QFT)}{47}{subsection.Alph0.7.5}%
+\contentsline {subsection}{\numberline {.7.6}Variational Quantum Eigensolver (VQE)}{47}{subsection.Alph0.7.6}%
+\contentsline {chapter}{Fundamentals of Fuzzy Logic in Segmentation}{48}{appendix*.15}%
+\contentsline {section}{\numberline {.8}Introduction to Fuzzy Sets}{48}{section.Alph0.8}%
+\contentsline {section}{\numberline {.9}Fuzzy C-Means Clustering}{48}{section.Alph0.9}%
+\contentsline {section}{\numberline {.10}Fuzzy Logic in Image Segmentation}{49}{section.Alph0.10}%
+\contentsline {section}{\numberline {.11}Quantum Extensions of Fuzzy Clustering}{49}{section.Alph0.11}%
+\contentsline {subsection}{\numberline {.11.1}Quantum Speedup for Distance Calculations}{50}{subsection.Alph0.11.1}%
+\contentsline {subsection}{\numberline {.11.2}Quantum Optimization for Cluster Centers}{50}{subsection.Alph0.11.2}%
+\contentsline {subsection}{\numberline {.11.3}Grover Search for Membership Assignment}{50}{subsection.Alph0.11.3}%

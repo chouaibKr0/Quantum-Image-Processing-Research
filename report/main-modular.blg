@@ -4,45 +4,45 @@ The top-level auxiliary file: main-modular.aux
 The style file: unsrtnat.bst
 Database file #1: references.bib
 Warning--empty journal in dwave2020
-You've used 15 entries,
+You've used 31 entries,
             2481 wiz_defined-function locations,
-            655 strings with 7201 characters,
-and the built_in function-call counts, 5809 in all, are:
-= -- 521
-> -- 253
-< -- 13
-+ -- 102
-- -- 72
-* -- 431
-:= -- 917
-add.period$ -- 55
-call.type$ -- 15
-change.case$ -- 30
-chr.to.int$ -- 15
-cite$ -- 16
-duplicate$ -- 298
-empty$ -- 544
-format.name$ -- 96
-if$ -- 1244
+            765 strings with 10156 characters,
+and the built_in function-call counts, 12549 in all, are:
+= -- 1126
+> -- 595
+< -- 20
++ -- 232
+- -- 170
+* -- 995
+:= -- 1994
+add.period$ -- 120
+call.type$ -- 31
+change.case$ -- 62
+chr.to.int$ -- 31
+cite$ -- 32
+duplicate$ -- 616
+empty$ -- 1145
+format.name$ -- 218
+if$ -- 2677
 int.to.chr$ -- 1
-int.to.str$ -- 16
-missing$ -- 14
-newline$ -- 92
-num.names$ -- 45
-pop$ -- 115
+int.to.str$ -- 32
+missing$ -- 30
+newline$ -- 188
+num.names$ -- 93
+pop$ -- 222
 preamble$ -- 1
-purify$ -- 15
+purify$ -- 31
 quote$ -- 0
-skip$ -- 185
+skip$ -- 369
 stack$ -- 0
-substring$ -- 274
-swap$ -- 47
-text.length$ -- 4
+substring$ -- 632
+swap$ -- 91
+text.length$ -- 6
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 105
+type$ -- 217
 warning$ -- 1
-while$ -- 53
+while$ -- 112
 width$ -- 0
-write$ -- 219
+write$ -- 459
 (There was 1 warning)
