@@ -1,0 +1,148 @@
+% chapters/algorithms/quantum-annealing.tex
+% Quantum Annealing-Based Image Segmentation Algorithms
+
+\subsection{Quantum Annealing for Image Segmentation}
+\label{sec:quantum-annealing}
+
+Quantum Annealing (QA) represents a computational paradigm designed to find global minima of objective functions by exploiting quantum fluctuations~\cite{kadowaki1998quantum}. Unlike classical optimization methods, QA leverages \textbf{quantum tunneling} to escape local minima by passing through energy barriers rather than climbing over them~\cite{mcgeoch2014adiabatic}.
+
+\begin{keyconceptbox}[Quantum Annealing Principle]
+Quantum annealing implements a time-dependent Hamiltonian that evolves from a simple initial configuration to the problem encoding:
+\begin{equation}
+    H(t) = A(t) \sum_i \sigma_i^x + B(t) \left( \sum_{i<j} J_{ij} \sigma_i^z \sigma_i^z + \sum_i h_i \sigma_i^z \right)
+\end{equation}
+where $A(t)$ and $B(t)$ control the annealing schedule, and the problem Hamiltonian encodes the optimization objective.
+\end{keyconceptbox}
+
+\subsubsection{Relationship to Image Segmentation}
+
+Image segmentation problems are naturally suited for quantum annealing due to their NP-hard nature~\cite{lucas2014}. The relationship is established by reformulating segmentation tasks into Quadratic Unconstrained Binary Optimization (QUBO) problems:
+
+\begin{center}
+\textbf{Image Segmentation} $\rightarrow$ \textbf{QUBO Formulation} $\rightarrow$ \textbf{Quantum Annealing}
+\end{center}
+
+The general QUBO objective function takes the form:
+\begin{equation}
+    \arg\min_{x} x^{T}Qx = \arg\min_{x} \sum_{i = 1}^{n}l_{i}x_{i} + \sum_{1 \leq i < j \leq n} q_{ij}x_{i}x_{j}
+\end{equation}
+where $x \in \{0,1\}^{n}$ is the binary variable vector encoding pixel assignments, and $Q \in \mathbb{R}^{n \times n}$ is the QUBO matrix with diagonal elements $l_i$ (linear coefficients) and off-diagonal elements $q_{ij}$ (quadratic coefficients).
+
+\subsubsection{Q-Seg: Quantum Annealing-Based Unsupervised Image Segmentation}
+
+Q-Seg is a quantum annealing approach that formulates image segmentation as a minimum graph cut problem~\cite{boykov2001graphcuts}. The method constructs a grid graph from the image, computes similarity weights between neighboring pixels, and solves the resulting QUBO problem on a quantum annealer~\cite{dwave2020}.
+
+\begin{definitionbox}[Q-Seg Pipeline]
+The Q-Seg algorithm consists of six main steps:
+\begin{enumerate}
+    \item Construct grid graph $G(V,w)$ from input image $I$
+    \item Compute pixel similarity weights for edge connections
+    \item Formulate minimum cut as QUBO objective
+    \item Map QUBO to quantum annealer architecture (embedding)
+    \item Execute quantum annealing (sampling)
+    \item Decode lowest-energy sample into segmentation mask
+\end{enumerate}
+\end{definitionbox}
+
+\paragraph{Step 1: Image to Graph Transformation}
+
+A grid graph $G(V,w)$ is constructed with one node per image pixel. Edges connect neighboring pixels and represent spatial adjacency. Edge weights are computed using a Gaussian similarity metric:
+
+\begin{equation}
+    w'(p_{i},p_{j}) = 1 - \exp\left( - \frac{(I(p_{i}) - I(p_{j}))^{2}}{2\sigma^{2}} \right)
+\end{equation}
+
+where $I(p_i)$ and $I(p_j)$ are the intensity values of neighboring pixels $p_i$ and $p_j$, and $\sigma$ is a scale parameter controlling sensitivity to intensity differences.
+
+The weights are then normalized to range $[-1, 1]$:
+\begin{equation}
+    w(p_{i},p_{j}) = -1 \times \left( (b - a) \cdot \frac{w'(p_{i},p_{j}) - \min(w)}{\max(w) - \min(w)} + a \right)
+\end{equation}
+where $a = -1$ and $b = 1$, and $\min(w), \max(w)$ denote the minimum and maximum over all raw similarities.
+
+\paragraph{Step 2: Minimum-Cut Objective}
+
+For an undirected weighted graph $G(V,w)$, the minimum cut cost partitions vertices into two disjoint sets $A$ and $\bar{A}$:
+\begin{equation}
+    \text{MINCUT}(G) = \arg\min_{A,\bar{A}} \sum_{i \in A,\, j \in \bar{A}} w(v_{i},v_{j})
+\end{equation}
+
+Using binary encoding where $x_{v_{i}} \in \{0,1\}$ represents pixel membership:
+\begin{equation}
+    x^{*} = \arg\min_{x} \sum_{1 \leq i < j \leq n} x_{v_{i}} (1 - x_{v_{j}}) w(v_{i},v_{j})
+\end{equation}
+
+This formulation expresses the minimum cut as an explicit quadratic polynomial in binary variables, directly convertible to the canonical QUBO matrix $Q$.
+
+\paragraph{Step 3: Quantum Annealer Mapping}
+
+The QUBO is mapped to the quantum annealer's physical qubit architecture through a process called \textbf{minor embedding}. Due to limited connectivity in real quantum hardware, logical problem variables may require multiple physical qubits (chains) to represent.
+
+\begin{algorithm}[H]
+\caption{Q-Seg Algorithm}
+\begin{algorithmic}[1]
+\Require Image $I$, similarity parameter $\sigma$
+\Ensure Binary segmentation mask $M$
+\State Construct grid graph $G(V,w)$ from image $I$
+\State Compute edge weights using Gaussian similarity
+\State Formulate QUBO matrix $Q$ for minimum cut
+\State Embed QUBO onto quantum annealer topology
+\State Execute quantum annealing with multiple samples
+\State Select lowest-energy sample $X^{*}$
+\State Decode $X^{*}$ into segmentation mask $M$
+\State \Return $M$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{tipbox}
+Q-Seg is particularly effective for binary segmentation tasks where the goal is to separate foreground from background. For multi-class segmentation, hierarchical or iterative approaches can be employed.
+\end{tipbox}
+
+\subsubsection{SAR Image Segmentation with Quantum Annealing}
+
+Synthetic Aperture Radar (SAR) image segmentation presents unique challenges due to speckle noise and complex texture patterns. Quantum annealing combined with Markov Random Fields (MRF) provides a robust framework for SAR segmentation.
+
+The MRF formulation encodes both data fidelity (how well pixel labels match observed intensities) and spatial coherence (preference for smooth label configurations) in the QUBO objective:
+
+\begin{equation}
+    E(L) = \sum_{i} U_i(l_i) + \sum_{(i,j) \in \mathcal{N}} V_{ij}(l_i, l_j)
+\end{equation}
+
+where $U_i(l_i)$ is the unary potential for pixel $i$ with label $l_i$, and $V_{ij}(l_i, l_j)$ is the pairwise potential encouraging neighboring pixels to have similar labels.
+
+\begin{warningbox}
+Current quantum annealers have limited qubit counts (thousands of qubits), restricting direct application to small image patches. Practical implementations often use:
+\begin{itemize}
+    \item Downsampling or patch-based processing
+    \item Hybrid classical-quantum approaches
+    \item Iterative refinement strategies
+\end{itemize}
+\end{warningbox}
+
+\subsubsection{Complexity Analysis}
+
+\begin{notebox}[Computational Considerations]
+\textbf{Classical min-cut:} $O(V \cdot E)$ using efficient flow algorithms
+
+\textbf{Quantum annealing:} 
+\begin{itemize}
+    \item Problem setup: $O(n^2)$ for QUBO construction
+    \item Embedding: Problem-dependent, can be computationally expensive
+    \item Annealing time: Typically microseconds to milliseconds per sample
+    \item Sampling: Multiple runs required for solution quality
+\end{itemize}
+
+The potential quantum advantage lies in the ability to find global optima through quantum tunneling, particularly for problems with rugged energy landscapes and many local minima.
+\end{notebox}
+
+\subsubsection{Practical Considerations}
+
+\begin{enumerate}
+    \item \textbf{Problem Size Limitations:} Current D-Wave quantum annealers support $\sim$5000 qubits with sparse connectivity~\cite{dwave2020}. Image segmentation problems scale as $O(n^2)$ for $n$ pixels, limiting direct application to small images ($\sim$70×70 pixels).
+    
+    \item \textbf{Embedding Overhead:} Minor embedding can significantly increase the effective problem size, further constraining applicable image dimensions.
+    
+    \item \textbf{Noise and Errors:} Quantum annealing is susceptible to thermal noise and control errors. Multiple samples and post-processing are typically required.
+    
+    \item \textbf{Parameter Tuning:} The annealing schedule, chain strength (for embedding), and other parameters require careful tuning for optimal performance.
+\end{enumerate}

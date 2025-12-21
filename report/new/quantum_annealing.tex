@@ -1,0 +1,79 @@
+
+\section{What is Quantum Annealing?}
+
+Quantum Annealing (QA) is an optimization process designed to find the global minimum of a given objective function by exploiting quantum fluctuations. Considered an extension of Simulated Annealing (SA), QA adds an additional dimension, $\Gamma$, for the annealing operation. It is primarily used for combinatorial optimization problems (where the search space is discrete) that exhibit numerous local minima.
+
+\subsection*{How Quantum Annealing Works (Conceptual Steps)}
+The process begins by placing the system in a quantum superposition of all possible candidate states. The system then evolves according to the Schrödinger equation under the influence of a transverse field whose intensity gradually decreases. Through \textbf{quantum tunneling}, the system can potentially escape local minima by passing through energy barriers, offering an advantage over classical methods that rely solely on temperature. The optimization problem is generally formulated as a \textbf{Quadratic Unconstrained Binary Optimization (QUBO)} problem.
+
+\noindent \textbf{Core Idea:} Quantum annealing finds the best possible solution to a problem by letting a quantum system naturally settle into its lowest-energy (most optimal) state.
+
+\section{Relationship between Quantum Clustering and Quantum Annealing}
+
+Quantum Annealing is used to solve clustering and image segmentation problems due to their NP-hard nature. The relationship is established primarily by reformulating the segmentation task into a QUBO problem that QA can minimize.
+
+\textbf{Formal relationship:} Quantum clustering (as used today) is usually \textbf{an application} of quantum annealing.
+\begin{center}
+    Clustering $\rightarrow$ Express as discrete optimization (QUBO) $\rightarrow$ Solve with QA
+\end{center}
+In this context, QA is the hardware/procedure, while clustering is the application/problem.
+
+\section{Image Segmentation Methods Using Quantum Annealing}
+
+\subsection{Q-Seg: Quantum Annealing-Based Unsupervised Image Segmentation}
+
+\subsubsection{Overview}
+Q-Seg builds a grid graph from the image, computes similarity weights between neighboring pixels, formulates the graph cut (minimum cut) as a QUBO, maps that QUBO onto a quantum annealer, runs annealing to obtain low-energy samples, and decodes those samples into a segmentation mask.
+
+\subsubsection{Step 1: QUBO Problem Statement (Preliminaries)}
+The mathematical core of the problem is the standard QUBO objective:
+\begin{equation}
+    \arg\min_{x} x^{T}Qx = \arg\min_{x} \sum_{i = 1}^{n}l_{i}x_{i} + \sum_{1 \leq i < j \leq n} q_{ij}x_{i}x_{j}
+\end{equation}
+where $x \in \{ 0,1\}^{n}$ is the binary variable vector and $Q \in \mathbb{R}^{n \times n}$ is the QUBO matrix, with diagonal and off-diagonal elements representing linear $l_{i}$ and quadratic $q_{ij}$ coefficients, respectively.
+
+\textbf{Summary:} This is the standard objective the annealer accepts. A binary vector $x$ encodes the membership of pixels to one of two partitions; the QUBO matrix $Q$ encodes unary and pairwise cut costs so that a low $x^{T}Qx$ corresponds to a good cut.
+
+\subsubsection{Step 2: Pixel Similarity to Edge Weights (Image $\rightarrow$ Graph)}
+\begin{itemize}
+    \item \textbf{Construct image graph:} Build a grid graph $G(V,w)$ with one node per image pixel; edges connect neighboring pixels and represent spatial adjacency.
+    \item \textbf{Define edge weights:} Choose an application-appropriate similarity metric between neighboring pixels and assign these values as edge weights $w(v_i, v_j)$.
+\end{itemize}
+
+\textbf{Equations Used:}
+Gaussian similarity between neighboring pixels $p_{i}, p_{j}$ with intensities $I(p_{i}), I(p_{j})$:
+\[
+    w'(p_{i},p_{j}) = 1 - \exp\left( - \frac{(I(p_{i}) - I(p_{j}))^{2}}{2\sigma^{2}} \right)
+\]
+Normalization to range $[-1, 1]$ (where $a = -1, b = 1$):
+\[
+    w(p_{i},p_{j}) = -1 \times \left( (b - a) \cdot \frac{w'(p_{i},p_{j}) - \min(w)}{\max(w) - \min(w)} + a \right)
+\]
+where $\sigma$ is the standard deviation parameter, and $\min(w), \max(w)$ denote the minimum and maximum over all raw similarities $w'$.
+
+\subsubsection{Step 3: Minimum-Cut Objective and Binary Encoding}
+For an undirected weighted graph $G(V,w)$, the minimum cut cost is written as:
+\[
+    \text{MINCUT}(G) = \arg\min_{A,\bar{A}} \sum_{i \in A,\, j \in \bar{A}} w(v_{i},v_{j})
+\]
+Binary encoding of the partition (where pixel variable $x_{v_{i}} \in \{ 0,1\}$) yields the objective:
+\[
+    x^{*} = \arg\min_{x} \sum_{1 \leq i < j \leq n} x_{v_{i}} (1 - x_{v_{j}}) w(v_{i},v_{j})
+\]
+Q-Seg expresses the combinatorial min-cut as an explicit quadratic polynomial in binary variables, which is algebraically convertible to the canonical QUBO matrix $Q$.
+
+\subsubsection{Step 4: Map QUBO $\rightarrow$ Quantum Annealer}
+\textbf{Algorithm Outline:}
+\begin{enumerate}
+    \item Construct grid graph $G(V,w)$ from image $I$.
+    \item Formulate QUBO for minimum cut on $G$.
+    \item Map the QUBO to the quantum annealer's architecture (Embedding).
+    \item Run the quantum annealing (Sampling).
+    \item Extract the lowest-energy sample $X^{*}$.
+    \item Decode sample $X^{*}$ into segmentation mask $M$.
+\end{enumerate}
+
+\noindent \textit{Note: The original document contained flowcharts illustrating the embedding and pipeline here.}
+
+\section{SAR Image Segmentation with Quantum Annealing}
+\textit{This section refers to the application of Quantum Annealing and Markov Random Fields for SAR (Synthetic Aperture Radar) image segmentation.}

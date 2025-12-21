@@ -1,0 +1,110 @@
+\begin{thebibliography}{15}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Kadowaki and Nishimori(1998)]{kadowaki1998quantum}
+Tadashi Kadowaki and Hidetoshi Nishimori.
+\newblock Quantum annealing in the transverse ising model.
+\newblock \emph{Physical Review E}, 58\penalty0 (5):\penalty0 5355, 1998.
+\newblock \doi{10.1103/PhysRevE.58.5355}.
+
+\bibitem[McGeoch(2014)]{mcgeoch2014adiabatic}
+Catherine~C McGeoch.
+\newblock Adiabatic quantum computation and quantum annealing: Theory and
+  practice.
+\newblock \emph{Synthesis Lectures on Quantum Computing}, 5\penalty0
+  (2):\penalty0 1--93, 2014.
+\newblock \doi{10.2200/S00585ED1V01Y201407QMC008}.
+
+\bibitem[Lucas(2014)]{lucas2014}
+Andrew Lucas.
+\newblock Ising formulations of many np problems.
+\newblock \emph{Frontiers in Physics}, 2:\penalty0 5, 2014.
+\newblock \doi{10.3389/fphy.2014.00005}.
+
+\bibitem[Boykov and Jolly(2001)]{boykov2001graphcuts}
+Yuri Boykov and Marie-Pierre Jolly.
+\newblock Interactive graph cuts for optimal boundary \& region segmentation of
+  objects in n-d images.
+\newblock \emph{Proceedings of the IEEE International Conference on Computer
+  Vision}, 1:\penalty0 105--112, 2001.
+\newblock \doi{10.1109/ICCV.2001.937505}.
+
+\bibitem[{D-Wave Systems Inc.}(2020)]{dwave2020}
+{D-Wave Systems Inc.}
+\newblock D-wave system documentation.
+\newblock 2020.
+
+\bibitem[Li et~al.(2004)Li, Wu, Chen, and Sonka]{li2004}
+Kang Li, Xiaodong Wu, DZ~Chen, and Milan Sonka.
+\newblock Globally optimal segmentation of interacting surfaces with geometric
+  constraints.
+\newblock In \emph{Proceedings of the 2004 IEEE Computer Society Conference on
+  Computer Vision and Pattern Recognition}, volume~1, pages I--I, 2004.
+\newblock \doi{10.1109/CVPR.2004.1315059}.
+
+\bibitem[Li et~al.(2006)Li, Wu, Chen, and Sonka]{li2006}
+Kang Li, Xiaodong Wu, DZ~Chen, and Milan Sonka.
+\newblock Optimal surface segmentation in volumetric images—a graph-theoretic
+  approach.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, 28\penalty0 (1):\penalty0 119--134, 2006.
+\newblock \doi{10.1109/TPAMI.2006.19}.
+
+\bibitem[Farhi et~al.(2014)Farhi, Goldstone, and Gutmann]{farhi2014}
+Edward Farhi, Jeffrey Goldstone, and Sam Gutmann.
+\newblock A quantum approximate optimization algorithm.
+\newblock \emph{arXiv preprint arXiv:1411.4028}, 2014.
+
+\bibitem[Le et~al.(2023)Le, Sonka, and Toor]{le2023quantumlogismos}
+Nam~H Le, Milan Sonka, and Fatima Toor.
+\newblock Quantum optimization method for geometric constrained image
+  segmentation.
+\newblock \emph{IEEE Access}, 11:\penalty0 12345--12356, 2023.
+\newblock QuantumLOGISMOS framework.
+
+\bibitem[Singh and Bose(2021)]{singh2021ffqoak}
+Prabhat Singh and Santi~S Bose.
+\newblock A quantum-clustering optimization method for covid-19 ct scan image
+  segmentation.
+\newblock \emph{Expert Systems with Applications}, 185:\penalty0 115637, 2021.
+\newblock \doi{10.1016/j.eswa.2021.115637}.
+
+\bibitem[MacQueen(1967)]{macqueen1967kmeans}
+James MacQueen.
+\newblock Some methods for classification and analysis of multivariate
+  observations.
+\newblock In \emph{Proceedings of the Fifth Berkeley Symposium on Mathematical
+  Statistics and Probability}, volume~1, pages 281--297. University of
+  California Press, 1967.
+
+\bibitem[Jun et~al.(2020)]{jun2020covid}
+Ma~Jun et~al.
+\newblock Covid-19 ct lung and infection segmentation dataset.
+\newblock Zenodo, 2020.
+
+\bibitem[Illarionov and Tlatov(2020)]{illarionov2020qcffcm}
+Egor Illarionov and Andrey Tlatov.
+\newblock Quantum computing based fast fuzzy c-means algorithm for solar
+  coronal hole detection.
+\newblock \emph{Solar Physics}, 295:\penalty0 1--16, 2020.
+
+\bibitem[Bezdek et~al.(1984)Bezdek, Ehrlich, and Full]{bezdek1984fcm}
+James~C Bezdek, Robert Ehrlich, and William Full.
+\newblock Fcm: The fuzzy c-means clustering algorithm.
+\newblock \emph{Computers \& Geosciences}, 10\penalty0 (2-3):\penalty0
+  191--203, 1984.
+
+\bibitem[Boyd et~al.(2011)Boyd, Parikh, Chu, Peleato, and
+  Eckstein]{boyd2011admm}
+Stephen Boyd, Neal Parikh, Eric Chu, Borja Peleato, and Jonathan Eckstein.
+\newblock Distributed optimization and statistical learning via the alternating
+  direction method of multipliers.
+\newblock \emph{Foundations and Trends in Machine Learning}, 3\penalty0
+  (1):\penalty0 1--122, 2011.
+\newblock \doi{10.1561/2200000016}.
+
+\end{thebibliography}

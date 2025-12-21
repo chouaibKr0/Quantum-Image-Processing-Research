@@ -79,15 +79,15 @@ K-means is one of the most widely used clustering algorithms due to its simplici
 \begin{algorithm}
 \caption{K-Means Clustering}
 \begin{algorithmic}[1]
-\STATE \textbf{Input:} Dataset $X = \{x_1, \ldots, x_n\}$, number of clusters $k$
-\STATE \textbf{Output:} Cluster assignments and centroids
-\STATE Initialize $k$ cluster centroids $\{\mu_1, \ldots, \mu_k\}$ randomly
-\REPEAT
-    \STATE \textbf{Assignment step:} Assign each $x_i$ to nearest centroid:
-    \STATE \quad $c_i = \arg\min_j \|x_i - \mu_j\|^2$
-    \STATE \textbf{Update step:} Recompute centroids:
-    \STATE \quad $\mu_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i$
-\UNTIL{convergence (centroids no longer change)}
+\State \textbf{Input:} Dataset $X = \{x_1, \ldots, x_n\}$, number of clusters $k$
+\State \textbf{Output:} Cluster assignments and centroids
+\State Initialize $k$ cluster centroids $\{\mu_1, \ldots, \mu_k\}$ randomly
+\Repeat
+    \State \textbf{Assignment step:} Assign each $x_i$ to nearest centroid:
+    \State \quad $c_i = \arg\min_j \|x_i - \mu_j\|^2$
+    \State \textbf{Update step:} Recompute centroids:
+    \State \quad $\mu_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i$
+\Until{convergence (centroids no longer change)}
 \end{algorithmic}
 \end{algorithm}
 

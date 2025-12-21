@@ -1,0 +1,258 @@
+% chapters/algorithms/quantum-logismos.tex
+% QuantumLOGISMOS: QAOA-Based Geometric Constrained Image Segmentation
+
+\subsection{QuantumLOGISMOS: QAOA for Geometric Constrained Segmentation}
+\label{sec:quantum-logismos}
+
+QuantumLOGISMOS extends the classical LOGISMOS (Layered Optimal Graph Image Segmentation of Multiple Objects and Surfaces) framework~\cite{li2004,li2006} by incorporating quantum optimization via the Quantum Approximate Optimization Algorithm (QAOA)~\cite{farhi2014}. This approach is particularly suited for medical image analysis where geometric constraints ensure anatomically realistic segmentations~\cite{le2023quantumlogismos}.
+
+\begin{keyconceptbox}[QuantumLOGISMOS Core Idea]
+The framework combines:
+\begin{itemize}
+    \item \textbf{Graph-theoretic formulation:} Surface segmentation as minimum $s$-$t$ cut
+    \item \textbf{Geometric constraints:} Smoothness conditions on surface variation
+    \item \textbf{QUBO encoding:} Graph structure embedded in quadratic objective
+    \item \textbf{QAOA optimization:} Hybrid quantum-classical parameter search
+\end{itemize}
+The key advantage is the ability to find \textbf{multiple optimal solutions}, providing alternative segmentations that classical deterministic methods may miss.
+\end{keyconceptbox}
+
+\subsubsection{Classical LOGISMOS Foundation}
+
+\paragraph{Problem Formulation}
+
+Given an image $\mathcal{I}$ with spatial dimensions $(X, Y, Z)$, we construct a directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ where each pixel (2D) or voxel (3D) corresponds to a node $v \in \mathcal{V}$, organized into columns along a specific direction.
+
+A surface $\mathcal{S}$ is defined by a mapping function:
+\begin{equation}
+    s: \text{Column} \rightarrow \text{Node}
+\end{equation}
+where $s(x) = k$ indicates node $k$ in column $x$ belongs to the surface.
+
+Each node $(x, k)$ has an associated cost derived from image features:
+\begin{equation}
+    c_s(x,k) = -\log P(\text{node is on surface} \mid \text{image features})
+\end{equation}
+
+The optimization objective minimizes total surface cost:
+\begin{equation}
+    \hat{s} = \arg\min_{s} \sum_{x} c_s(x, s(x))
+\end{equation}
+
+\paragraph{Terminal Weight Transformation}
+
+Rather than directly minimizing costs, we transform to terminal weights:
+\begin{equation}
+    w_s(x,k) = 
+    \begin{cases} 
+        -1 & \text{if } k=1 \\
+        c_s(x,k) - c_s(x,k-1) & \text{otherwise}
+    \end{cases}
+\end{equation}
+
+For a closed set $S$ (nodes below the surface):
+\begin{equation}
+    W_s = \sum_{x} \sum_{k \in S_x} w_s(x,k) = \sum_{x} c_s(x, s(x)) + \text{constant}
+\end{equation}
+
+Thus minimizing $W_s$ is equivalent to minimizing the original cost function.
+
+\paragraph{Graph Edge Constraints}
+
+Three edge types enforce geometric constraints in the LOGISMOS graph:
+
+\begin{definitionbox}[LOGISMOS Edge Types]
+\begin{enumerate}
+    \item \textbf{Intra-column edges ($\mathcal{E}_{\text{intra}}$):}
+    \[
+    \forall x, \forall k > 1: \text{edge } (x,k) \rightarrow (x,k-1) \text{ with capacity } \infty
+    \]
+    Ensures exactly one cut per column.
+    
+    \item \textbf{Inter-column edges ($\mathcal{E}_{\text{inter}}$):} Given smoothness parameter $\delta$:
+    \[
+    \forall \text{adjacent } x, x': \text{edges } (x,k) \rightarrow (x', \max(1, k-\delta)) \text{ with capacity } \infty
+    \]
+    Enforces $|s(x) - s(x')| \leq \delta$ (smoothness constraint).
+    
+    \item \textbf{Terminal edges ($\mathcal{E}_{W}$):}
+    \begin{itemize}
+        \item For $w_s(v) < 0$: edge $s \rightarrow v$ with capacity $|w_s(v)|$
+        \item For $w_s(v) > 0$: edge $v \rightarrow t$ with capacity $|w_s(v)|$
+    \end{itemize}
+\end{enumerate}
+\end{definitionbox}
+
+\subsubsection{Quantum Formulation}
+
+\paragraph{QUBO Conversion}
+
+For each node $i$, we define a binary variable $x_i \in \{0,1\}$:
+\begin{itemize}
+    \item $x_i = 0 \rightarrow$ node in source set $S$
+    \item $x_i = 1 \rightarrow$ node in sink set $T$
+\end{itemize}
+
+For a directed edge $i \rightarrow j$ with capacity $w_{ij}$, the cut contribution is:
+\begin{equation}
+    F_{(i,j)}(x_i, x_j) = w_{ij}(x_j - x_i x_j)
+\end{equation}
+
+This equals $w_{ij}$ if the edge is cut ($x_i=0, x_j=1$), and 0 otherwise.
+
+To enforce source/sink constraints ($x_s=0, x_t=1$):
+\begin{equation}
+    F_{(s,t)}(x_s, x_t) = \varepsilon(x_s x_t - x_s)
+\end{equation}
+
+The complete QUBO objective becomes:
+\begin{equation}
+    F_C(\mathbf{x}) = \sum_{(i,j) \in \mathcal{E}} w_{ij} (x_j - x_i x_j) + \varepsilon (x_s x_t - x_s)
+\end{equation}
+where $\varepsilon = 1 + \sum_{(i,j) \in \mathcal{E}} w_{ij}$ ensures valid cuts have lower energy.
+
+\paragraph{Matrix Form}
+
+The QUBO can be written in matrix form:
+\begin{equation}
+    F_C(\mathbf{x}) = \mathbf{x}^T \mathbf{Q} \mathbf{x}
+\end{equation}
+where $\mathbf{Q}$ is symmetric with elements:
+\begin{equation}
+    Q_{ii} = \sum_{j: i \rightarrow j} w_{ij}, \quad Q_{ij} = -\frac{w_{ij}}{2} \text{ for } i \neq j \text{ with edge } i \rightarrow j
+\end{equation}
+
+\paragraph{Ising Hamiltonian Mapping}
+
+Binary variables map to qubit states via the transformation:
+\begin{equation}
+    x_i = \frac{1 - Z_i}{2}
+\end{equation}
+where $Z_i$ is the Pauli-Z operator on qubit $i$.
+
+The problem Hamiltonian becomes:
+\begin{equation}
+    H_C = \sum_{i,j} Q_{ij} \frac{1-Z_i}{2} \frac{1-Z_j}{2}
+\end{equation}
+
+Expanding to standard Ising form:
+\begin{equation}
+    H_C = \text{constant} + \sum_i h_i Z_i + \sum_{i<j} J_{ij} Z_i Z_j
+\end{equation}
+where:
+\begin{equation}
+    h_i = -\frac{1}{4} \sum_j (Q_{ij} + Q_{ji}), \quad J_{ij} = \frac{1}{4} Q_{ij} \text{ for } i \neq j
+\end{equation}
+
+The ground state energy $E_0$ of $H_C$ satisfies: $E_0 = \min_{\mathbf{x}} F_C(\mathbf{x})$.
+
+\subsubsection{QAOA Implementation}
+
+The Quantum Approximate Optimization Algorithm provides a hybrid quantum-classical approach to finding the ground state of $H_C$.
+
+\paragraph{Circuit Structure}
+
+The QAOA circuit prepares parameterized quantum states through alternating applications of problem and mixer unitaries:
+
+\textbf{Initial state:} Uniform superposition
+\begin{equation}
+    |\psi_0\rangle = |+\rangle^{\otimes n} = \frac{1}{\sqrt{2^n}} \sum_{z \in \{0,1\}^n} |z\rangle
+\end{equation}
+
+\textbf{Problem unitary:}
+\begin{equation}
+    U_C(\gamma) = e^{-i\gamma H_C}
+\end{equation}
+
+\textbf{Mixer unitary:}
+\begin{equation}
+    U_M(\beta) = e^{-i\beta \sum_i X_i}
+\end{equation}
+
+For $p$ layers with parameters $\boldsymbol{\gamma} = (\gamma_1, \ldots, \gamma_p)$ and $\boldsymbol{\beta} = (\beta_1, \ldots, \beta_p)$:
+\begin{equation}
+    |\psi(\boldsymbol{\gamma}, \boldsymbol{\beta})\rangle = \prod_{k=1}^p U_M(\beta_k) U_C(\gamma_k) |\psi_0\rangle
+\end{equation}
+
+\paragraph{Hybrid Optimization Loop}
+
+The energy expectation:
+\begin{equation}
+    E(\boldsymbol{\gamma}, \boldsymbol{\beta}) = \langle \psi(\boldsymbol{\gamma}, \boldsymbol{\beta}) | H_C | \psi(\boldsymbol{\gamma}, \boldsymbol{\beta}) \rangle
+\end{equation}
+is minimized using classical optimization (e.g., SPSA, COBYLA, or gradient descent).
+
+\begin{algorithm}[H]
+\caption{QuantumLOGISMOS Algorithm}
+\begin{algorithmic}[1]
+\Require Image $\mathcal{I}$, smoothness parameter $\delta$, QAOA depth $p$
+\Ensure Optimal surface $\hat{s}$
+\State \textbf{// Classical Preprocessing}
+\State Compute node costs $c_s(x,k)$ from image features
+\State Transform to terminal weights $w_s(x,k)$
+\State Construct LOGISMOS graph with edge constraints
+\State \textbf{// QUBO Formulation}
+\State Build QUBO matrix $\mathbf{Q}$ from graph structure
+\State Convert to Ising Hamiltonian $H_C$
+\State \textbf{// QAOA Optimization}
+\State Initialize parameters $\boldsymbol{\gamma}, \boldsymbol{\beta}$
+\While{not converged}
+    \State Prepare $|\psi(\boldsymbol{\gamma}, \boldsymbol{\beta})\rangle$ on quantum processor
+    \State Measure to estimate $E(\boldsymbol{\gamma}, \boldsymbol{\beta})$
+    \State Update $\boldsymbol{\gamma}, \boldsymbol{\beta}$ using classical optimizer
+\EndWhile
+\State \textbf{// Solution Extraction}
+\State Measure final state to obtain bitstring $\mathbf{x}^*$
+\State Decode $\mathbf{x}^*$ to surface nodes
+\State \Return Optimal surface $\hat{s}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Advantages of the Quantum Approach}
+
+\begin{tipbox}[Key Benefits]
+\begin{enumerate}
+    \item \textbf{Multiple optimal solutions:} QAOA can discover multiple minima with equal or near-equal energy, providing alternative segmentations that classical deterministic methods miss.
+    
+    \item \textbf{Global optimization:} Quantum superposition enables simultaneous exploration of the entire solution space.
+    
+    \item \textbf{Geometric constraint preservation:} The QUBO formulation naturally encodes smoothness and single-cut-per-column constraints.
+    
+    \item \textbf{Scalability potential:} As quantum hardware improves, larger images can be processed directly.
+\end{enumerate}
+\end{tipbox}
+
+\subsubsection{Complexity Analysis}
+
+\begin{notebox}[Computational Complexity]
+\textbf{Classical LOGISMOS:} $O(V \cdot E)$ using max-flow algorithms
+
+\textbf{QuantumLOGISMOS:}
+\begin{itemize}
+    \item Graph construction: $O(n \cdot \delta)$ where $n$ is pixel count
+    \item QUBO formulation: $O(|\mathcal{E}|)$ for edge processing
+    \item QAOA circuit depth: $O(p \cdot n)$ for $p$ layers
+    \item Classical optimization: Iteration-dependent
+\end{itemize}
+
+For NISQ-era devices, practical implementations are limited to small images ($\sim$50-100 nodes), but demonstrate proof-of-concept for larger-scale future applications.
+\end{notebox}
+
+\subsubsection{Applications in Medical Imaging}
+
+QuantumLOGISMOS has been demonstrated on:
+\begin{itemize}
+    \item \textbf{2D synthetic images:} Validation of correctness against classical solutions
+    \item \textbf{3D volumetric data:} Surface extraction in medical imaging
+    \item \textbf{Multi-surface problems:} Simultaneous segmentation of multiple anatomical boundaries
+\end{itemize}
+
+\begin{warningbox}
+Current limitations include:
+\begin{itemize}
+    \item Qubit count restricts image size
+    \item Noise in NISQ devices affects solution quality
+    \item Classical simulation for validation becomes intractable for large problems
+    \item QAOA parameter optimization can be challenging for deep circuits
+\end{itemize}
+\end{warningbox}

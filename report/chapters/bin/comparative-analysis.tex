@@ -1,0 +1,35 @@
+% chapters/algorithms/comparative-analysis.tex
+% Comparative Analysis of Quantum Clustering Algorithms
+
+\subsection{Comparative Analysis}
+
+Table \ref{tab:quantum-comparison} summarizes the key characteristics of quantum clustering algorithms for image segmentation.
+
+\begin{table}[h]
+\centering
+\caption{Comparison of Quantum Clustering Algorithms}
+\label{tab:quantum-comparison}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Algorithm} & \textbf{Speedup} & \textbf{Hardware} & \textbf{Maturity} \\
+\midrule
+q-Means & Exponential & Fault-tolerant + qRAM & Theoretical \\
+Quantum Spectral & Exponential & Fault-tolerant & Theoretical \\
+QAOA Clustering & Potential & NISQ & Experimental \\
+VQE Clustering & Heuristic & NISQ & Experimental \\
+Quantum Fuzzy & Quadratic & Fault-tolerant & Theoretical \\
+%% Add new algorithms here following the same format:
+%% Algorithm Name & Speedup Type & Hardware Req & Maturity Level \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{keyconceptbox}[Current State of the Art]
+While theoretical quantum algorithms promise significant speedups, practical quantum image segmentation remains limited by:
+\begin{itemize}
+    \item Data loading bottleneck: Encoding classical images into quantum states
+    \item Hardware limitations: Qubit counts, error rates, and coherence times
+    \item Scalability: Current demonstrations limited to small images
+\end{itemize}
+Variational methods on NISQ devices represent the most promising near-term approach.
+\end{keyconceptbox}

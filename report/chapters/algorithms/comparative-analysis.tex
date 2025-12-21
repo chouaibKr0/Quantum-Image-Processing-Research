@@ -1,35 +1,245 @@
 % chapters/algorithms/comparative-analysis.tex
-% Comparative Analysis of Quantum Clustering Algorithms
+% Comparative Analysis of Quantum Image Segmentation Algorithms
 
-\subsection{Comparative Analysis}
+\subsection{Comparative Analysis of Quantum Segmentation Approaches}
 
-Table \ref{tab:quantum-comparison} summarizes the key characteristics of quantum clustering algorithms for image segmentation.
+This section synthesizes the quantum clustering algorithms presented in this chapter, comparing their theoretical foundations, computational requirements, practical applicability, and performance characteristics for image segmentation tasks.
 
-\begin{table}[h]
+\subsubsection{Taxonomy of Quantum Segmentation Methods}
+
+The quantum image segmentation landscape can be organized along two primary dimensions: the \textbf{quantum computational paradigm} employed and the \textbf{classical clustering foundation} extended.
+
+\begin{definitionbox}[Classification Framework]
+\textbf{By Quantum Paradigm:}
+\begin{itemize}
+    \item \textbf{Quantum Annealing:} Q-Seg, SAR-QA (minimize QUBO via adiabatic evolution)
+    \item \textbf{Gate-Model QAOA:} QuantumLOGISMOS, QCFFCM (variational hybrid optimization)
+    \item \textbf{Quantum-Inspired:} FFQOAK (classical simulation of quantum dynamics)
+\end{itemize}
+
+\textbf{By Classical Foundation:}
+\begin{itemize}
+    \item \textbf{Graph-Cut Methods:} Q-Seg, QuantumLOGISMOS
+    \item \textbf{Centroid-Based:} FFQOAK (K-means), QCFFCM (Fuzzy C-Means)
+\end{itemize}
+\end{definitionbox}
+
+\subsubsection{Algorithm Comparison Matrix}
+
+\begin{table}[H]
 \centering
-\caption{Comparison of Quantum Clustering Algorithms}
-\label{tab:quantum-comparison}
-\begin{tabular}{@{}lccc@{}}
+\small
+\begin{tabular}{@{}p{2.5cm}p{2.2cm}p{2.2cm}p{2.2cm}p{2.2cm}@{}}
 \toprule
-\textbf{Algorithm} & \textbf{Speedup} & \textbf{Hardware} & \textbf{Maturity} \\
+\textbf{Aspect} & \textbf{Q-Seg} & \textbf{QuantumLOGISMOS} & \textbf{FFQOAK} & \textbf{QCFFCM} \\
 \midrule
-q-Means & Exponential & Fault-tolerant + qRAM & Theoretical \\
-Quantum Spectral & Exponential & Fault-tolerant & Theoretical \\
-QAOA Clustering & Potential & NISQ & Experimental \\
-VQE Clustering & Heuristic & NISQ & Experimental \\
-Quantum Fuzzy & Quadratic & Fault-tolerant & Theoretical \\
-%% Add new algorithms here following the same format:
-%% Algorithm Name & Speedup Type & Hardware Req & Maturity Level \\
+\textbf{Quantum Paradigm} & Annealing & Gate-model (QAOA) & Quantum-inspired & Gate-model (QAOA) \\
+\textbf{Problem Encoding} & QUBO (min-cut) & QUBO (min-cut) & None (simulation) & QUBO (3-ADMM) \\
+\textbf{Hardware} & D-Wave & NISQ/Simulator & Classical only & NISQ/Simulator \\
+\textbf{Segmentation Type} & Binary & Surface/Multi-surface & Multi-class & Binary/Multi-class \\
+\textbf{Image Scale} & Small ($<$100px) & Small ($<$100 nodes) & Large (millions px) & Large (4096×4096) \\
+\textbf{Primary Application} & General & Medical imaging & Medical (CT) & Solar imaging \\
 \bottomrule
 \end{tabular}
+\caption{Fundamental characteristics of quantum segmentation algorithms}
+\label{tab:quantum-comparison-basics}
 \end{table}
 
-\begin{keyconceptbox}[Current State of the Art]
-While theoretical quantum algorithms promise significant speedups, practical quantum image segmentation remains limited by:
+\subsubsection{Theoretical Speedup Analysis}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Algorithm} & \textbf{Classical Baseline} & \textbf{Claimed Speedup} & \textbf{Speedup Type} & \textbf{Validation} \\
+\midrule
+Q-Seg & $O(V \cdot E)$ max-flow & Potential & Heuristic & Limited \\
+QuantumLOGISMOS & $O(V \cdot E)$ max-flow & Multiple solutions & Solution quality & Simulation \\
+FFQOAK & $O(I \cdot n \cdot k)$ K-means & 37\% MSE reduction & Quality improvement & Experimental \\
+QCFFCM & $O(I \cdot N \cdot c)$ FCM & 3--20× time & Wall-clock time & Experimental \\
+\bottomrule
+\end{tabular}
+\caption{Speedup claims and validation status}
+\label{tab:speedup-analysis}
+\end{table}
+
+\begin{notebox}[Interpreting Speedups]
+Quantum speedup claims require careful interpretation:
 \begin{itemize}
-    \item Data loading bottleneck: Encoding classical images into quantum states
-    \item Hardware limitations: Qubit counts, error rates, and coherence times
-    \item Scalability: Current demonstrations limited to small images
+    \item \textbf{Theoretical speedup:} Asymptotic complexity improvement (often requires fault-tolerant hardware)
+    \item \textbf{Heuristic speedup:} Better solutions for fixed runtime (common in NISQ era)
+    \item \textbf{Wall-clock speedup:} Actual measured time improvement (includes all overheads)
 \end{itemize}
-Variational methods on NISQ devices represent the most promising near-term approach.
+Most current results demonstrate heuristic or quality improvements rather than asymptotic speedup.
+\end{notebox}
+
+\subsubsection{Hardware Requirements and Scalability}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{@{}lcccl@{}}
+\toprule
+\textbf{Algorithm} & \textbf{Qubits Needed} & \textbf{Gate Depth} & \textbf{Connectivity} & \textbf{Current Feasibility} \\
+\midrule
+Q-Seg & $n$ (pixels) & N/A (annealing) & Chimera/Pegasus & Small images only \\
+QuantumLOGISMOS & $n$ (nodes) & $O(p \cdot n)$ & All-to-all ideal & Small images only \\
+FFQOAK & 0 (classical) & N/A & N/A & Fully feasible \\
+QCFFCM & $O(\log c)$ & $O(p \cdot c)$ & Low & Feasible (simulated) \\
+\bottomrule
+\end{tabular}
+\caption{Hardware requirements for quantum segmentation algorithms}
+\label{tab:hardware-requirements}
+\end{table}
+
+\begin{warningbox}[Scalability Bottleneck]
+The primary challenge for true quantum image segmentation is the \textbf{qubit-to-pixel mapping}:
+\begin{itemize}
+    \item A 256×256 image requires 65,536 qubits (direct encoding)
+    \item Current quantum computers: $\sim$100-1000 usable qubits
+    \item Practical workarounds: downsampling, patch-based processing, hierarchical methods
+\end{itemize}
+\end{warningbox}
+
+\subsubsection{Performance Benchmarks}
+
+\paragraph{Segmentation Quality Metrics}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+\textbf{Algorithm} & \textbf{Dataset} & \textbf{MSE} & \textbf{PSNR (dB)} & \textbf{Jaccard} & \textbf{F1 Score} \\
+\midrule
+Classical K-means & COVID-19 CT & 5293.23 & 11.02 & 0.37 & -- \\
+FFQOAK & COVID-19 CT & \textbf{712.30} & \textbf{19.61} & \textbf{0.90} & -- \\
+QCFFCM & SDO/AIA Solar & -- & -- & -- & \textbf{0.92} \\
+\bottomrule
+\end{tabular}
+\caption{Reported segmentation quality metrics}
+\label{tab:quality-metrics}
+\end{table}
+
+\paragraph{Execution Time Comparison}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Method} & \textbf{Image Size} & \textbf{Time} & \textbf{vs. Classical} & \textbf{Notes} \\
+\midrule
+Classical FCM & 4096×4096 & 40--60s & Baseline & CPU only \\
+CNN-based & 4096×4096 & 60--240s & 1.5--4× slower & GPU required \\
+QCFFCM & 4096×4096 & $\sim$12s & \textbf{3--5× faster} & Quantum simulation \\
+\bottomrule
+\end{tabular}
+\caption{Execution time comparison for high-resolution images}
+\label{tab:execution-time}
+\end{table}
+
+\subsubsection{Strengths and Limitations Summary}
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{@{}p{2.5cm}p{5cm}p{5cm}@{}}
+\toprule
+\textbf{Algorithm} & \textbf{Key Strengths} & \textbf{Main Limitations} \\
+\midrule
+\textbf{Q-Seg} & 
+$\bullet$ True quantum execution available \newline
+$\bullet$ Natural graph-cut formulation \newline
+$\bullet$ Global optimization via tunneling &
+$\bullet$ Limited to tiny images \newline
+$\bullet$ Binary segmentation only \newline
+$\bullet$ Embedding overhead significant \\
+\midrule
+\textbf{QuantumLOGISMOS} & 
+$\bullet$ Finds multiple optimal solutions \newline
+$\bullet$ Geometric constraints preserved \newline
+$\bullet$ Medical imaging applications &
+$\bullet$ Simulation-only currently \newline
+$\bullet$ Qubit count limits scale \newline
+$\bullet$ QAOA parameter optimization challenging \\
+\midrule
+\textbf{FFQOAK} & 
+$\bullet$ No quantum hardware needed \newline
+$\bullet$ Scales to large images \newline
+$\bullet$ Significant quality improvement &
+$\bullet$ Not true quantum algorithm \newline
+$\bullet$ Limited theoretical guarantees \newline
+$\bullet$ Hyperparameter tuning required \\
+\midrule
+\textbf{QCFFCM} & 
+$\bullet$ Near-real-time performance \newline
+$\bullet$ High-resolution image support \newline
+$\bullet$ Practical deployment ready &
+$\bullet$ Quantum simulation only \newline
+$\bullet$ Manual threshold selection \newline
+$\bullet$ Application-specific tuning \\
+\bottomrule
+\end{tabular}
+\caption{Strengths and limitations of quantum segmentation algorithms}
+\label{tab:strengths-limitations}
+\end{table}
+
+\subsubsection{Application Domain Suitability}
+
+\begin{keyconceptbox}[Algorithm Selection Guidelines]
+\textbf{For Medical Image Segmentation:}
+\begin{itemize}
+    \item Small ROIs with geometric constraints $\rightarrow$ QuantumLOGISMOS
+    \item Large CT/MRI scans requiring speed $\rightarrow$ QCFFCM or FFQOAK
+\end{itemize}
+
+\textbf{For General Image Segmentation:}
+\begin{itemize}
+    \item Proof-of-concept on quantum hardware $\rightarrow$ Q-Seg
+    \item Production deployment today $\rightarrow$ FFQOAK (quantum-inspired)
+\end{itemize}
+
+\textbf{For Scientific Imaging:}
+\begin{itemize}
+    \item High-resolution time-critical applications $\rightarrow$ QCFFCM
+    \item Texture-rich SAR imagery $\rightarrow$ Q-Seg with MRF
+\end{itemize}
 \end{keyconceptbox}
+
+\subsubsection{Future Outlook}
+
+\paragraph{Near-Term (1-3 Years)}
+
+\begin{itemize}
+    \item Improved NISQ algorithms with better noise resilience
+    \item Hybrid approaches dominating practical applications
+    \item Quantum-inspired methods continuing to advance
+\end{itemize}
+
+\paragraph{Medium-Term (3-7 Years)}
+
+\begin{itemize}
+    \item Fault-tolerant quantum computers enabling larger problems
+    \item Direct encoding of moderate-resolution images becoming feasible
+    \item Quantum machine learning integration with segmentation
+\end{itemize}
+
+\paragraph{Long-Term (7+ Years)}
+
+\begin{itemize}
+    \item Full-scale quantum image processing possible
+    \item Exponential speedups realized for suitable problem instances
+    \item Quantum advantage demonstrated across broader image analysis tasks
+\end{itemize}
+
+\begin{tipbox}[Research Opportunities]
+Key open problems for quantum image segmentation:
+\begin{enumerate}
+    \item Efficient quantum data loading for classical images
+    \item Error mitigation strategies for segmentation accuracy
+    \item Multi-class segmentation with limited qubit resources
+    \item Benchmarking frameworks for fair algorithm comparison
+\end{enumerate}
+\end{tipbox}

@@ -118,19 +118,65 @@ The swap test circuit measures the overlap between two quantum states with $O(1)
 
 \section{A Comprehensive Review of Quantum Segmentation Algorithms}
 
-This section provides a detailed analysis of quantum clustering algorithms that have been proposed for image segmentation, comparing their approaches, theoretical advantages, and practical limitations.
+This section presents a detailed analysis of quantum clustering algorithms that have been proposed for image segmentation. Rather than an exhaustive catalog, we focus on representative methods that illustrate the diverse strategies for leveraging quantum computation in clustering tasks.
+
+\subsection{Organization and Scope}
+
+The algorithms reviewed here are organized according to their underlying \textbf{quantum computational paradigm}, progressing from hardware-native approaches to hybrid and quantum-inspired methods:
+
+\begin{enumerate}
+    \item \textbf{Quantum Annealing Methods} (Section~\ref{sec:quantum-annealing}): We begin with Q-Seg and related approaches that exploit quantum annealing hardware (e.g., D-Wave systems). These methods reformulate segmentation as Quadratic Unconstrained Binary Optimization (QUBO) problems, leveraging quantum tunneling to escape local minima. They represent the most direct path to real quantum hardware execution today.
+    
+    \item \textbf{Gate-Model QAOA Methods} (Sections~\ref{sec:quantum-logismos} and \ref{sec:qcffcm}): Next, we examine algorithms based on the Quantum Approximate Optimization Algorithm (QAOA), which operates on gate-based quantum computers. QuantumLOGISMOS applies QAOA to geometric-constrained medical image segmentation, while QCFFCM integrates QAOA into fuzzy clustering for high-resolution scientific imagery.
+    
+    \item \textbf{Quantum-Inspired Classical Methods} (Section~\ref{sec:ffqoak}): Finally, we present FFQOAK, a quantum-inspired approach that simulates quantum dynamics on classical hardware. This represents an important category: methods that capture quantum algorithmic ideas without requiring quantum hardware.
+\end{enumerate}
+
+\begin{keyconceptbox}[Why These Algorithms?]
+The selected algorithms illustrate three fundamental questions in quantum image segmentation:
+\begin{itemize}
+    \item \textbf{Problem formulation:} How is segmentation encoded as a quantum-compatible optimization? (QUBO, Ising Hamiltonians, variational objectives)
+    \item \textbf{Hardware requirements:} What quantum resources are needed? (Annealers vs. gate-model vs. classical simulation)
+    \item \textbf{Scalability trade-offs:} How do theoretical advantages translate to practical image sizes?
+\end{itemize}
+\end{keyconceptbox}
+
+\subsection{Distinguishing Characteristics}
+
+To help navigate the diversity of approaches, we highlight key differentiators:
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Algorithm} & \textbf{Paradigm} & \textbf{Classical Foundation} & \textbf{Primary Innovation} \\
+\midrule
+Q-Seg & Quantum Annealing & Graph cuts & QUBO min-cut formulation \\
+QuantumLOGISMOS & QAOA (Gate-model) & LOGISMOS & Multiple optimal solutions \\
+QCFFCM & QAOA (Gate-model) & Fuzzy C-Means & 3-ADMM-H hybrid framework \\
+FFQOAK & Quantum-inspired & K-Means & Quantum dynamics simulation \\
+\bottomrule
+\end{tabular}
+\caption{Overview of quantum segmentation algorithms covered in this review}
+\label{tab:algo-overview}
+\end{table}
+
+Each algorithm builds upon a well-established classical segmentation technique (graph cuts, LOGISMOS, FCM, or K-means) and introduces quantum enhancements at specific computational bottlenecks. This hybrid philosophy---quantum acceleration of classical frameworks---reflects the practical reality of the NISQ era.
+
+\begin{notebox}[Reading Guide]
+Readers interested in \textbf{immediate quantum hardware deployment} should focus on Q-Seg (quantum annealing). Those exploring \textbf{medical imaging applications} will find QuantumLOGISMOS most relevant. For \textbf{large-scale practical segmentation} without quantum hardware access, FFQOAK and QCFFCM offer deployable solutions today.
+\end{notebox}
+
+The section concludes with a \textbf{comparative analysis} that synthesizes these approaches, providing guidance on algorithm selection based on application requirements, available hardware, and performance priorities.
 
 %% Include individual algorithm files
 %% Each algorithm is in its own file for parallel editing
 
-\input{chapters/algorithms/quantum-kmeans}
-
-\input{chapters/algorithms/quantum-spectral}
-
-\input{chapters/algorithms/variational-quantum}
-
-\input{chapters/algorithms/quantum-fuzzy}
-
+\input{chapters/algorithms/quantum-annealing}
+\input{chapters/algorithms/quantum-logismos}
+\input{chapters/algorithms/quantum-ffqoak}
+\input{chapters/algorithms/quantum-fuzzy-qcffcm}
 \input{chapters/algorithms/comparative-analysis}
 
 %% ==============================================
