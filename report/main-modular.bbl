@@ -8,45 +8,37 @@
 \bibitem[Wang et~al.(2022)Wang, Xu, and Zhang]{wang2022review}
 Zhaobin Wang, Minzhe Xu, and Yaonan Zhang.
 \newblock Review of quantum image processing.
-\newblock \emph{Archives of Computational Methods in Engineering}, 29\penalty0
-  (2):\penalty0 737--761, 2022.
+\newblock \emph{Archives of Computational Methods in Engineering}, 29\penalty0 (2):\penalty0 737--761, 2022.
 \newblock \doi{10.1007/s11831-021-09599-2}.
 
 \bibitem[Cai et~al.(2018)Cai, Lu, and Jiang]{cai2018survey}
 Yongquan Cai, Xiaowei Lu, and Nan Jiang.
 \newblock A survey on quantum image processing.
-\newblock \emph{Chinese Journal of Electronics}, 27\penalty0 (4):\penalty0
-  718--727, 2018.
+\newblock \emph{Chinese Journal of Electronics}, 27\penalty0 (4):\penalty0 718--727, 2018.
 \newblock \doi{10.1049/cje.2018.02.012}.
 
 \bibitem[Abura'ed et~al.(2017)Abura'ed, Khan, and Bhaskar]{aburaed2017advances}
 Noor Abura'ed, Faisal~Shah Khan, and Harish Bhaskar.
-\newblock Advances in the quantum theoretical approach to image processing
-  applications.
-\newblock \emph{ACM Computing Surveys}, 49\penalty0 (4):\penalty0 75:1--75:49,
-  2017.
+\newblock Advances in the quantum theoretical approach to image processing applications.
+\newblock \emph{ACM Computing Surveys}, 49\penalty0 (4):\penalty0 75:1--75:49, 2017.
 \newblock \doi{10.1145/3009965}.
 
 \bibitem[Ruan et~al.(2021)Ruan, Xue, and Shen]{ruan2021qip}
 Yue Ruan, Xiling Xue, and Yi~Shen.
 \newblock Quantum image processing: Opportunities and challenges.
-\newblock \emph{Mathematical Problems in Engineering}, 2021\penalty0
-  (1):\penalty0 6671613, 2021.
+\newblock \emph{Mathematical Problems in Engineering}, 2021\penalty0 (1):\penalty0 6671613, 2021.
 \newblock \doi{10.1155/2021/6671613}.
 
-\bibitem[Chakraborty et~al.(2022)Chakraborty, Mandal, and
-  Shaikh]{chakraborty2022challenges}
+\bibitem[Chakraborty et~al.(2022)Chakraborty, Mandal, and Shaikh]{chakraborty2022challenges}
 Sanjay Chakraborty, Saibal~Bhadra Mandal, and Soharab~Hossain Shaikh.
 \newblock Quantum image processing: challenges and future research issues.
-\newblock \emph{International Journal of Information Technology}, 14\penalty0
-  (1):\penalty0 475--489, 2022.
+\newblock \emph{International Journal of Information Technology}, 14\penalty0 (1):\penalty0 475--489, 2022.
 \newblock \doi{10.1007/s41870-018-0227-8}.
 
 \bibitem[Sood and Pooja(2024)]{sood2024quantum}
 S.~K. Sood and Pooja.
 \newblock Quantum computing review: A decade of research.
-\newblock \emph{IEEE Transactions on Engineering Management}, 71:\penalty0
-  6662--6676, 2024.
+\newblock \emph{IEEE Transactions on Engineering Management}, 71:\penalty0 6662--6676, 2024.
 \newblock \doi{10.1109/TEM.2023.3284689}.
 
 \bibitem[Li et~al.(2020)Li, Tian, Liu, Peng, and Jiao]{li2020quantum}
@@ -55,33 +47,27 @@ Yangyang Li, Min Tian, Guangyue Liu, Cheng Peng, and Licheng Jiao.
 \newblock \emph{IEEE Access}, 8:\penalty0 23568--23593, 2020.
 \newblock \doi{10.1109/ACCESS.2020.2970105}.
 
-\bibitem[Ramezani et~al.(2020)Ramezani, Sommers, Manchukonda, Rahimi, and
-  Amirlatifi]{ramezani2020mlquantum}
+\bibitem[Ramezani et~al.(2020)Ramezani, Sommers, Manchukonda, Rahimi, and Amirlatifi]{ramezani2020mlquantum}
 S.~B. Ramezani, A.~Sommers, H.~K. Manchukonda, S.~Rahimi, and A.~Amirlatifi.
 \newblock Machine learning algorithms in quantum computing: A survey.
-\newblock In \emph{2020 International Joint Conference on Neural Networks
-  (IJCNN)}, pages 1--8, 2020.
+\newblock In \emph{2020 International Joint Conference on Neural Networks (IJCNN)}, pages 1--8, 2020.
 \newblock \doi{10.1109/IJCNN48605.2020.9207714}.
 
-\bibitem[A{\"\i}meur et~al.(2007)A{\"\i}meur, Brassard, and
-  Gambs]{aimeur2007clustering}
+\bibitem[A{\"\i}meur et~al.(2007)A{\"\i}meur, Brassard, and Gambs]{aimeur2007clustering}
 Esma A{\"\i}meur, Gilles Brassard, and S{\'e}bastien Gambs.
 \newblock Quantum clustering algorithms.
-\newblock In \emph{Proceedings of the 24th International Conference on Machine
-  Learning}, ICML '07, pages 1--8. Association for Computing Machinery, 2007.
+\newblock In \emph{Proceedings of the 24th International Conference on Machine Learning}, ICML '07, pages 1--8. Association for Computing Machinery, 2007.
 \newblock \doi{10.1145/1273496.1273497}.
 
 \bibitem[Xu and Tian(2015)]{xu2015clustering}
 Dongkuan Xu and Yingjie Tian.
 \newblock A comprehensive survey of clustering algorithms.
-\newblock \emph{Annals of Data Science}, 2\penalty0 (2):\penalty0 165--193,
-  2015.
+\newblock \emph{Annals of Data Science}, 2\penalty0 (2):\penalty0 165--193, 2015.
 \newblock \doi{10.1007/s40745-015-0040-1}.
 
 \bibitem[Yan et~al.(2014)Yan, Iliyasu, and Jiang]{yan2014qip}
 Fei Yan, Abdullah~M. Iliyasu, and Zhengjun Jiang.
-\newblock Quantum computation-based image representation, processing operations
-  and their applications.
+\newblock Quantum computation-based image representation, processing operations and their applications.
 \newblock \emph{Entropy}, 2014.
 \newblock \doi{10.3390/e16105290}.
 
@@ -93,10 +79,8 @@ Tadashi Kadowaki and Hidetoshi Nishimori.
 
 \bibitem[McGeoch(2014)]{mcgeoch2014adiabatic}
 Catherine~C McGeoch.
-\newblock Adiabatic quantum computation and quantum annealing: Theory and
-  practice.
-\newblock \emph{Synthesis Lectures on Quantum Computing}, 5\penalty0
-  (2):\penalty0 1--93, 2014.
+\newblock Adiabatic quantum computation and quantum annealing: Theory and practice.
+\newblock \emph{Synthesis Lectures on Quantum Computing}, 5\penalty0 (2):\penalty0 1--93, 2014.
 \newblock \doi{10.2200/S00585ED1V01Y201407QMC008}.
 
 \bibitem[Lucas(2014)]{lucas2014}
@@ -107,10 +91,8 @@ Andrew Lucas.
 
 \bibitem[Boykov and Jolly(2001)]{boykov2001graphcuts}
 Yuri Boykov and Marie-Pierre Jolly.
-\newblock Interactive graph cuts for optimal boundary \& region segmentation of
-  objects in n-d images.
-\newblock \emph{Proceedings of the IEEE International Conference on Computer
-  Vision}, 1:\penalty0 105--112, 2001.
+\newblock Interactive graph cuts for optimal boundary \& region segmentation of objects in n-d images.
+\newblock \emph{Proceedings of the IEEE International Conference on Computer Vision}, 1:\penalty0 105--112, 2001.
 \newblock \doi{10.1109/ICCV.2001.937505}.
 
 \bibitem[{D-Wave Systems Inc.}(2020)]{dwave2020}
@@ -120,18 +102,14 @@ Yuri Boykov and Marie-Pierre Jolly.
 
 \bibitem[Li et~al.(2004)Li, Wu, Chen, and Sonka]{li2004}
 Kang Li, Xiaodong Wu, DZ~Chen, and Milan Sonka.
-\newblock Globally optimal segmentation of interacting surfaces with geometric
-  constraints.
-\newblock In \emph{Proceedings of the 2004 IEEE Computer Society Conference on
-  Computer Vision and Pattern Recognition}, volume~1, pages I--I, 2004.
+\newblock Globally optimal segmentation of interacting surfaces with geometric constraints.
+\newblock In \emph{Proceedings of the 2004 IEEE Computer Society Conference on Computer Vision and Pattern Recognition}, volume~1, pages I--I, 2004.
 \newblock \doi{10.1109/CVPR.2004.1315059}.
 
 \bibitem[Li et~al.(2006)Li, Wu, Chen, and Sonka]{li2006}
 Kang Li, Xiaodong Wu, DZ~Chen, and Milan Sonka.
-\newblock Optimal surface segmentation in volumetric images—a graph-theoretic
-  approach.
-\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
-  Intelligence}, 28\penalty0 (1):\penalty0 119--134, 2006.
+\newblock Optimal surface segmentation in volumetric images—a graph-theoretic approach.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine Intelligence}, 28\penalty0 (1):\penalty0 119--134, 2006.
 \newblock \doi{10.1109/TPAMI.2006.19}.
 
 \bibitem[Farhi et~al.(2014)Farhi, Goldstone, and Gutmann]{farhi2014}
@@ -141,16 +119,14 @@ Edward Farhi, Jeffrey Goldstone, and Sam Gutmann.
 
 \bibitem[Le et~al.(2023)Le, Sonka, and Toor]{le2023quantumlogismos}
 Nam~H Le, Milan Sonka, and Fatima Toor.
-\newblock Quantum optimization method for geometric constrained image
-  segmentation.
+\newblock Quantum optimization method for geometric constrained image segmentation.
 \newblock \emph{IEEE Access}, 11:\penalty0 12345--12356, 2023.
 \newblock QuantumLOGISMOS framework.
 
 \bibitem[Yan et~al.(2024)Yan, Huang, Pedrycz, and Hirota]{yan2024medical}
 Fei Yan, H.~Huang, W.~Pedrycz, and K.~Hirota.
 \newblock Review of medical image processing using quantum-enabled algorithms.
-\newblock \emph{Artificial Intelligence Review}, 57\penalty0 (11):\penalty0
-  300, 2024.
+\newblock \emph{Artificial Intelligence Review}, 57\penalty0 (11):\penalty0 300, 2024.
 \newblock \doi{10.1007/s10462-024-10932-x}.
 
 \bibitem[Wei et~al.(2023)]{wei2023qml}
@@ -161,23 +137,18 @@ L.~Wei et~al.
 
 \bibitem[Singh and Bose(2021)]{singh2021ffqoak}
 Prabhat Singh and Santi~S Bose.
-\newblock A quantum-clustering optimization method for covid-19 ct scan image
-  segmentation.
+\newblock A quantum-clustering optimization method for covid-19 ct scan image segmentation.
 \newblock \emph{Expert Systems with Applications}, 185:\penalty0 115637, 2021.
 \newblock \doi{10.1016/j.eswa.2021.115637}.
 
 \bibitem[MacQueen(1967)]{macqueen1967kmeans}
 James MacQueen.
-\newblock Some methods for classification and analysis of multivariate
-  observations.
-\newblock In \emph{Proceedings of the Fifth Berkeley Symposium on Mathematical
-  Statistics and Probability}, volume~1, pages 281--297. University of
-  California Press, 1967.
+\newblock Some methods for classification and analysis of multivariate observations.
+\newblock In \emph{Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability}, volume~1, pages 281--297. University of California Press, 1967.
 
 \bibitem[Jasso et~al.(2023)]{jasso2023qknn}
 A.~V. Jasso et~al.
-\newblock Quantum and quantum-inspired stereographic k nearest-neighbour
-  clustering.
+\newblock Quantum and quantum-inspired stereographic k nearest-neighbour clustering.
 \newblock \emph{Entropy}, 25\penalty0 (9):\penalty0 1361, 2023.
 \newblock \doi{10.3390/e25091361}.
 
@@ -188,38 +159,30 @@ Ma~Jun et~al.
 
 \bibitem[Illarionov and Tlatov(2020)]{illarionov2020qcffcm}
 Egor Illarionov and Andrey Tlatov.
-\newblock Quantum computing based fast fuzzy c-means algorithm for solar
-  coronal hole detection.
+\newblock Quantum computing based fast fuzzy c-means algorithm for solar coronal hole detection.
 \newblock \emph{Solar Physics}, 295:\penalty0 1--16, 2020.
 
 \bibitem[Bezdek et~al.(1984)Bezdek, Ehrlich, and Full]{bezdek1984fcm}
 James~C Bezdek, Robert Ehrlich, and William Full.
 \newblock Fcm: The fuzzy c-means clustering algorithm.
-\newblock \emph{Computers \& Geosciences}, 10\penalty0 (2-3):\penalty0
-  191--203, 1984.
+\newblock \emph{Computers \& Geosciences}, 10\penalty0 (2-3):\penalty0 191--203, 1984.
 
-\bibitem[Boyd et~al.(2011)Boyd, Parikh, Chu, Peleato, and
-  Eckstein]{boyd2011admm}
+\bibitem[Boyd et~al.(2011)Boyd, Parikh, Chu, Peleato, and Eckstein]{boyd2011admm}
 Stephen Boyd, Neal Parikh, Eric Chu, Borja Peleato, and Jonathan Eckstein.
-\newblock Distributed optimization and statistical learning via the alternating
-  direction method of multipliers.
-\newblock \emph{Foundations and Trends in Machine Learning}, 3\penalty0
-  (1):\penalty0 1--122, 2011.
+\newblock Distributed optimization and statistical learning via the alternating direction method of multipliers.
+\newblock \emph{Foundations and Trends in Machine Learning}, 3\penalty0 (1):\penalty0 1--122, 2011.
 \newblock \doi{10.1561/2200000016}.
 
 \bibitem[Domingo and Chehimi(2024)]{domingo2024medical}
 L.~Domingo and M.~Chehimi.
-\newblock Quantum-enhanced unsupervised image segmentation for medical images
-  analysis.
+\newblock Quantum-enhanced unsupervised image segmentation for medical images analysis.
 \newblock \emph{arXiv preprint arXiv:2411.15086}, 2024.
 \newblock \doi{10.48550/arXiv.2411.15086}.
 
-\bibitem[Maier et~al.(2005)Maier, Jarrell, Pruschke, and
-  Hettler]{maier2005quantum}
+\bibitem[Maier et~al.(2005)Maier, Jarrell, Pruschke, and Hettler]{maier2005quantum}
 Thomas Maier, Mark Jarrell, Thomas Pruschke, and Matthias~H. Hettler.
 \newblock Quantum cluster theories.
-\newblock \emph{Reviews of Modern Physics}, 77\penalty0 (3):\penalty0
-  1027--1080, 2005.
+\newblock \emph{Reviews of Modern Physics}, 77\penalty0 (3):\penalty0 1027--1080, 2005.
 \newblock \doi{10.1103/RevModPhys.77.1027}.
 
 \end{thebibliography}

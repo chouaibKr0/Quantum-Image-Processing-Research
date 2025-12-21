@@ -4,10 +4,10 @@
 \subsection{Quantum Annealing for Image Segmentation}
 \label{sec:quantum-annealing}
 
-Quantum Annealing (QA) represents a computational paradigm designed to find global minima of objective functions by exploiting quantum fluctuations~\cite{kadowaki1998quantum,li2020quantum}. Unlike classical optimization methods, QA leverages \textbf{quantum tunneling} to escape local minima by passing through energy barriers rather than climbing over them~\cite{mcgeoch2014adiabatic}. This approach has gained significant attention for image segmentation tasks~\cite{wang2022review,ruan2021qip}.
+Quantum Annealing (QA) represents a computational paradigm designed to find global minima of objective functions by exploiting quantum fluctuations~\cite{kadowaki1998quantum,li2020quantum}. Unlike classical optimization methods, QA leverages \textbf{quantum tunneling} (see Appendix~\ref{sec:tunneling}) to escape local minima by passing through energy barriers rather than climbing over them~\cite{mcgeoch2014adiabatic}. This approach has gained significant attention for image segmentation tasks~\cite{wang2022review,ruan2021qip}.
 
 \begin{keyconceptbox}[Quantum Annealing Principle]
-Quantum annealing implements a time-dependent Hamiltonian that evolves from a simple initial configuration to the problem encoding:
+Quantum annealing implements a time-dependent Hamiltonian (see Appendix~\ref{sec:hamiltonian}) that evolves from a simple initial configuration to the problem encoding:
 \begin{equation}
     H(t) = A(t) \sum_i \sigma_i^x + B(t) \left( \sum_{i<j} J_{ij} \sigma_i^z \sigma_i^z + \sum_i h_i \sigma_i^z \right)
 \end{equation}
@@ -16,7 +16,7 @@ where $A(t)$ and $B(t)$ control the annealing schedule, and the problem Hamilton
 
 \subsubsection{Relationship to Image Segmentation}
 
-Image segmentation problems are naturally suited for quantum annealing due to their NP-hard nature~\cite{lucas2014}. The relationship is established by reformulating segmentation tasks into Quadratic Unconstrained Binary Optimization (QUBO) problems:
+Image segmentation problems are naturally suited for quantum annealing due to their NP-hard nature~\cite{lucas2014}. The relationship is established by reformulating segmentation tasks into Quadratic Unconstrained Binary Optimization (QUBO) problems (see Appendix~\ref{sec:qubo} for mathematical background):
 
 \begin{center}
 \textbf{Image Segmentation} $\rightarrow$ \textbf{QUBO Formulation} $\rightarrow$ \textbf{Quantum Annealing}
@@ -30,7 +30,7 @@ where $x \in \{0,1\}^{n}$ is the binary variable vector encoding pixel assignmen
 
 \subsubsection{Q-Seg: Quantum Annealing-Based Unsupervised Image Segmentation}
 
-Q-Seg is a quantum annealing approach that formulates image segmentation as a minimum graph cut problem~\cite{boykov2001graphcuts}. The method constructs a grid graph from the image, computes similarity weights between neighboring pixels, and solves the resulting QUBO problem on a quantum annealer~\cite{dwave2020}.
+Q-Seg is a quantum annealing approach that formulates image segmentation as a minimum graph cut problem (see Appendix~\ref{sec:graph-cuts})~\cite{boykov2001graphcuts}. The method constructs a grid graph from the image, computes similarity weights between neighboring pixels, and solves the resulting QUBO problem on a quantum annealer~\cite{dwave2020}.
 
 \begin{definitionbox}[Q-Seg Pipeline]
 The Q-Seg algorithm consists of six main steps:

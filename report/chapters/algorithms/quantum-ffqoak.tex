@@ -211,32 +211,6 @@ Unlike classical K-means:
     \item \textbf{Information sharing:} Global best component enables rapid propagation of good solutions
 \end{itemize}
 
-\subsubsection{Experimental Results}
-
-Performance comparison on COVID-19 CT image segmentation:
-
-\begin{center}
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Metric} & \textbf{K-means} & \textbf{Best Classical Hybrid} & \textbf{FFQOAK} \\
-\midrule
-MSE & 5293.23 & 1136.73 & \textbf{712.30} \\
-PSNR & 11.02 dB & 17.60 dB & \textbf{19.61 dB} \\
-Jaccard Index & 0.37 & 0.84 & \textbf{0.90} \\
-Convergence & Local optima & Near global & \textbf{Global optima} \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\begin{tipbox}[Performance Highlights]
-FFQOAK demonstrates:
-\begin{itemize}
-    \item \textbf{37.3\% MSE reduction} compared to best classical hybrid (ACOK)
-    \item \textbf{11.4\% PSNR improvement} for image quality
-    \item \textbf{7.1\% Jaccard improvement} for segmentation accuracy
-    \item Consistent convergence to global or near-global optima
-\end{itemize}
-\end{tipbox}
 
 \subsubsection{Complexity Analysis}
 

@@ -4,13 +4,13 @@
 \subsection{QCFFCM: Quantum-Enhanced Fast Fuzzy C-Means Clustering}
 \label{sec:qcffcm}
 
-The Quantum Computing-based Fast Fuzzy C-Means (QCFFCM) algorithm~\cite{illarionov2020qcffcm} integrates quantum optimization into the classical Fast Fuzzy C-Means (FFCM) framework~\cite{bezdek1984fcm} using the Quantum Approximate Optimization Algorithm (QAOA)~\cite{farhi2014} and a three-block ADMM heuristic (3-ADMM-H)~\cite{boyd2011admm}. This hybrid approach achieves near-real-time performance for large-scale image segmentation while maintaining competitive accuracy~\cite{domingo2024medical,chakraborty2022challenges}.
+The Quantum Computing-based Fast Fuzzy C-Means (QCFFCM) algorithm~\cite{illarionov2020qcffcm} integrates quantum optimization into the classical Fast Fuzzy C-Means (FFCM) framework~\cite{bezdek1984fcm} using the Quantum Approximate Optimization Algorithm (QAOA)~\cite{farhi2014} and a three-block ADMM heuristic (3-ADMM-H)~\cite{boyd2011admm} (see Appendix~\ref{sec:convex-optimization} for ADMM background). This hybrid approach achieves near-real-time performance for large-scale image segmentation while maintaining competitive accuracy~\cite{domingo2024medical,chakraborty2022challenges}.
 
 \begin{keyconceptbox}[QCFFCM Innovation]
-QCFFCM addresses the computational bottleneck of fuzzy clustering on high-resolution images by:
+QCFFCM addresses the computational bottleneck of fuzzy clustering (see Appendix~\ref{sec:fuzzy-clustering}) on high-resolution images by:
 \begin{itemize}
     \item Histogram-based reduction of search space (from millions of pixels to 256 intensity levels)
-    \item QUBO subproblem formulation for quantum optimization
+    \item QUBO subproblem formulation for quantum optimization (see Appendix~\ref{sec:qubo})
     \item 3-ADMM-H framework for hybrid quantum-classical iteration
     \item QAOA execution for global optimization of membership functions
 \end{itemize}
@@ -187,46 +187,10 @@ For applications like solar coronal hole detection, additional post-processing s
     \item \textbf{Area-based Morphological Operations:} Remove regions with area below threshold $T_A$
 \end{enumerate}
 
-\subsubsection{Experimental Results}
 
-\paragraph{Application: Solar Coronal Hole Detection}
-
-Dataset: 365 SDO/AIA 193Å images (4096×4096 resolution) from 2017.
-
-\begin{notebox}[Performance Metrics]
-\textbf{F1 Score:}
-\begin{equation}
-    \text{F1} = \frac{2|A \cap B|}{|A| + |B|}
-\end{equation}
-where $A$ = detected region, $B$ = ground truth.
-
-\textbf{Results:}
+\begin{tipbox}[Key Advantages]
 \begin{itemize}
-    \item Peak F1 score: \textbf{0.9199} (February 2017)
-    \item Annual average: \textbf{0.75--0.85}
-    \item Execution time: \textbf{$\sim$12 seconds} per image
-\end{itemize}
-\end{notebox}
-
-\paragraph{Comparative Performance}
-
-\begin{center}
-\begin{tabular}{@{}lcc@{}}
-\toprule
-\textbf{Method} & \textbf{Execution Time} & \textbf{F1 Score} \\
-\midrule
-Classical FCM & 40--60 seconds & 0.70--0.80 \\
-CNN-based & 60--240 seconds & 0.75--0.85 \\
-CHIMERA & 30--50 seconds & 0.75--0.82 \\
-SPoCA & 25--40 seconds & 0.73--0.80 \\
-\textbf{QCFFCM} & \textbf{$\sim$12 seconds} & \textbf{0.75--0.92} \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\begin{tipbox}[Key Achievements]
-\begin{itemize}
-    \item \textbf{3-20× speedup} over classical methods
+    \item \textbf{Speedup} over classical methods
     \item \textbf{Competitive accuracy} with state-of-the-art approaches
     \item \textbf{Near-real-time processing} for high-resolution images
     \item Better capture of boundary curvatures compared to CNN and classical methods

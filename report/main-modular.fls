@@ -1721,9 +1721,6 @@ INPUT /usr/share/texlive/texmf-dist/tex/latex/microtype/mt-euf.cfg
 INPUT /usr/share/texlive/texmf-dist/tex/latex/microtype/mt-euf.cfg
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/euler/eufm10.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/euler/eufm7.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/fira/FiraSans-Bold-osf-ts1.tfm
-INPUT /usr/share/texlive/texmf-dist/fonts/vf/public/fira/FiraSans-Bold-osf-ts1.vf
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/fira/FiraSans-Bold-osf-ts1--base.tfm
 INPUT ./chapters/algorithms/comparative-analysis.tex
 INPUT ./chapters/algorithms/comparative-analysis.tex
 INPUT ./chapters/algorithms/comparative-analysis.tex
@@ -1747,10 +1744,6 @@ INPUT chapters/conclusion.tex
 INPUT ./chapters/conclusion.tex
 INPUT ./chapters/conclusion.tex
 INPUT chapters/conclusion.tex
-INPUT ./main-modular.bbl
-INPUT main-modular.bbl
-INPUT ./main-modular.bbl
-INPUT main-modular.bbl
 INPUT ./appendices/appendix-a-quantum-primer.tex
 INPUT ./appendices/appendix-a-quantum-primer.tex
 INPUT ./appendices/appendix-a-quantum-primer.tex
@@ -1758,6 +1751,8 @@ INPUT appendices/appendix-a-quantum-primer.tex
 INPUT ./appendices/appendix-a-quantum-primer.tex
 INPUT ./appendices/appendix-a-quantum-primer.tex
 INPUT appendices/appendix-a-quantum-primer.tex
+INPUT /usr/share/texlive/texmf-dist/fonts/vf/public/fira/FiraSans-Regular-osf-t1.vf
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/public/fira/FiraSans-Regular-osf-t1--base.tfm
 INPUT ./appendices/appendix-b-fuzzy-logic.tex
 INPUT ./appendices/appendix-b-fuzzy-logic.tex
 INPUT ./appendices/appendix-b-fuzzy-logic.tex
@@ -1765,6 +1760,10 @@ INPUT appendices/appendix-b-fuzzy-logic.tex
 INPUT ./appendices/appendix-b-fuzzy-logic.tex
 INPUT ./appendices/appendix-b-fuzzy-logic.tex
 INPUT appendices/appendix-b-fuzzy-logic.tex
+INPUT ./main-modular.bbl
+INPUT main-modular.bbl
+INPUT ./main-modular.bbl
+INPUT main-modular.bbl
 INPUT main-modular.aux
 INPUT ./main-modular.out
 INPUT ./main-modular.out

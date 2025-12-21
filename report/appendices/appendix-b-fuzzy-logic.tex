@@ -1,125 +1,483 @@
 % appendices/appendix-b-fuzzy-logic.tex
-% Appendix B: Fundamentals of Fuzzy Logic in Segmentation
+% Appendix B: Mathematical Foundations for Quantum Image Segmentation
 
-\chapter{Fundamentals of Fuzzy Logic in Segmentation}
+\chapter{Mathematical Foundations for Quantum Image Segmentation}
 
-This appendix covers the principles of fuzzy logic and fuzzy clustering, which form the basis for quantum fuzzy clustering algorithms discussed in the main text.
+This appendix provides the mathematical background necessary to understand the quantum image segmentation algorithms presented in this report. We cover optimization formulations (QUBO, convex optimization), graph-based methods (minimum cut), probabilistic models (Markov Random Fields), and fuzzy clustering foundations. The treatment assumes familiarity with basic graph theory, probability, and the general concept of optimization (minimizing a cost function).
 
-\section{Introduction to Fuzzy Sets}
+%% ============================================
+%% SECTION 1: OPTIMIZATION FUNDAMENTALS
+%% ============================================
 
-Classical set theory operates on crisp membership: an element either belongs to a set or it does not. Fuzzy set theory, introduced by Lotfi Zadeh in 1965, extends this to allow partial membership.
+\section{Optimization Fundamentals}
+\label{sec:optimization-fundamentals}
+
+Before diving into specific formulations, let us establish the basic language of optimization that appears throughout quantum algorithms.
+
+\begin{definitionbox}[Optimization Problem]
+An optimization problem seeks to find the best solution from a set of feasible solutions:
+\begin{equation}
+    \min_{x \in \mathcal{X}} f(x) \quad \text{subject to} \quad g_i(x) \leq 0, \quad h_j(x) = 0
+\end{equation}
+where:
+\begin{itemize}
+    \item $f(x)$: \textbf{Objective function} (also called cost function or energy)
+    \item $x$: \textbf{Decision variables} (what we're trying to find)
+    \item $\mathcal{X}$: \textbf{Feasible set} (allowed values for $x$)
+    \item $g_i(x) \leq 0$: \textbf{Inequality constraints}
+    \item $h_j(x) = 0$: \textbf{Equality constraints}
+\end{itemize}
+\end{definitionbox}
+
+\textbf{Key terminology:}
+\begin{itemize}
+    \item \textbf{Global minimum:} The absolute best solution across all feasible points
+    \item \textbf{Local minimum:} A solution better than all nearby solutions (but possibly not global)
+    \item \textbf{Unconstrained:} No constraints; $x$ can take any value in $\mathcal{X}$
+    \item \textbf{NP-hard:} Problems for which no efficient (polynomial-time) algorithm is known
+\end{itemize}
+
+\begin{notebox}
+Image segmentation problems are typically NP-hard, meaning finding the globally optimal segmentation is computationally intractable for large images. This is precisely why quantum computing offers potential advantages---quantum algorithms can explore solution spaces more efficiently than classical methods.
+\end{notebox}
+
+%% ============================================
+%% SECTION 2: QUBO
+%% ============================================
+
+\section{Quadratic Unconstrained Binary Optimization (QUBO)}
+\label{sec:qubo}
+
+QUBO is the fundamental problem formulation for quantum annealing and many gate-model quantum algorithms. Understanding QUBO is essential for grasping how image segmentation maps to quantum hardware.
+
+\subsection{QUBO Formulation}
+
+\begin{definitionbox}[QUBO Problem]
+A QUBO problem minimizes a quadratic function over binary variables:
+\begin{equation}
+    \min_{x \in \{0,1\}^n} f(x) = \min_{x \in \{0,1\}^n} \sum_{i=1}^{n} Q_{ii} x_i + \sum_{i<j} Q_{ij} x_i x_j
+\end{equation}
+or equivalently in matrix form:
+\begin{equation}
+    \min_{x \in \{0,1\}^n} x^T Q x
+\end{equation}
+where $Q \in \mathbb{R}^{n \times n}$ is the \textbf{QUBO matrix} (can be made symmetric).
+\end{definitionbox}
+
+\textbf{Understanding the components:}
+\begin{itemize}
+    \item \textbf{Binary variables} $x_i \in \{0,1\}$: Each represents a yes/no decision (e.g., pixel in foreground or background)
+    \item \textbf{Diagonal terms} $Q_{ii}$: Linear costs---the ``bias'' toward $x_i = 0$ or $x_i = 1$
+    \item \textbf{Off-diagonal terms} $Q_{ij}$: Interaction costs---how the choice for $x_i$ affects the cost when $x_j$ is also chosen
+\end{itemize}
+
+\begin{keyconceptbox}[QUBO Intuition for Segmentation]
+In image segmentation:
+\begin{itemize}
+    \item Each pixel $i$ gets a binary variable $x_i$
+    \item $x_i = 1$ means ``pixel belongs to foreground''
+    \item $x_i = 0$ means ``pixel belongs to background''
+    \item $Q_{ii}$ encodes how likely pixel $i$ is to be foreground (based on intensity, color)
+    \item $Q_{ij}$ encodes whether neighboring pixels $i$ and $j$ should have the same label (smoothness)
+\end{itemize}
+\end{keyconceptbox}
+
+\subsection{From QUBO to Ising Model}
+
+Quantum annealers (like D-Wave) work with the Ising model rather than QUBO directly. The two are mathematically equivalent via a simple transformation.
+
+\begin{definitionbox}[Ising Hamiltonian]
+The Ising model minimizes:
+\begin{equation}
+    H(s) = \sum_{i<j} J_{ij} s_i s_j + \sum_i h_i s_i
+\end{equation}
+where $s_i \in \{-1, +1\}$ are \textbf{spin variables}, $J_{ij}$ are coupling strengths, and $h_i$ are local fields.
+\end{definitionbox}
+
+\textbf{Conversion:} The substitution $x_i = \frac{1 + s_i}{2}$ transforms QUBO to Ising:
+\begin{align}
+    J_{ij} &= \frac{Q_{ij}}{4} \\
+    h_i &= \frac{Q_{ii}}{2} + \frac{1}{4}\sum_{j \neq i} Q_{ij}
+\end{align}
+
+\begin{tipbox}
+When reading quantum annealing papers, QUBO and Ising formulations are used interchangeably. The physics community prefers Ising (spin notation), while computer science often uses QUBO (binary notation).
+\end{tipbox}
+
+\subsection{Why QUBO for Quantum Computing?}
+
+QUBO is the ``native language'' of quantum optimization because:
+\begin{enumerate}
+    \item \textbf{Quantum annealing:} D-Wave machines directly implement the Ising Hamiltonian in hardware
+    \item \textbf{QAOA:} The Quantum Approximate Optimization Algorithm encodes QUBO objectives as quantum Hamiltonians
+    \item \textbf{Universality:} Many NP-hard problems (graph coloring, max-cut, satisfiability) reduce to QUBO
+\end{enumerate}
+
+%% ============================================
+%% SECTION 3: GRAPH CUTS
+%% ============================================
+
+\section{Minimum Graph Cut}
+\label{sec:graph-cuts}
+
+Graph cuts provide a powerful framework for image segmentation by representing images as graphs and finding optimal partitions.
+
+\subsection{Graph Representation of Images}
+
+\begin{definitionbox}[Image Graph]
+An image $I$ is represented as a weighted graph $G = (V, E, w)$ where:
+\begin{itemize}
+    \item $V$: Set of nodes (one per pixel)
+    \item $E$: Set of edges (connecting neighboring pixels)
+    \item $w: E \rightarrow \mathbb{R}^+$: Edge weights (similarity between connected pixels)
+\end{itemize}
+\end{definitionbox}
+
+\textbf{Common edge weight choices:}
+\begin{equation}
+    w_{ij} = \exp\left(-\frac{(I_i - I_j)^2}{2\sigma^2}\right)
+\end{equation}
+where $I_i$ and $I_j$ are pixel intensities. Similar pixels have high weights; dissimilar pixels have low weights.
+
+\subsection{The Minimum Cut Problem}
+
+\begin{definitionbox}[Graph Cut]
+A \textbf{cut} $C = (S, T)$ partitions the vertices into two disjoint sets: $S$ (source/foreground) and $T$ (sink/background), where $V = S \cup T$ and $S \cap T = \emptyset$.
+
+The \textbf{cut cost} is the sum of weights of edges crossing the partition:
+\begin{equation}
+    \text{cut}(S, T) = \sum_{i \in S, j \in T} w_{ij}
+\end{equation}
+\end{definitionbox}
+
+\begin{definitionbox}[Minimum s-t Cut]
+Given source node $s$ and sink node $t$, find the partition $(S, T)$ with $s \in S$ and $t \in T$ that minimizes the cut cost:
+\begin{equation}
+    \min_{S: s \in S, t \notin S} \sum_{i \in S, j \notin S} w_{ij}
+\end{equation}
+\end{definitionbox}
+
+\begin{keyconceptbox}[Min-Cut Intuition for Segmentation]
+The minimum cut finds boundaries where pixels are \textbf{most different}:
+\begin{itemize}
+    \item High-weight edges (similar pixels) are expensive to cut $\rightarrow$ kept together
+    \item Low-weight edges (dissimilar pixels) are cheap to cut $\rightarrow$ natural boundaries
+    \item Result: Segmentation follows edges where intensity/color changes sharply
+\end{itemize}
+\end{keyconceptbox}
+
+\subsection{Max-Flow Min-Cut Theorem}
+
+The classical algorithm for minimum cut exploits the max-flow min-cut theorem:
+
+\begin{definitionbox}[Max-Flow Min-Cut Theorem]
+In any flow network, the maximum flow from source $s$ to sink $t$ equals the minimum cut capacity separating $s$ and $t$:
+\begin{equation}
+    \max_{\text{flow}} |f| = \min_{\text{cut}} \text{cut}(S,T)
+\end{equation}
+\end{definitionbox}
+
+Classical algorithms (Ford-Fulkerson, Edmonds-Karp) solve min-cut in polynomial time $O(VE^2)$. However, for large images with millions of pixels, this remains computationally expensive.
+
+\subsection{Graph Cut as QUBO}
+
+The min-cut problem can be formulated as QUBO, enabling quantum solutions:
+
+\begin{equation}
+    \min_{x \in \{0,1\}^n} \sum_{(i,j) \in E} w_{ij} (x_i - x_j)^2
+\end{equation}
+
+Expanding: $(x_i - x_j)^2 = x_i + x_j - 2x_i x_j$ (since $x_i^2 = x_i$ for binary variables)
+
+This gives QUBO matrix:
+\begin{equation}
+    Q_{ij} = \begin{cases}
+        \sum_{k: (i,k) \in E} w_{ik} & \text{if } i = j \\
+        -2w_{ij} & \text{if } (i,j) \in E \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{equation}
+
+%% ============================================
+%% SECTION 4: MARKOV RANDOM FIELDS
+%% ============================================
+
+\section{Markov Random Fields (MRF)}
+\label{sec:mrf}
+
+MRFs provide a probabilistic framework for image segmentation that naturally incorporates spatial relationships between pixels.
+
+\subsection{MRF Definition}
+
+\begin{definitionbox}[Markov Random Field]
+A Markov Random Field on graph $G = (V, E)$ is a probability distribution $P(X)$ over random variables $X = (X_1, \ldots, X_n)$ satisfying the \textbf{Markov property}:
+\begin{equation}
+    P(X_i | X_{V \setminus \{i\}}) = P(X_i | X_{\mathcal{N}(i)})
+\end{equation}
+where $\mathcal{N}(i)$ denotes the neighbors of node $i$ in the graph.
+
+In words: The value at pixel $i$ depends only on its neighbors, not on distant pixels.
+\end{definitionbox}
+
+\subsection{Gibbs Distribution}
+
+By the Hammersley-Clifford theorem, any positive MRF can be written as a Gibbs distribution:
+
+\begin{definitionbox}[Gibbs Distribution]
+\begin{equation}
+    P(X = x) = \frac{1}{Z} \exp\left(-\frac{E(x)}{T}\right)
+\end{equation}
+where:
+\begin{itemize}
+    \item $E(x)$: \textbf{Energy function} (lower energy = higher probability)
+    \item $Z$: \textbf{Partition function} (normalization constant)
+    \item $T$: \textbf{Temperature} parameter
+\end{itemize}
+\end{definitionbox}
+
+The energy function decomposes over cliques (fully connected subgraphs):
+\begin{equation}
+    E(x) = \sum_{i \in V} \phi_i(x_i) + \sum_{(i,j) \in E} \psi_{ij}(x_i, x_j)
+\end{equation}
+
+\begin{itemize}
+    \item $\phi_i(x_i)$: \textbf{Unary potential}---cost of assigning label $x_i$ to pixel $i$
+    \item $\psi_{ij}(x_i, x_j)$: \textbf{Pairwise potential}---cost of adjacent pixels having labels $x_i$ and $x_j$
+\end{itemize}
+
+\subsection{MRF for Image Segmentation}
+
+\begin{keyconceptbox}[MRF Segmentation Model]
+For binary segmentation, the energy function typically takes the form:
+\begin{equation}
+    E(x) = \underbrace{\sum_{i} D_i(x_i)}_{\text{Data term}} + \underbrace{\lambda \sum_{(i,j) \in \mathcal{N}} V_{ij}(x_i, x_j)}_{\text{Smoothness term}}
+\end{equation}
+where:
+\begin{itemize}
+    \item $D_i(x_i)$: How well label $x_i$ fits the observed pixel intensity
+    \item $V_{ij}(x_i, x_j)$: Penalty for neighboring pixels having different labels
+    \item $\lambda$: Trade-off parameter between data fidelity and smoothness
+\end{itemize}
+\end{keyconceptbox}
+
+\textbf{Common choices:}
+\begin{itemize}
+    \item \textbf{Data term:} $D_i(1) = -\log P(\text{foreground} | I_i)$, often from Gaussian models
+    \item \textbf{Potts model:} $V_{ij}(x_i, x_j) = \mathbf{1}[x_i \neq x_j]$ (penalty if labels differ)
+    \item \textbf{Contrast-sensitive:} $V_{ij} = \exp(-\beta(I_i - I_j)^2) \cdot \mathbf{1}[x_i \neq x_j]$
+\end{itemize}
+
+\subsection{MAP Inference as Optimization}
+
+Finding the most probable segmentation is the Maximum A Posteriori (MAP) problem:
+\begin{equation}
+    x^* = \arg\max_x P(x) = \arg\min_x E(x)
+\end{equation}
+
+For binary labels with pairwise potentials, this reduces to min-cut/QUBO!
+
+\begin{notebox}
+The connection between MRF energy minimization, graph cuts, and QUBO is fundamental to quantum image segmentation. All three formulations are mathematically equivalent for certain energy functions, allowing segmentation problems to be solved on quantum hardware.
+\end{notebox}
+
+%% ============================================
+%% SECTION 5: CONVEX OPTIMIZATION
+%% ============================================
+
+\section{Convex Optimization}
+\label{sec:convex-optimization}
+
+Convex optimization is a class of problems with strong theoretical guarantees: any local minimum is also a global minimum. Understanding convexity helps distinguish ``easy'' problems from hard ones.
+
+\subsection{Convex Sets and Functions}
+
+\begin{definitionbox}[Convex Set]
+A set $\mathcal{C}$ is \textbf{convex} if for any two points $x, y \in \mathcal{C}$, the line segment connecting them lies entirely in $\mathcal{C}$:
+\begin{equation}
+    \theta x + (1-\theta) y \in \mathcal{C} \quad \forall \theta \in [0,1]
+\end{equation}
+\end{definitionbox}
+
+\begin{definitionbox}[Convex Function]
+A function $f: \mathbb{R}^n \rightarrow \mathbb{R}$ is \textbf{convex} if its domain is convex and:
+\begin{equation}
+    f(\theta x + (1-\theta) y) \leq \theta f(x) + (1-\theta) f(y) \quad \forall \theta \in [0,1]
+\end{equation}
+Geometrically: the function lies below any chord connecting two points.
+\end{definitionbox}
+
+\textbf{Examples of convex functions:}
+\begin{itemize}
+    \item Linear: $f(x) = a^T x + b$
+    \item Quadratic (positive semidefinite): $f(x) = x^T Q x$ where $Q \succeq 0$
+    \item Norms: $f(x) = \|x\|_p$ for $p \geq 1$
+    \item Log-sum-exp: $f(x) = \log(\sum_i e^{x_i})$
+\end{itemize}
+
+\subsection{Convex Optimization Problem}
+
+\begin{definitionbox}[Convex Optimization]
+\begin{equation}
+    \min_{x} f(x) \quad \text{subject to} \quad g_i(x) \leq 0, \quad Ax = b
+\end{equation}
+where $f$ and all $g_i$ are convex functions, and equality constraints are affine.
+\end{definitionbox}
+
+\begin{keyconceptbox}[Why Convexity Matters]
+Convex optimization has a crucial property: \textbf{every local minimum is a global minimum}.
+
+This means:
+\begin{itemize}
+    \item Gradient descent finds the optimal solution (won't get stuck)
+    \item Efficient algorithms exist (polynomial time)
+    \item Solutions are unique (or form a convex set)
+\end{itemize}
+In contrast, non-convex problems (like QUBO) have many local minima, making global optimization hard.
+\end{keyconceptbox}
+
+\subsection{Convex Quadratic Programming}
+
+A particularly important subclass is quadratic programming with convex objectives:
+
+\begin{definitionbox}[Convex Quadratic Program (QP)]
+\begin{equation}
+    \min_{x \in \mathbb{R}^n} \frac{1}{2} x^T Q x + c^T x \quad \text{subject to} \quad Ax \leq b
+\end{equation}
+where $Q \succeq 0$ (positive semidefinite).
+\end{definitionbox}
+
+\textbf{Key properties:}
+\begin{itemize}
+    \item If $Q \succ 0$ (positive definite): unique global minimum
+    \item If $Q \succeq 0$ (positive semidefinite): possibly multiple minima (convex set)
+    \item Solvable in polynomial time via interior-point methods
+\end{itemize}
+
+\begin{warningbox}
+QUBO is \textbf{not} convex quadratic programming! The binary constraint $x \in \{0,1\}^n$ makes it non-convex. The continuous relaxation $x \in [0,1]^n$ is convex, but rounding to binary may not give the optimal solution.
+\end{warningbox}
+
+\subsection{Relaxation and ADMM}
+
+When exact optimization is intractable, two common approaches are:
+
+\textbf{1. Convex Relaxation:}
+Replace hard constraints with convex approximations:
+\begin{itemize}
+    \item Binary $\{0,1\}$ $\rightarrow$ Continuous $[0,1]$
+    \item Rank constraints $\rightarrow$ Nuclear norm
+    \item Solve the relaxed problem, then round to feasible solution
+\end{itemize}
+
+\textbf{2. ADMM (Alternating Direction Method of Multipliers):}
+
+\begin{definitionbox}[ADMM]
+For problems of the form $\min_x f(x) + g(z)$ subject to $Ax + Bz = c$, ADMM iterates:
+\begin{align}
+    x^{k+1} &= \arg\min_x f(x) + \frac{\rho}{2}\|Ax + Bz^k - c + u^k\|^2 \\
+    z^{k+1} &= \arg\min_z g(z) + \frac{\rho}{2}\|Ax^{k+1} + Bz - c + u^k\|^2 \\
+    u^{k+1} &= u^k + Ax^{k+1} + Bz^{k+1} - c
+\end{align}
+\end{definitionbox}
+
+ADMM splits complex problems into simpler subproblems. The 3-ADMM-H algorithm used in QCFFCM (Section~\ref{sec:qcffcm}) applies this technique with quantum optimization for one subproblem.
+
+%% ============================================
+%% SECTION 6: FUZZY LOGIC
+%% ============================================
+
+\section{Fuzzy Sets and Fuzzy Clustering}
+\label{sec:fuzzy-clustering}
+
+Fuzzy logic extends classical set theory to handle uncertainty and partial membership, particularly useful when segmentation boundaries are gradual rather than sharp.
+
+\subsection{Fuzzy Sets}
 
 \begin{definitionbox}[Fuzzy Set]
-A fuzzy set $A$ in a universe of discourse $X$ is characterized by a membership function:
+A fuzzy set $A$ in universe $X$ is characterized by a membership function:
 \begin{equation}
     \mu_A: X \rightarrow [0, 1]
 \end{equation}
-where $\mu_A(x)$ represents the degree to which $x$ belongs to $A$.
+where $\mu_A(x) = 1$ means full membership, $\mu_A(x) = 0$ means no membership, and values in between represent partial membership.
 \end{definitionbox}
 
-\textbf{Key operations on fuzzy sets:}
-
+\textbf{Operations on fuzzy sets:}
 \begin{itemize}
     \item \textbf{Union:} $\mu_{A \cup B}(x) = \max(\mu_A(x), \mu_B(x))$
     \item \textbf{Intersection:} $\mu_{A \cap B}(x) = \min(\mu_A(x), \mu_B(x))$
     \item \textbf{Complement:} $\mu_{\bar{A}}(x) = 1 - \mu_A(x)$
 \end{itemize}
 
-\section{Fuzzy C-Means Clustering}
+\subsection{Fuzzy C-Means (FCM) Clustering}
 
-Fuzzy C-Means (FCM), developed by Dunn and later improved by Bezdek, is the most widely used fuzzy clustering algorithm.
-
-\begin{definitionbox}[FCM Objective Function]
+\begin{definitionbox}[FCM Objective]
 FCM minimizes:
 \begin{equation}
     J_m(U, V) = \sum_{i=1}^{n} \sum_{j=1}^{c} u_{ij}^m \|x_i - v_j\|^2
 \end{equation}
-subject to:
-\begin{equation}
-    \sum_{j=1}^{c} u_{ij} = 1 \quad \forall i, \quad u_{ij} \geq 0
-\end{equation}
-where:
+subject to $\sum_{j=1}^{c} u_{ij} = 1$ for all $i$, where:
 \begin{itemize}
-    \item $u_{ij}$ is the membership degree of point $x_i$ in cluster $j$
-    \item $v_j$ is the center of cluster $j$
-    \item $m > 1$ is the fuzziness parameter (typically $m = 2$)
+    \item $u_{ij} \in [0,1]$: membership of point $i$ in cluster $j$
+    \item $v_j$: centroid of cluster $j$
+    \item $m > 1$: fuzziness parameter (typically $m = 2$)
 \end{itemize}
 \end{definitionbox}
 
 \textbf{Update equations:}
-
 \begin{equation}
-    u_{ij} = \frac{1}{\sum_{k=1}^{c} \left(\frac{d_{ij}}{d_{ik}}\right)^{\frac{2}{m-1}}}
-\end{equation}
-
-\begin{equation}
+    u_{ij} = \frac{1}{\sum_{k=1}^{c} \left(\frac{\|x_i - v_j\|}{\|x_i - v_k\|}\right)^{\frac{2}{m-1}}}, \qquad
     v_j = \frac{\sum_{i=1}^{n} u_{ij}^m x_i}{\sum_{i=1}^{n} u_{ij}^m}
 \end{equation}
 
-where $d_{ij} = \|x_i - v_j\|$.
-
 \begin{notebox}
-The parameter $m$ controls the degree of fuzziness:
+The fuzziness parameter $m$ controls the degree of overlap:
 \begin{itemize}
-    \item As $m \rightarrow 1$: FCM approaches hard K-means
-    \item As $m \rightarrow \infty$: All memberships approach $1/c$ (maximum fuzziness)
-    \item Typical choice: $m = 2$
+    \item $m \rightarrow 1$: Hard clustering (K-means)
+    \item $m \rightarrow \infty$: Maximum fuzziness (all memberships equal $1/c$)
 \end{itemize}
 \end{notebox}
 
-\section{Fuzzy Logic in Image Segmentation}
-
-Fuzzy clustering is particularly well-suited for image segmentation because:
+\subsection{Why Fuzzy Clustering for Images?}
 
 \begin{enumerate}
-    \item \textbf{Gradual boundaries:} Real images often have smooth transitions between regions
-    \item \textbf{Uncertainty handling:} Noise and ambiguous pixels can be represented with partial membership
-    \item \textbf{Robustness:} Less sensitive to outliers than hard clustering
+    \item \textbf{Gradual boundaries:} Real images have smooth intensity transitions
+    \item \textbf{Partial volume effects:} Medical imaging pixels may contain multiple tissue types
+    \item \textbf{Uncertainty quantification:} Membership values indicate segmentation confidence
+    \item \textbf{Robustness:} Less sensitive to noise than hard clustering
 \end{enumerate}
 
-\textbf{Applications in medical imaging:}
+%% ============================================
+%% SECTION 7: CONNECTIONS
+%% ============================================
 
-\begin{itemize}
-    \item Brain MRI segmentation (gray matter, white matter, CSF)
-    \item Tumor boundary detection
-    \item Organ segmentation in CT scans
-\end{itemize}
+\section{Connecting the Frameworks}
 
-\textbf{Extensions for image segmentation:}
+The mathematical tools in this appendix are deeply interconnected, which enables quantum algorithms for image segmentation:
 
-\begin{itemize}
-    \item \textbf{Spatial FCM:} Incorporates neighborhood information
-    \item \textbf{Kernel FCM:} Uses kernel functions for non-linear boundaries
-    \item \textbf{Type-2 Fuzzy FCM:} Handles uncertainty in membership functions
-\end{itemize}
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Framework} & \textbf{Quantum Algorithm} & \textbf{Key Transformation} \\
+\midrule
+QUBO & Quantum Annealing, QAOA & Direct hardware mapping \\
+Min-Cut & Q-Seg, QuantumLOGISMOS & Graph $\rightarrow$ QUBO matrix \\
+MRF & Various & Energy function $\rightarrow$ QUBO \\
+Convex QP & HHL, VQLS & Continuous relaxation \\
+Fuzzy C-Means & QCFFCM & ADMM subproblem $\rightarrow$ QUBO \\
+\bottomrule
+\end{tabular}
+\caption{Mathematical frameworks and their quantum algorithm connections}
+\end{table}
 
-\section{Quantum Extensions of Fuzzy Clustering}
-
-Quantum computing can enhance fuzzy clustering in several ways:
-
-\subsection{Quantum Speedup for Distance Calculations}
-
-The membership update requires computing distances from each point to all centroids. Quantum amplitude encoding and the swap test can accelerate this:
-
-\begin{equation}
-    d_{ij}^2 = \|x_i\|^2 + \|v_j\|^2 - 2\braket{x_i|v_j}
-\end{equation}
-
-The inner product $\braket{x_i|v_j}$ can be estimated quantumly in $O(\log d)$ time.
-
-\subsection{Quantum Optimization for Cluster Centers}
-
-The centroid update can be formulated as a weighted least squares problem:
-\begin{equation}
-    v_j = \arg\min_v \sum_{i=1}^{n} u_{ij}^m \|x_i - v\|^2
-\end{equation}
-
-Quantum algorithms for linear systems (HHL) can potentially solve this more efficiently.
-
-\subsection{Grover Search for Membership Assignment}
-
-Finding the cluster with maximum membership for defuzzification can use Grover's search for quadratic speedup.
+\begin{keyconceptbox}[The QUBO Bridge]
+QUBO serves as the universal ``language'' connecting classical segmentation formulations to quantum hardware:
+\[
+\text{Segmentation Problem} \xrightarrow{\text{formulate}} \text{QUBO} \xrightarrow{\text{transform}} \text{Ising} \xrightarrow{\text{embed}} \text{Quantum Hardware}
+\]
+Understanding this chain---from problem to hardware---is essential for developing and applying quantum image segmentation algorithms.
+\end{keyconceptbox}
 
 \begin{tipbox}
-Quantum fuzzy clustering combines the interpretability of fuzzy methods with quantum computational advantages. This is particularly promising for medical image segmentation where both accuracy and interpretability are crucial.
+When reading quantum image segmentation papers, look for the QUBO/Ising formulation. This is where the ``quantum magic'' happens: the combinatorial optimization landscape is explored via quantum superposition and interference, potentially finding better solutions than classical heuristics.
 \end{tipbox}
